@@ -2,6 +2,7 @@
 
 .header {
   padding-top: 32px;
+  margin-bottom: 40px;
 
   .header-inner {
     display: flex;
@@ -9,12 +10,76 @@
     justify-content: space-between;
 
     .header-left {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 87px;
+
       .logo {
         font-family: "Pacifico", serif;
         color: $red;
         font-weight: 400;
         font-size: 41px;
         line-height: 72px;
+        cursor: pointer;
+      }
+
+      .languages {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 15px;
+
+        p {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 150%;
+          color: $red;
+          opacity: 0.5;
+          cursor: pointer;
+        }
+
+        .active {
+          opacity: 1;
+        }
+      }
+    }
+
+    .header-map {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 150%;
+      color: $red;
+      cursor: pointer;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .search {
+        width: 24px;
+        height: 24px;
+        color: $red;
+        cursor: pointer;
+      }
+      .login {
+        border: none;
+        padding: 10px 20px;
+        width: 188px;
+        height: 47px;
+        background: #9b0d00;
+        border-radius: 10px;
+        color: #fff;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 150%;
+        margin-left: 40px;
+        cursor: pointer;
       }
     }
   }
