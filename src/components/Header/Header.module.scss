@@ -1,0 +1,21 @@
+@import "../../scss/variables";
+
+.header {
+  padding-top: 32px;
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header-left {
+      .logo {
+        font-family: "Pacifico", serif;
+        color: $red;
+        font-weight: 400;
+        font-size: 41px;
+        line-height: 72px;
+      }
+    }
+  }
+}
