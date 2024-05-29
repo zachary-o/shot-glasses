@@ -1,7 +1,22 @@
-import styles from "./Header.module.scss";
-import search from "../../assets/images/search-red.svg";
+import search from "../../assets/images/search-red.svg"
+import { auth } from "../../firebase/config"
+import styles from "./Header.module.scss"
+
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
+import { toast } from "react-toastify"
 
 const Header = () => {
+  const provider = new GoogleAuthProvider()
+  const signInWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(() => {
+        toast.success("Login Successful")
+      })
+      .catch((error) => {
+        toast.error(error.message)
+      })
+  }
+
   return (
     <div className={styles.header}>
       <div className="container">
@@ -17,12 +32,14 @@ const Header = () => {
           <div className={styles["header-right"]}>
             {/* <input /> */}
             <img src={search} alt="Search" className={styles.search} />
-            <button className={styles.login}>Admin Log in</button>
+            <button className={styles.login} onClick={signInWithGoogle}>
+              Admin Log in
+            </button>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

@@ -1,3 +1,5 @@
+@import "../../scss/variables";
+
 .card-container {
   display: flex;
   flex-direction: column;
@@ -6,4 +8,40 @@
   height: 289px;
   border: 1px solid #666666;
   border-radius: 10px;
+
+  .shotglass-image {
+    margin-bottom: 12px;
+  }
+
+  .country {
+    margin-bottom: 5px;
+    font-size: 18px;
+    line-height: 150%;
+  }
+
+  .city {
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 150%;
+    margin: 0 !important;
+    padding: 0 !important;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .tooltip {
+    text-align: center;
+    padding: 8px 16px;
+    background: #f5f3f0;
+    border: 1px dashed $red;
+    border-radius: 5px 5px 5px 0px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 135%;
+    color: $black;
+    transform: translate(-15px, -30px);
+  }
 }

@@ -40,10 +40,18 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
-
+  cursor: pointer;
   font-style: normal;
   font-weight: 700;
   font-size: 18px;
   line-height: 150%;
   color: $black;
+  margin-bottom: 128px;
+
+  &:hover {
+    color: $red;
+    text-decoration: underline;
+    text-decoration-color: $red;
+    text-decoration-thickness: 2px;
+  }
 }

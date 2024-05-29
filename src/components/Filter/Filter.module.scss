@@ -56,7 +56,8 @@
     margin-bottom: 5px;
 
     .checkbox-container {
-      display: inline-block;
+      display: flex;
+      align-items: center;
       position: relative;
       padding-left: 25px;
       cursor: pointer;
@@ -83,7 +84,7 @@
 
       .checkmark {
         position: absolute;
-        top: 0;
+        top: 2px;
         left: 0;
         height: 16px;
         width: 16px;
@@ -95,9 +96,9 @@
           content: "";
           position: absolute;
           display: none;
-          left: 4px; // Adjusted position for smaller checkbox
-          top: 2px; // Adjusted position for smaller checkbox
-          width: 3px; // Adjusted size for smaller checkbox
+          left: 4px;
+          top: 2px;
+          width: 3px;
           height: 6px;
           border: solid white;
           border-width: 0 1px 1px 0;
