@@ -25,12 +25,15 @@
       }
 
       .languages {
+        padding-top: 8px;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 15px;
 
-        p {
+        button {
+          background: none;
+          border: none;
           font-style: normal;
           font-weight: 400;
           font-size: 18px;
@@ -38,6 +41,7 @@
           color: $red;
           opacity: 0.5;
           cursor: pointer;
+          transition: opacity 0.15s ease-in-out;
         }
 
         .active {
@@ -60,26 +64,57 @@
       flex-direction: row;
       align-items: center;
 
+      p {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 150%;
+        margin-left: 20px;
+      }
+
+      .search-input {
+        padding: 5px 10px;
+        border: 1px solid $red;
+        border-radius: 10px;
+        transition: opacity 0.15s ease-in-out;
+        opacity: 1;
+        caret-color: $red;
+        color: darken($color: $red, $amount: 10%);
+      }
+
+      .search-input-inactive {
+        opacity: 0;
+      }
+
       .search {
         width: 24px;
         height: 24px;
         color: $red;
         cursor: pointer;
       }
-      .login {
+
+      .login,
+      .admin {
         border: none;
         padding: 10px 20px;
         width: 188px;
         height: 47px;
-        background: #9b0d00;
+        background: transparent;
         border-radius: 10px;
-        color: #fff;
+        color: $black;
+        border: 2px solid $red;
         font-style: normal;
         font-weight: 400;
         font-size: 18px;
         line-height: 150%;
-        margin-left: 40px;
+        margin-left: 20px;
         cursor: pointer;
+      }
+
+      .login {
+        border: none;
+        background: $red;
+        color: #fff;
       }
     }
   }

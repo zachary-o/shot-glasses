@@ -1,15 +1,13 @@
-import Card from "../../components/Card";
-import Filter from "../../components/Filter";
-import styles from "./Home.module.scss";
-import refresh from "../../assets/images/refresh.png";
+import Card from "../../components/Card"
+import Filter from "../../components/Filter"
+import styles from "./Home.module.scss"
+import refresh from "../../assets/images/refresh.png"
+import { t } from "i18next"
 
 const Home = () => {
   return (
     <div className="container">
-      <h1 className={styles.title}>
-        Рюмочки
-        <br /> з усіх кінців світу!
-      </h1>
+      <h1 className={styles.title}>{t("homePage.title")}</h1>
       <div className={styles.content}>
         <Filter />
         <div className={styles.cards}>
@@ -23,6 +21,6 @@ const Home = () => {
         Показати ще
       </button>
     </div>
-  );
-};
-export default Home;
+  )
+}
+export default Home
