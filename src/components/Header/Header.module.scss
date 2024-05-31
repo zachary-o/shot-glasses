@@ -80,9 +80,11 @@
         opacity: 1;
         caret-color: $red;
         color: darken($color: $red, $amount: 10%);
+        margin-left: 89px;
       }
 
       .search-input-inactive {
+        margin-left: 89px;
         opacity: 0;
       }
 
@@ -93,28 +95,33 @@
         cursor: pointer;
       }
 
-      .login,
-      .admin {
+      .login {
         border: none;
         padding: 10px 20px;
-        width: 188px;
+        width: 146px;
         height: 47px;
-        background: transparent;
+        background: $red;
         border-radius: 10px;
-        color: $black;
+        color: #fff;
         border: 2px solid $red;
         font-style: normal;
         font-weight: 400;
         font-size: 18px;
         line-height: 150%;
-        margin-left: 20px;
+        margin-left: 40px;
         cursor: pointer;
       }
 
-      .login {
+      .admin {
         border: none;
-        background: $red;
-        color: #fff;
+        background: none;
+        color: $red;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 150%;
+        margin-left: 40px;
+        cursor: pointer;
       }
     }
   }

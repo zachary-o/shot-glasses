@@ -1,0 +1,13 @@
+@import "../../scss/variables";
+
+.admin {
+  border: none;
+  background: none;
+  color: $red;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 150%;
+  margin-left: 40px;
+  cursor: pointer;
+}

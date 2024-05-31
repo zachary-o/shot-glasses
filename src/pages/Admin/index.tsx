@@ -1,5 +1,11 @@
+import SearchSelect from "../../components/SearchSelect"
+
 const Admin = () => {
-  return <div>Admin</div>
+  return (
+    <div className="container">
+      <SearchSelect />
+    </div>
+  )
 }
 
 export default Admin
