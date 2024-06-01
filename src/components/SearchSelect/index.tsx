@@ -1,9 +1,9 @@
-import { useState } from "react"
-import { default as ReactSelect, StylesConfig, components } from "react-select"
-import CheckboxCustom from "../CheckboxCustom"
-import countryOptions from "./countries"
+import { useState } from "react";
+import { default as ReactSelect, StylesConfig, components } from "react-select";
+import CheckboxCustom from "../CheckboxCustom";
+import countryOptions from "./countries";
 
-const Option = (props: any) => {
+const Option = (props) => {
   return (
     <div>
       <components.Option {...props}>
@@ -15,17 +15,17 @@ const Option = (props: any) => {
         />
       </components.Option>
     </div>
-  )
-}
+  );
+};
 
 const SearchSelect = () => {
-  const [state, setState] = useState({ optionSelected: null })
+  const [state, setState] = useState({ optionSelected: null });
 
-  const handleChange = (selected: any) => {
+  const handleChange = (selected) => {
     setState({
       optionSelected: selected,
-    })
-  }
+    });
+  };
 
   const customStyles: StylesConfig = {
     control: (provided, state) => ({
@@ -96,7 +96,7 @@ const SearchSelect = () => {
           : undefined,
       },
     }),
-  }
+  };
 
   return (
     <ReactSelect
@@ -107,10 +107,10 @@ const SearchSelect = () => {
       components={{
         Option,
         IndicatorsContainer: () => {
-          return null
+          return null;
         },
         MultiValue: () => {
-          return null
+          return null;
         },
       }}
       onChange={handleChange}
@@ -118,7 +118,7 @@ const SearchSelect = () => {
       styles={customStyles}
       placeholder="Пошук"
     />
-  )
-}
+  );
+};
 
-export default SearchSelect
+export default SearchSelect;

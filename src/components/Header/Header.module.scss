@@ -69,7 +69,6 @@
         font-weight: 400;
         font-size: 18px;
         line-height: 150%;
-        margin-left: 20px;
       }
 
       .search-input {
@@ -84,7 +83,7 @@
       }
 
       .search-input-inactive {
-        margin-left: 89px;
+        margin-left: 83px;
         opacity: 0;
       }
 
@@ -113,6 +112,9 @@
       }
 
       .admin {
+        padding: 6px 20px;
+        width: 146px;
+        height: 46px;
         border: none;
         background: none;
         color: $red;
@@ -122,6 +124,12 @@
         line-height: 150%;
         margin-left: 40px;
         cursor: pointer;
+        box-sizing: border-box;
+
+        &:hover {
+          border: 2px solid $red;
+          border-radius: 10px;
+        }
       }
     }
   }

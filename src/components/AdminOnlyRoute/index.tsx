@@ -1,20 +1,20 @@
-import { useSelector } from "react-redux"
-import { RootState } from "../../redux/store"
-import { ReactNode } from "react"
-import ButtonCustom from "../ButtonCustom"
-import styles from "./AdminOnlyRoute.module.scss"
-import { useNavigate } from "react-router-dom"
+import { ReactNode } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../redux/store";
+import ButtonCustom from "../ButtonCustom";
+import styles from "./AdminOnlyRoute.module.scss";
 
 interface AdminOnlyRouteProps {
-  children: ReactNode | null
+  children: ReactNode | null;
 }
 
 const AdminOnlyRoute = ({ children }: AdminOnlyRouteProps) => {
-  const { email } = useSelector((state: RootState) => state.auth)
-  const navigate = useNavigate()
+  const { email } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
 
   if (email === import.meta.env.VITE_APP_ADMIN_EMAIL) {
-    return children
+    return children;
   }
   return (
     <div className="container">
@@ -27,16 +27,17 @@ const AdminOnlyRoute = ({ children }: AdminOnlyRouteProps) => {
         onClick={() => navigate("/")}
       />
     </div>
-  )
-}
+  );
+};
 
 export const AdminOnlyLink = ({ children }: AdminOnlyRouteProps) => {
-  const { email } = useSelector((state: RootState) => state.auth)
+  const { email } = useSelector((state: RootState) => state.auth);
 
   if (email === import.meta.env.VITE_APP_ADMIN_EMAIL) {
-    return children
+    return children;
+  } else {
+    return null;
   }
-  return null
-}
+};
 
-export default AdminOnlyRoute
+export default AdminOnlyRoute;

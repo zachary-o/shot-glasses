@@ -1,5 +1,5 @@
-import styles from "./Continents.module.scss"
-import CheckboxCustom from "../CheckboxCustom"
+import styles from "./Continents.module.scss";
+import CheckboxCustom from "../CheckboxCustom";
 
 const CONTINENTS = [
   "Африка",
@@ -8,14 +8,14 @@ const CONTINENTS = [
   "Європа",
   "Південна Америка",
   "Північна Америка",
-]
+];
 
 const Continents = () => {
   return CONTINENTS.map((continent) => (
-    <div className={styles.continents}>
-      <CheckboxCustom key={continent} label={continent} isReactSelect={false} />
+    <div key={continent} className={styles.continents}>
+      <CheckboxCustom label={continent} isReactSelect={false} />
     </div>
-  ))
-}
+  ));
+};
 
-export default Continents
+export default Continents;
