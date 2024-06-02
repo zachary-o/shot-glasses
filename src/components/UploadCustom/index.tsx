@@ -23,16 +23,16 @@ const baseStyle: CSSProperties = {
 };
 
 const focusedStyle: CSSProperties = {
-  borderColor: "#2196f3",
+  border: "2px dashed #2196f3",
 };
 
 const acceptStyle: CSSProperties = {
-  borderColor: "#1712EC",
+  border: "2px dashed #1712EC",
   background: "#E6E6FF",
 };
 
 const rejectStyle: CSSProperties = {
-  borderColor: "#ff1744",
+  border: "2px dashed #ff1744",
   background: "lighten($color: #ff1744, $amount: 20%)",
 };
 
@@ -51,7 +51,7 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
         setPreview(file.result);
         onImageUpload(file.result);
       };
-      console.log('file', file)
+      console.log("file", file);
 
       file.readAsDataURL(acceptedFiles[0]);
     },
