@@ -36,18 +36,27 @@ const rejectStyle: CSSProperties = {
   background: "lighten($color: #ff1744, $amount: 20%)",
 };
 
-const UploadCustom = () => {
+interface UploadCustomProps {
+  onImageUpload: (url: string | ArrayBuffer | null) => void;
+}
+
+const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
 
-  const onDrop = useCallback((acceptedFiles: Array<File>) => {
-    const file = new FileReader();
+  const onDrop = useCallback(
+    (acceptedFiles: Array<File>) => {
+      const file = new FileReader();
 
-    file.onload = function () {
-      setPreview(file.result);
-    };
+      file.onload = function () {
+        setPreview(file.result);
+        onImageUpload(file.result);
+      };
+      console.log('file', file)
 
-    file.readAsDataURL(acceptedFiles[0]);
-  }, []);
+      file.readAsDataURL(acceptedFiles[0]);
+    },
+    [onImageUpload]
+  );
 
   const {
     getRootProps,
@@ -94,7 +103,6 @@ const UploadCustom = () => {
       ) : (
         <>
           <img
-            className={isDragAccept ? styles["upload-image-draggable"] : ""}
             src={uploadImg}
             alt="Upload"
             style={{ width: 63, height: 63, marginBottom: 10 }}

@@ -1,3 +1,8 @@
+export interface CountryType {
+  value: string;
+  label: string;
+}
+
 const countryList = [
   "Afghanistan",
   "Albania",
@@ -248,10 +253,10 @@ const countryList = [
   "Zambia",
   "Zimbabwe",
   "Åland Islands",
-]
-const countryOptions = countryList.map((countryName) => ({
+];
+const countryOptions: CountryType[] = countryList.map((countryName) => ({
   value: countryName,
   label: countryName,
-}))
+}));
 
-export default countryOptions
+export default countryOptions;

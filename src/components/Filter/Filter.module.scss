@@ -1,50 +1,6 @@
-@import "../../scss/variables";
-
 .filter-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
-  .filter {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: 194px;
-    margin-bottom: 20px;
-
-    .title-container {
-      display: flex;
-      align-items: center;
-      margin-bottom: 5px;
-
-      h4 {
-        font-style: normal;
-        font-weight: 700;
-        font-size: 18px;
-        line-height: 150%;
-        color: $black;
-      }
-
-      span {
-        img {
-          width: 24px;
-          height: 24px;
-        }
-      }
-    }
-
-    .search {
-      margin-bottom: 5px;
-      position: relative;
-
-      img {
-        color: $black;
-        opacity: 0.6;
-        position: absolute;
-        top: 9px;
-        left: 12px;
-        z-index: 1;
-      }
-    }
-  }
+  gap: 20px;
 }

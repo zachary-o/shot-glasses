@@ -1,6 +1,12 @@
-.continents {
+.continents-container {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 5px;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .continents {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+  }
 }

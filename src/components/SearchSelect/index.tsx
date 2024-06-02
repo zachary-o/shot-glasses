@@ -1,9 +1,24 @@
 import { useState } from "react";
-import { default as ReactSelect, StylesConfig, components } from "react-select";
+import {
+  MultiValue,
+  OnChangeValue,
+  OptionProps,
+  default as ReactSelect,
+  SingleValue,
+  StylesConfig,
+  components,
+} from "react-select";
+import search from "../../assets/images/search-gray.svg";
 import CheckboxCustom from "../CheckboxCustom";
+import styles from "./SearchSelect.module.scss";
 import countryOptions from "./countries";
 
-const Option = (props) => {
+interface CountryOption {
+  value: string;
+  label: string;
+}
+
+const Option = (props: OptionProps<CountryOption, boolean>) => {
   return (
     <div>
       <components.Option {...props}>
@@ -11,29 +26,34 @@ const Option = (props) => {
           isReactSelect={true}
           label={props.label}
           isSelected={props.isSelected}
-          onChange={props.onChange}
         />
       </components.Option>
     </div>
   );
 };
 
-const SearchSelect = () => {
-  const [state, setState] = useState({ optionSelected: null });
+interface SearchSelectProps {
+  isMulti: boolean;
+}
 
-  const handleChange = (selected) => {
-    setState({
-      optionSelected: selected,
-    });
+const SearchSelect = ({ isMulti = false }: SearchSelectProps) => {
+  const [selectedOption, setSelectedOption] = useState<
+    SingleValue<CountryOption> | MultiValue<CountryOption>
+  >(isMulti ? [] : null);
+
+  const handleChange = (selected: OnChangeValue<CountryOption, boolean>) => {
+    setSelectedOption(selected);
   };
 
-  const customStyles: StylesConfig = {
+  const customStyles: StylesConfig<CountryOption, true> = {
     control: (provided, state) => ({
       ...provided,
       width: "128px",
-      maxHeight: "27px !important",
-      padding: "3px 10px",
+      minHeight: "27px",
+      maxHeight: "27px",
+      padding: "0 5px",
       paddingLeft: "20px",
+      margin: 0,
       border: "1px solid #141414",
       borderRadius: "5px",
       fontStyle: "normal",
@@ -58,11 +78,10 @@ const SearchSelect = () => {
     }),
     menu: (provided) => ({
       ...provided,
-      width: "110%",
+      width: "100%",
     }),
     menuList: (provided) => ({
       ...provided,
-
       "::-webkit-scrollbar": {
         width: "4px",
         height: "0px",
@@ -77,12 +96,28 @@ const SearchSelect = () => {
         background: "#555",
       },
     }),
+    input: (provided) => ({
+      ...provided,
+      margin: 0,
+      padding: "1px 10px",
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      display: "none",
+    }),
+    indicatorsContainer: (provided) => ({
+      ...provided,
+      display: "none",
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      display: "none",
+    }),
     option: (provided, state) => ({
       ...provided,
-
       backgroundColor: state.isDisabled
         ? "#fff"
-        : state.isSelected
+        : state.isFocused
         ? "#FEE4E1"
         : "",
       color: "#3D3A3A",
@@ -99,25 +134,22 @@ const SearchSelect = () => {
   };
 
   return (
-    <ReactSelect
-      options={countryOptions}
-      isMulti
-      closeMenuOnSelect={false}
-      hideSelectedOptions={false}
-      components={{
-        Option,
-        IndicatorsContainer: () => {
-          return null;
-        },
-        MultiValue: () => {
-          return null;
-        },
-      }}
-      onChange={handleChange}
-      value={state.optionSelected}
-      styles={customStyles}
-      placeholder="Пошук"
-    />
+    <div className={styles["search-select"]}>
+      {selectedOption && <img src={search} alt="Search" />}
+      <ReactSelect
+        options={countryOptions}
+        isMulti={isMulti}
+        closeMenuOnSelect={!isMulti}
+        hideSelectedOptions={false}
+        components={{
+          Option,
+        }}
+        onChange={handleChange}
+        value={selectedOption}
+        styles={customStyles}
+        placeholder="Пошук"
+      />
+    </div>
   );
 };
 

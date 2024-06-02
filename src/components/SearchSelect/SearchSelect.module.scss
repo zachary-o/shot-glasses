@@ -1,0 +1,14 @@
+@import "../../scss/variables";
+
+.search-select {
+  position: relative;
+
+  img {
+    color: $black;
+    opacity: 0.6;
+    position: absolute;
+    top: 4px;
+    left: 12px;
+    z-index: 1;
+  }
+}
