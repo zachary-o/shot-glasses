@@ -1,5 +1,14 @@
 {
   "homePage": {
     "title": "Рюмочки з усіх кінців світу!"
+  },
+
+  "continent": {
+    "Africa": "Африка",
+    "Asia": "Азія",
+    "Australia": "Австралія",
+    "Europe": "Європа",
+    "SouthAmerica": "Південна Америка",
+    "NorthAmerica": "Північна Америка"
   }
 }

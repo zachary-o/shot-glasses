@@ -1,5 +1,14 @@
 {
   "homePage": {
     "title": "Shot glasses from all over the world!"
+  },
+
+  "continent": {
+    "Africa": "Africa",
+    "Asia": "Asia",
+    "Australia": "Australia",
+    "Europe": "Europe",
+    "SouthAmerica": "South America",
+    "NorthAmerica": "North America"
   }
 }
