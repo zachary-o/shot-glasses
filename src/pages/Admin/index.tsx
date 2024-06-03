@@ -54,6 +54,14 @@ const Admin = () => {
     }));
   };
 
+  const handleCountrySelect = (nameEng: string, nameUkr: string) => {
+    setItem((prevItem) => ({
+      ...prevItem,
+      countryEng: nameEng,
+      countryUkr: nameUkr,
+    }));
+  };
+
   const handleSubmit = () => {};
 
   console.log("item", item);

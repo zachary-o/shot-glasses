@@ -11,11 +11,12 @@ import {
 import search from "../../assets/images/search-gray.svg";
 import CheckboxCustom from "../CheckboxCustom";
 import styles from "./SearchSelect.module.scss";
-import countryOptions from "./countries";
+import countryList from "./countries";
+import { useTranslation } from "react-i18next";
 
 interface CountryOption {
-  value: string;
-  label: string;
+  nameEng: string;
+  nameUkr: string;
 }
 
 const Option = (props: OptionProps<CountryOption, boolean>) => {
@@ -45,93 +46,11 @@ const SearchSelect = ({ isMulti = false }: SearchSelectProps) => {
     setSelectedOption(selected);
   };
 
-  const customStyles: StylesConfig<CountryOption, true> = {
-    control: (provided, state) => ({
-      ...provided,
-      width: "128px",
-      minHeight: "27px",
-      maxHeight: "27px",
-      padding: "0 5px",
-      paddingLeft: "20px",
-      margin: 0,
-      border: "1px solid #141414",
-      borderRadius: "5px",
-      fontStyle: "normal",
-      fontWeight: "400",
-      fontSize: "14px !important",
-      lineHeight: "150%",
-      color: "#141414",
-      transition: "all 0.2s ease-in-out",
-      ...(state.isFocused && {
-        width: "128px",
-        height: "27px !important",
-        border: "none",
-        borderBottom: "1px solid #1712EC",
-        borderRadius: 0,
-        boxShadow: "none",
-        fontStyle: "normal",
-        fontWeight: "400",
-        fontSize: "14px !important",
-        lineHeight: "150%",
-        color: "#141414",
-      }),
-    }),
-    menu: (provided) => ({
-      ...provided,
-      width: "100%",
-    }),
-    menuList: (provided) => ({
-      ...provided,
-      "::-webkit-scrollbar": {
-        width: "4px",
-        height: "0px",
-      },
-      "::-webkit-scrollbar-track": {
-        background: "#f1f1f1",
-      },
-      "::-webkit-scrollbar-thumb": {
-        background: "#888",
-      },
-      "::-webkit-scrollbar-thumb:hover": {
-        background: "#555",
-      },
-    }),
-    input: (provided) => ({
-      ...provided,
-      margin: 0,
-      padding: "1px 10px",
-    }),
-    indicatorSeparator: (provided) => ({
-      ...provided,
-      display: "none",
-    }),
-    indicatorsContainer: (provided) => ({
-      ...provided,
-      display: "none",
-    }),
-    multiValue: (provided) => ({
-      ...provided,
-      display: "none",
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isDisabled
-        ? "#fff"
-        : state.isFocused
-        ? "#FEE4E1"
-        : "",
-      color: "#3D3A3A",
-      padding: 5,
-      ":active": {
-        ...provided[":active"],
-        backgroundColor: !state.isDisabled
-          ? state.isSelected
-            ? "#fa9084"
-            : "#fee9e7"
-          : undefined,
-      },
-    }),
-  };
+  const { t, i18n } = useTranslation();
+  const engList = countryList.map((country) => country.nameEng);
+  const ukrList = countryList.map((country) => country.nameUkr);
+
+  const list = i18n.language === "uk" ? ukrList : engList;
 
   return (
     <div className={styles["search-select"]}>
@@ -154,3 +73,91 @@ const SearchSelect = ({ isMulti = false }: SearchSelectProps) => {
 };
 
 export default SearchSelect;
+
+const customStyles: StylesConfig<CountryOption, true> = {
+  control: (provided, state) => ({
+    ...provided,
+    width: "128px",
+    minHeight: "27px",
+    maxHeight: "27px",
+    padding: "0 5px",
+    paddingLeft: "20px",
+    margin: 0,
+    border: "1px solid #141414",
+    borderRadius: "5px",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px !important",
+    lineHeight: "150%",
+    color: "#141414",
+    transition: "all 0.2s ease-in-out",
+    ...(state.isFocused && {
+      width: "128px",
+      height: "27px !important",
+      border: "none",
+      borderBottom: "1px solid #1712EC",
+      borderRadius: 0,
+      boxShadow: "none",
+      fontStyle: "normal",
+      fontWeight: "400",
+      fontSize: "14px !important",
+      lineHeight: "150%",
+      color: "#141414",
+    }),
+  }),
+  menu: (provided) => ({
+    ...provided,
+    width: "100%",
+  }),
+  menuList: (provided) => ({
+    ...provided,
+    "::-webkit-scrollbar": {
+      width: "4px",
+      height: "0px",
+    },
+    "::-webkit-scrollbar-track": {
+      background: "#f1f1f1",
+    },
+    "::-webkit-scrollbar-thumb": {
+      background: "#888",
+    },
+    "::-webkit-scrollbar-thumb:hover": {
+      background: "#555",
+    },
+  }),
+  input: (provided) => ({
+    ...provided,
+    margin: 0,
+    padding: "1px 10px",
+  }),
+  indicatorSeparator: (provided) => ({
+    ...provided,
+    display: "none",
+  }),
+  indicatorsContainer: (provided) => ({
+    ...provided,
+    display: "none",
+  }),
+  multiValue: (provided) => ({
+    ...provided,
+    display: "none",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isDisabled
+      ? "#fff"
+      : state.isFocused
+      ? "#FEE4E1"
+      : "",
+    color: "#3D3A3A",
+    padding: 5,
+    ":active": {
+      ...provided[":active"],
+      backgroundColor: !state.isDisabled
+        ? state.isSelected
+          ? "#fa9084"
+          : "#fee9e7"
+        : undefined,
+    },
+  }),
+};
