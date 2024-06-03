@@ -1,15 +1,15 @@
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import ButtonCustom from "../../components/ButtonCustom"
-import Continents from "../../components/Continents"
-import FilterTitle from "../../components/FilterTitle"
-import SearchSelect from "../../components/SearchSelect"
-import TextfieldCustom from "../../components/TextfieldCustom"
-import UploadCustom from "../../components/UploadCustom"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import ButtonCustom from "../../components/ButtonCustom";
+import Continents from "../../components/Continents";
+import FilterTitle from "../../components/FilterTitle";
+import SearchSelect from "../../components/SearchSelect";
+import TextfieldCustom from "../../components/TextfieldCustom";
+import UploadCustom from "../../components/UploadCustom";
 
-import { useState } from "react"
-import styles from "./Admin.module.scss"
-import "./datePickerStyles.scss"
+import { useState } from "react";
+import styles from "./Admin.module.scss";
+import "./datePickerStyles.scss";
 
 const Admin = () => {
   const [item, setItem] = useState({
@@ -23,34 +23,40 @@ const Admin = () => {
     latitude: "",
     purchaseDate: null as Date | null,
     imageUrl: "",
-  })
+  });
 
   const handleInputChange = (name: string, value: string) => {
     setItem((prevItem) => ({
       ...prevItem,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleImageChange = (url: string | ArrayBuffer | null) => {
     setItem((prevItem) => ({
       ...prevItem,
       imageUrl: url as string,
-    }))
-  }
+    }));
+  };
 
   const handleDateChange = (date: Date | null) => {
     setItem((prevItem) => ({
       ...prevItem,
       purchaseDate: date,
-    }))
-  }
+    }));
+  };
 
-  const handleContinentSelect = (value: { eng: string; ukr: string }) => {}
+  const handleContinentSelect = (nameEng: string, nameUkr: string) => {
+    setItem((prevItem) => ({
+      ...prevItem,
+      continentEng: nameEng,
+      continentUkr: nameUkr,
+    }));
+  };
 
-  const handleSubmit = () => {}
+  const handleSubmit = () => {};
 
-  console.log("item", item)
+  console.log("item", item);
 
   return (
     <div className="container">
@@ -99,7 +105,7 @@ const Admin = () => {
             </div>
             <div>
               <FilterTitle title="Континент" isChevronVisible={false} />
-              <Continents />
+              <Continents onChange={handleContinentSelect} />
             </div>
             <div>
               <FilterTitle title="Країнa" isChevronVisible={false} />
@@ -114,7 +120,7 @@ const Admin = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;
