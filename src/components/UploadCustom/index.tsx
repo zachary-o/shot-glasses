@@ -37,23 +37,24 @@ const rejectStyle: CSSProperties = {
 }
 
 interface UploadCustomProps {
-  onImageUpload: (url: string | ArrayBuffer | null) => void
+  onImageUpload: (file: File[]) => void
+  uploadProgress: number
 }
 
-const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
+const UploadCustom = ({ onImageUpload, uploadProgress }: UploadCustomProps) => {
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null)
 
   const onDrop = useCallback(
     (acceptedFiles: Array<File>) => {
-      const file = new FileReader()
-
-      file.onload = function () {
-        setPreview(file.result)
-        onImageUpload(file.result)
+      const previewFile = new FileReader()
+      const file = acceptedFiles
+      onImageUpload(file)
+      previewFile.onload = function () {
+        setPreview(previewFile.result)
+        
       }
-      console.log("file", file)
 
-      file.readAsDataURL(acceptedFiles[0])
+      previewFile.readAsDataURL(acceptedFiles[0])
     },
     [onImageUpload]
   )
@@ -101,20 +102,26 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
           )}
         </>
       ) : (
-        <>
+        <div className={styles["upload-container"]}>
           <img
             src={uploadImg}
             alt="Upload"
             style={{ width: 63, height: 63, marginBottom: 10 }}
           />
-          <p style={{ textAlign: "center" }}>
+          <p style={{ textAlign: "center", marginBottom:"5px" }}>
             Братішка, перетягни сюди файли або
             <br />
             <strong>
               <span style={{ color: "#9B0D00" }}>натисни, щоб завантажити</span>
             </strong>
           </p>
-        </>
+
+          {uploadProgress === 0 || !preview ? null : <div className={styles.progress}>
+            <div className={styles["progress-bar"]} style={{width: `${uploadProgress.toFixed(2)}%`}}>
+              {uploadProgress.toFixed(2)}%
+            </div>
+          </div>}
+        </div>
       )}
 
       {preview && (

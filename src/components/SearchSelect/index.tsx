@@ -1,22 +1,21 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   MultiValue,
-  OnChangeValue,
   OptionProps,
   default as ReactSelect,
   SingleValue,
   StylesConfig,
-  components,
+  components
 } from "react-select";
 import search from "../../assets/images/search-gray.svg";
 import CheckboxCustom from "../CheckboxCustom";
 import styles from "./SearchSelect.module.scss";
 import countryList from "./countries";
-import { useTranslation } from "react-i18next";
 
 interface CountryOption {
-  nameEng: string;
-  nameUkr: string;
+  label: string | null;
+  value: string | null;
 }
 
 const Option = (props: OptionProps<CountryOption, boolean>) => {
@@ -27,6 +26,7 @@ const Option = (props: OptionProps<CountryOption, boolean>) => {
           isReactSelect={true}
           label={props.label}
           isSelected={props.isSelected}
+          onChange={()=>{}}
         />
       </components.Option>
     </div>
@@ -35,36 +35,68 @@ const Option = (props: OptionProps<CountryOption, boolean>) => {
 
 interface SearchSelectProps {
   isMulti: boolean;
+  onChange: (nameEng: string, nameUkr: string) => void
 }
 
-const SearchSelect = ({ isMulti = false }: SearchSelectProps) => {
+const SearchSelect = ({ isMulti = false, onChange }: SearchSelectProps) => {
   const [selectedOption, setSelectedOption] = useState<
-    SingleValue<CountryOption> | MultiValue<CountryOption>
-  >(isMulti ? [] : null);
+  SingleValue<CountryOption> | MultiValue<CountryOption>
+>(isMulti ? [] : null);
+const [inputValue, setInputValue] = useState<string>("");
 
-  const handleChange = (selected: OnChangeValue<CountryOption, boolean>) => {
-    setSelectedOption(selected);
+
+  const { i18n } = useTranslation();
+ 
+  const list: CountryOption[] = useMemo(() => countryList.map(country => ({
+    label: i18n.language === "uk" ? country.nameUkr : country.nameEng,
+    value: country.nameEng
+  })), [countryList, i18n.language]);
+
+  // console.log('list', list)
+  // console.log('selectedOption', selectedOption)
+
+  const handleSelect = (selectedOption: SingleValue<CountryOption> | MultiValue<CountryOption>) => {
+    setSelectedOption(selectedOption);
+  
+    if (selectedOption !== null) {
+      if (!Array.isArray(selectedOption)) {
+        // Type assertion for single value
+        const value = countryList.find(countryItem => countryItem.nameEng === selectedOption.value);
+        if (value) {
+          onChange(value.nameEng, value.nameUkr);
+        }
+      } else {
+        // Handle the case when selectedOption is an array of values
+        selectedOption.forEach(option => {
+          const value = countryList.find(countryItem => countryItem.nameEng === option.value);
+          if (value) {
+            onChange(value.nameEng, value.nameUkr);
+          }
+        });
+      }
+    }
   };
 
-  const { t, i18n } = useTranslation();
-  const engList = countryList.map((country) => country.nameEng);
-  const ukrList = countryList.map((country) => country.nameUkr);
-
-  const list = i18n.language === "uk" ? ukrList : engList;
+  const handleInputChange = (newValue: string) => {
+    setInputValue(newValue);
+  };
+  
 
   return (
     <div className={styles["search-select"]}>
-      {selectedOption && <img src={search} alt="Search" />}
+      {selectedOption || inputValue  ? null : <img src={search} alt="Search" />}
       <ReactSelect
-        options={countryOptions}
+        options={list}
         isMulti={isMulti}
         closeMenuOnSelect={!isMulti}
         hideSelectedOptions={false}
         components={{
           Option,
         }}
-        onChange={handleChange}
+        onChange={handleSelect}
         value={selectedOption}
+        inputValue={inputValue}
+        onInputChange={handleInputChange}
         styles={customStyles}
         placeholder="Пошук"
       />
@@ -128,7 +160,7 @@ const customStyles: StylesConfig<CountryOption, true> = {
   input: (provided) => ({
     ...provided,
     margin: 0,
-    padding: "1px 10px",
+    paddingLeft: "2px",
   }),
   indicatorSeparator: (provided) => ({
     ...provided,

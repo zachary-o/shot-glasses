@@ -3,12 +3,13 @@ import { ReactNode } from "react"
 interface ButtonCustomProps {
   className: string
   children: ReactNode
-  onClick: () => void
+  onClick?: () => void
+  type: 'submit' | 'reset' | 'button' | undefined;
 }
 
-const ButtonCustom = ({ className, onClick, children }: ButtonCustomProps) => {
+const ButtonCustom = ({ className, type, onClick, children }: ButtonCustomProps) => {
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} type={type} onClick={onClick}>
       {children}
     </button>
   )
