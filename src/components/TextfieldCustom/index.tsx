@@ -1,11 +1,11 @@
-import styles from "./TextfieldCustom.module.scss";
+import styles from "./TextfieldCustom.module.scss"
 
 interface TextfieldCustomProps {
-  placeholder: string;
-  required: boolean;
-  value: string;
-  onChange: (name: string, value: string) => void;
-  name: string;
+  placeholder: string
+  required: boolean
+  value: string
+  onChange: (name: string, value: string) => void
+  name: string
 }
 
 const TextfieldCustom = ({
@@ -16,9 +16,9 @@ const TextfieldCustom = ({
   name,
 }: TextfieldCustomProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    onChange(value, name); // Ensure value is passed as the first argument
-  };
+    const { value } = e.target
+    onChange(value, name)
+  }
 
   return (
     <input
@@ -30,7 +30,7 @@ const TextfieldCustom = ({
       value={value}
       onChange={handleChange}
     />
-  );
-};
+  )
+}
 
-export default TextfieldCustom;
+export default TextfieldCustom

@@ -7,16 +7,12 @@ const Filter = () => {
   return (
     <div className={styles["filter-container"]}>
       <div>
-        <FilterTitle title="Країни" isChevronVisible={true} />
-        <Continents
-          onChange={() => {}}
-          selectedContinent={null}
-          setSelectedContinent={() => {}}
-        />
+        <FilterTitle title="Континенти" isChevronVisible={true} />
+        <Continents isMulti={true} />
       </div>
       <div>
-        <FilterTitle title="Континенти" isChevronVisible={true} />
-        <SearchSelect isMulti={true} onChange={() => {}} />
+        <FilterTitle title="Країни" isChevronVisible={true} />
+        <SearchSelect isMulti={true} />
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import {
   MultiValue,
@@ -11,11 +11,12 @@ import {
 import CheckboxCustom from "../CheckboxCustom"
 import styles from "./SearchSelect.module.scss"
 import countryList from "./countries"
-
-export interface CountryOption {
-  label: string | null
-  value: string | null
-}
+import { useSelector } from "react-redux"
+import { RootState, useAppDispatch } from "../../redux/store"
+import {
+  CountryOption,
+  setSelectedCountry,
+} from "../../redux/slices/adminFormSlice"
 
 const Option = (props: OptionProps<CountryOption, boolean>) => {
   return (
@@ -34,25 +35,20 @@ const Option = (props: OptionProps<CountryOption, boolean>) => {
 
 interface SearchSelectProps {
   isMulti: boolean
-  onChange: (nameEng: string, nameUkr: string) => void
-  selectedCountry?:
-    | SingleValue<CountryOption>
-    | MultiValue<CountryOption>
-    | []
-    | null
-  setSelectedCountry?: React.Dispatch<
-    React.SetStateAction<SingleValue<CountryOption> | MultiValue<CountryOption>>
-  >
+  // onChange: (nameEng: string, nameUkr: string) => void
+
+  // setSelectedCountry?: React.Dispatch<
+  //   React.SetStateAction<SingleValue<CountryOption> | MultiValue<CountryOption>>
+  // >
 }
 
 const SearchSelect = ({
   isMulti = false,
-  onChange,
-  selectedCountry,
-  setSelectedCountry,
-}: SearchSelectProps) => {
+}: // onChange,
+SearchSelectProps) => {
   const [inputValue, setInputValue] = useState<string>("")
-
+  const { selectedCountry } = useSelector((state: RootState) => state.admin)
+  const dispatch = useAppDispatch()
   const { i18n } = useTranslation()
 
   const list: CountryOption[] = useMemo(
@@ -67,34 +63,38 @@ const SearchSelect = ({
   const handleSelect = (
     selectedCountry: SingleValue<CountryOption> | MultiValue<CountryOption>
   ) => {
-    if (setSelectedCountry) {
-      setSelectedCountry(selectedCountry)
+    console.log("selectedCountry", selectedCountry)
+    if (!isMulti) {
     }
-
-    if (selectedCountry !== null) {
-      if (!Array.isArray(selectedCountry)) {
-        const singleCountryOption =
-          selectedCountry as SingleValue<CountryOption>
-        const value = countryList.find(
-          (countryItem) => countryItem.nameEng === singleCountryOption?.value
-        )
-        if (value) {
-          onChange(value.nameEng, value.nameUkr)
-        }
-      } else {
-        const multiCountryOption = selectedCountry as MultiValue<CountryOption>
-        multiCountryOption.forEach((option) => {
-          const value = countryList.find(
-            (countryItem) => countryItem.nameEng === option.value
-          )
-          if (value) {
-            onChange(value.nameEng, value.nameUkr)
-          }
-        })
-      }
-    }
+    //   if (setSelectedCountry) {
+    //     dispatch(
+    //       setSelectedCountry(selectedCountry!)
+    //     )
+    //   }
+    //   if (selectedCountry !== null) {
+    //     if (!Array.isArray(selectedCountry)) {
+    //       const singleCountryOption =
+    //         selectedCountry as SingleValue<CountryOption>
+    //       const value = countryList.find(
+    //         (countryItem) => countryItem.nameEng === singleCountryOption?.value
+    //       )
+    //       if (value) {
+    //         onChange(value.nameEng, value.nameUkr)
+    //       }
+    //     } else {
+    //       const multiCountryOption = selectedCountry as MultiValue<CountryOption>
+    //       multiCountryOption.forEach((option) => {
+    //         const value = countryList.find(
+    //           (countryItem) => countryItem.nameEng === option.value
+    //         )
+    //         if (value) {
+    //           onChange(value.nameEng, value.nameUkr)
+    //         }
+    //       })
+    //     }
+    //   }
+    // }
   }
-
   const handleInputChange = (newValue: string) => {
     setInputValue(newValue)
   }

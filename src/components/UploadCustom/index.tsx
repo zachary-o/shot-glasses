@@ -4,6 +4,9 @@ import uploadImgDragging from "../../assets/images/upload-img-dragging.png"
 import uploadImgError from "../../assets/images/upload-img-error.png"
 import uploadImg from "../../assets/images/upload-img.png"
 import styles from "./UploadCustom.module.scss"
+import { RootState, useAppDispatch } from "../../redux/store"
+import { useSelector } from "react-redux"
+import { setPreview } from "../../redux/slices/adminFormSlice"
 
 const baseStyle: CSSProperties = {
   flex: 1,
@@ -38,24 +41,21 @@ const rejectStyle: CSSProperties = {
 
 interface UploadCustomProps {
   onImageUpload: (file: File[]) => void
-  uploadProgress: number
-  preview: string | ArrayBuffer | null
-  setPreview: React.Dispatch<React.SetStateAction<string | ArrayBuffer | null>>
 }
 
-const UploadCustom = ({
-  onImageUpload,
-  uploadProgress,
-  preview,
-  setPreview,
-}: UploadCustomProps) => {
+const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
+  const dispatch = useAppDispatch()
+  const { preview, uploadProgress } = useSelector(
+    (state: RootState) => state.admin
+  )
+
   const onDrop = useCallback(
     (acceptedFiles: Array<File>) => {
       const previewFile = new FileReader()
       const file = acceptedFiles
       onImageUpload(file)
       previewFile.onload = function () {
-        setPreview(previewFile.result)
+        dispatch(setPreview(previewFile.result))
       }
 
       previewFile.readAsDataURL(acceptedFiles[0])

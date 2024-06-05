@@ -1,148 +1,81 @@
+import { FormEvent } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
+import { useSelector } from "react-redux"
 import ButtonCustom from "../../components/ButtonCustom"
-import Continents, { Continent } from "../../components/Continents"
+import Continents from "../../components/Continents"
 import FilterTitle from "../../components/FilterTitle"
-import SearchSelect, { CountryOption } from "../../components/SearchSelect"
+import Loader from "../../components/Loader"
+import SearchSelect from "../../components/SearchSelect"
 import TextfieldCustom from "../../components/TextfieldCustom"
 import UploadCustom from "../../components/UploadCustom"
-
-import { addDoc, collection } from "firebase/firestore"
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
-import { FormEvent, useState } from "react"
-import { toast } from "react-toastify"
-import Loader from "../../components/Loader"
-import { db, storage } from "../../firebase/config"
+import {
+  addItem,
+  handleCityEngChange,
+  handleCityUkrChange,
+  handleDateChange,
+  handleLatitudeChange,
+  handleLongitudeChange,
+  uploadImage,
+} from "../../redux/slices/adminFormSlice"
+import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./Admin.module.scss"
 import "./datePickerStyles.scss"
-import { MultiValue, SingleValue } from "react-select"
-
-const initialState = {
-  cityEng: "",
-  cityUkr: "",
-  countryEng: "",
-  countryUkr: "",
-  continentUkr: "",
-  continentEng: "",
-  longitude: "",
-  latitude: "",
-  purchaseDate: null as Date | null,
-  imageUrl: "",
-}
 
 const Admin = () => {
-  const [item, setItem] = useState({ ...initialState })
-  const [uploadProgress, setUploadProgress] = useState(0)
-  const [isLoading, setIsLoading] = useState(false)
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null)
-  const [selectedContinent, setSelectedContinent] = useState<Continent | null>(
-    null
-  )
-  let isMulti = false
-  const [selectedCountry, setSelectedCountry] = useState<
-    SingleValue<CountryOption> | MultiValue<CountryOption>
-  >(isMulti ? [] : null)
+  const dispatch = useAppDispatch()
+  const {
+    cityEng,
+    cityUkr,
+    countryEng,
+    countryUkr,
+    continentEng,
+    continentUkr,
+    longitude,
+    latitude,
+    purchaseDate,
+    imageUrl,
+    preview,
+    selectedContinent,
+    selectedCountry,
+    uploadProgress,
+    isLoading,
+  } = useSelector((state: RootState) => state.admin)
 
-  const handleInputChange = (name: string, value: string) => {
-    setItem((prevItem) => ({
-      ...prevItem,
-      [name]: value,
-    }))
-  }
-
-  const handleImageChange = (file: File[]) => {
-    const image = file[0]
-
-    const storageRef = ref(storage, `shot-glasses/${Date.now()}${image.name}`)
-    const uploadTask = uploadBytesResumable(storageRef, image)
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        setUploadProgress(progress)
-      },
-      (error) => {
-        toast.error(`Error occured while uploading an image: ${error.message}`)
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setItem((prevItem) => ({
-            ...prevItem,
-            imageUrl: downloadURL,
-          }))
-          toast.success("Image uploaded successfully")
-        })
-      }
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    dispatch(
+      addItem({
+        cityEng,
+        cityUkr,
+        countryEng,
+        countryUkr,
+        continentEng,
+        continentUkr,
+        longitude,
+        latitude,
+        purchaseDate,
+        imageUrl,
+        preview,
+        selectedContinent,
+        selectedCountry,
+        uploadProgress,
+        isLoading,
+      })
     )
   }
 
-  const handleDateChange = (date: Date | null) => {
-    setItem((prevItem) => ({
-      ...prevItem,
-      purchaseDate: date,
-    }))
+  const handleImageUpload = (file: File[]) => {
+    dispatch(uploadImage(file[0]))
   }
-
-  const handleContinentSelect = (nameEng: string, nameUkr: string) => {
-    setItem((prevItem) => ({
-      ...prevItem,
-      continentEng: nameEng,
-      continentUkr: nameUkr,
-    }))
-  }
-
-  const handleCountrySelect = (nameEng: string, nameUkr: string) => {
-    setItem((prevItem) => ({
-      ...prevItem,
-      countryEng: nameEng,
-      countryUkr: nameUkr,
-    }))
-  }
-
-  const addItem = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setIsLoading(true)
-
-    try {
-      await addDoc(collection(db, "shot-glasses"), {
-        cityEng: item.cityEng,
-        cityUkr: item.cityUkr,
-        countryEng: item.continentEng,
-        countryUkr: item.continentUkr,
-        continentEng: item.continentEng,
-        continentUkr: item.continentUkr,
-        longitude: item.longitude,
-        latitude: item.latitude,
-        purchaseDate: item.purchaseDate,
-        imageUrl: item.imageUrl,
-      })
-      setIsLoading(false)
-      setUploadProgress(0)
-      setItem({ ...initialState })
-      setPreview(null)
-      setSelectedContinent(null)
-      setSelectedCountry([])
-      toast.success("Item uploaded sucessfully")
-    } catch (error) {
-      setIsLoading(false)
-      toast.error(`Error occured while uploading an item: ${error}`)
-    }
-  }
-
-  // console.log("item", item);
 
   return (
     <>
       {isLoading && <Loader />}
       <div className="container">
         <h4 className={styles["admin-title"]}>Додати новеньку рюмочку</h4>
-        <form className={styles["admin-inner"]} onSubmit={addItem}>
-          <UploadCustom
-            onImageUpload={handleImageChange}
-            uploadProgress={uploadProgress}
-            preview={preview}
-            setPreview={setPreview}
-          />
+        <form className={styles["admin-inner"]} onSubmit={handleFormSubmit}>
+          <UploadCustom onImageUpload={handleImageUpload} />
           <div className={styles["admin-right"]}>
             <div className={styles.inputs}>
               <div className={styles.textfields}>
@@ -150,34 +83,34 @@ const Admin = () => {
                 <TextfieldCustom
                   placeholder="Місто англійською"
                   required={true}
-                  value={item.cityEng}
-                  onChange={(value) => handleInputChange("cityEng", value)}
+                  value={cityEng}
+                  onChange={(value) => dispatch(handleCityEngChange(value))}
                   name="cityEng"
                 />
                 <TextfieldCustom
                   placeholder="Місто українською"
                   required={true}
-                  value={item.cityUkr}
-                  onChange={(value) => handleInputChange("cityUkr", value)}
+                  value={cityUkr}
+                  onChange={(value) => dispatch(handleCityUkrChange(value))}
                   name="cityUkr"
                 />
                 <TextfieldCustom
                   placeholder="Широта"
                   required={true}
-                  value={item.latitude}
-                  onChange={(value) => handleInputChange("latitude", value)}
+                  value={latitude}
+                  onChange={(value) => dispatch(handleLatitudeChange(value))}
                   name="latitude"
                 />
                 <TextfieldCustom
                   placeholder="Довгота"
                   required={true}
-                  value={item.longitude}
-                  onChange={(value) => handleInputChange("longitude", value)}
+                  value={longitude}
+                  onChange={(value) => dispatch(handleLongitudeChange(value))}
                   name="longitude"
                 />
                 <DatePicker
-                  selected={item.purchaseDate}
-                  onChange={handleDateChange}
+                  selected={purchaseDate}
+                  onChange={(date) => dispatch(handleDateChange(date))}
                   className={styles["custom-datepicker"]}
                   dateFormat="dd/MM/yyyy"
                   placeholderText={"Дата покупки"}
@@ -186,19 +119,13 @@ const Admin = () => {
               <div>
                 <FilterTitle title="Країнa" isChevronVisible={false} />
                 <SearchSelect
-                  isMulti={isMulti}
-                  onChange={handleCountrySelect}
-                  selectedCountry={selectedCountry}
-                  setSelectedCountry={setSelectedCountry}
+                  isMulti={false}
+                  // onChange={(value) => dispatch(handleCountrySelect(value))}
                 />
               </div>
               <div>
                 <FilterTitle title="Континент" isChevronVisible={false} />
-                <Continents
-                  onChange={handleContinentSelect}
-                  selectedContinent={selectedContinent}
-                  setSelectedContinent={setSelectedContinent}
-                />
+                <Continents isMulti={false} />
               </div>
             </div>
             <ButtonCustom

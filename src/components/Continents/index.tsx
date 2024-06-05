@@ -1,6 +1,13 @@
 import { useTranslation } from "react-i18next"
 import CheckboxCustom from "../CheckboxCustom"
 import styles from "./Continents.module.scss"
+import {
+  Continent,
+  handleContinentSelect,
+  setSelectedContinent,
+} from "../../redux/slices/adminFormSlice"
+import { RootState, useAppDispatch } from "../../redux/store"
+import { useSelector } from "react-redux"
 
 const continents: Continent[] = [
   {
@@ -29,37 +36,31 @@ const continents: Continent[] = [
   },
 ]
 
-export interface Continent {
-  nameEng: string
-  nameUkr: string
-}
-
 interface ContinentsProps {
-  onChange: (nameEng: string, nameUkr: string) => void
-  selectedContinent: Continent | null
-  setSelectedContinent: React.Dispatch<React.SetStateAction<Continent | null>>
+  isMulti: boolean
+  // onChange: (nameEng: string, nameUkr: string) => void
 }
 
-const Continents = ({
-  onChange,
-  selectedContinent,
-  setSelectedContinent,
-}: ContinentsProps) => {
+const Continents = ({ isMulti }: ContinentsProps) => {
+  const { selectedContinent } = useSelector((state: RootState) => state.admin)
+
   const { t } = useTranslation()
+  const dispatch = useAppDispatch()
 
   const handleCheckboxChange = (continent: Continent) => {
-    if (selectedContinent === null) {
-      setSelectedContinent(continent)
-      onChange(continent.nameEng, continent.nameUkr)
-    } else if (
-      selectedContinent.nameEng === continent.nameEng &&
-      selectedContinent.nameUkr === continent.nameUkr
-    ) {
-      setSelectedContinent(null)
-      onChange("", "")
-    } else {
-      setSelectedContinent(continent)
-      onChange(continent.nameEng, continent.nameUkr)
+    const { nameEng, nameUkr } = continent
+    if (!isMulti) {
+      if (selectedContinent === null) {
+        dispatch(setSelectedContinent({ nameEng, nameUkr }))
+      } else if (
+        (selectedContinent as Continent).nameEng === nameEng &&
+        (selectedContinent as Continent).nameUkr === nameUkr
+      ) {
+        dispatch(setSelectedContinent(null))
+      } else {
+        dispatch(setSelectedContinent({ nameEng, nameUkr }))
+        dispatch(handleContinentSelect({ nameEng, nameUkr }))
+      }
     }
   }
 
@@ -78,8 +79,9 @@ const Continents = ({
               onChange={() => handleCheckboxChange(continent)}
               checked={
                 selectedContinent !== null &&
-                selectedContinent.nameEng === continent.nameEng &&
-                selectedContinent.nameUkr === continent.nameUkr
+                (selectedContinent as Continent).nameEng ===
+                  continent.nameEng &&
+                (selectedContinent as Continent).nameUkr === continent.nameUkr
               }
             />
           </div>
