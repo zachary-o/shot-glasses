@@ -1,7 +1,6 @@
-import { useTranslation } from "react-i18next";
-import CheckboxCustom from "../CheckboxCustom";
-import styles from "./Continents.module.scss";
-import { useState } from "react";
+import { useTranslation } from "react-i18next"
+import CheckboxCustom from "../CheckboxCustom"
+import styles from "./Continents.module.scss"
 
 const continents: Continent[] = [
   {
@@ -28,45 +27,48 @@ const continents: Continent[] = [
     nameEng: "North America",
     nameUkr: "Північна Америка",
   },
-];
+]
 
 export interface Continent {
-  nameEng: string;
-  nameUkr: string;
+  nameEng: string
+  nameUkr: string
 }
 
 interface ContinentsProps {
-  onChange: (nameEng: string, nameUkr: string) => void;
+  onChange: (nameEng: string, nameUkr: string) => void
+  selectedContinent: Continent | null
+  setSelectedContinent: React.Dispatch<React.SetStateAction<Continent | null>>
 }
 
-const Continents = ({ onChange }: ContinentsProps) => {
-  const { t } = useTranslation();
-  const [selectedContinent, setSelectedContinent] = useState<Continent | null>(
-    null
-  );
+const Continents = ({
+  onChange,
+  selectedContinent,
+  setSelectedContinent,
+}: ContinentsProps) => {
+  const { t } = useTranslation()
 
   const handleCheckboxChange = (continent: Continent) => {
     if (selectedContinent === null) {
-      setSelectedContinent(continent);
-      onChange(continent.nameEng, continent.nameUkr);
+      setSelectedContinent(continent)
+      onChange(continent.nameEng, continent.nameUkr)
     } else if (
       selectedContinent.nameEng === continent.nameEng &&
       selectedContinent.nameUkr === continent.nameUkr
     ) {
-      setSelectedContinent(null);
-      onChange("", "");
+      setSelectedContinent(null)
+      onChange("", "")
     } else {
-      setSelectedContinent(continent);
-      onChange(continent.nameEng, continent.nameUkr);
+      setSelectedContinent(continent)
+      onChange(continent.nameEng, continent.nameUkr)
     }
-  };
+  }
 
   return (
     <div className={styles["continents-container"]}>
       {continents.map((continent) => {
         const translatedLabel = t(
           `continent.${continent.nameEng.replace(/\s/g, "")}`
-        );
+        )
 
         return (
           <div key={continent.nameEng} className={styles.continents}>
@@ -81,10 +83,10 @@ const Continents = ({ onChange }: ContinentsProps) => {
               }
             />
           </div>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-export default Continents;
+export default Continents

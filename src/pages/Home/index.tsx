@@ -3,9 +3,12 @@ import Filter from "../../components/Filter"
 import styles from "./Home.module.scss"
 import refresh from "../../assets/images/refresh.png"
 import { useTranslation } from "react-i18next"
+import { useState } from "react"
 
 const Home = () => {
   const { t } = useTranslation()
+  const [items, setItems] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   return (
     <div className="container">
       <h1 className={styles.title}>{t("homePage.title")}</h1>

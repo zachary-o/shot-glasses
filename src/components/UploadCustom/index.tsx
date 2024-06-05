@@ -1,9 +1,9 @@
-import { CSSProperties, useCallback, useMemo, useState } from "react"
+import { CSSProperties, useCallback, useMemo } from "react"
 import { useDropzone } from "react-dropzone"
-import styles from "./UploadCustom.module.scss"
-import uploadImg from "../../assets/images/upload-img.png"
 import uploadImgDragging from "../../assets/images/upload-img-dragging.png"
 import uploadImgError from "../../assets/images/upload-img-error.png"
+import uploadImg from "../../assets/images/upload-img.png"
+import styles from "./UploadCustom.module.scss"
 
 const baseStyle: CSSProperties = {
   flex: 1,
@@ -39,11 +39,16 @@ const rejectStyle: CSSProperties = {
 interface UploadCustomProps {
   onImageUpload: (file: File[]) => void
   uploadProgress: number
+  preview: string | ArrayBuffer | null
+  setPreview: React.Dispatch<React.SetStateAction<string | ArrayBuffer | null>>
 }
 
-const UploadCustom = ({ onImageUpload, uploadProgress }: UploadCustomProps) => {
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null)
-
+const UploadCustom = ({
+  onImageUpload,
+  uploadProgress,
+  preview,
+  setPreview,
+}: UploadCustomProps) => {
   const onDrop = useCallback(
     (acceptedFiles: Array<File>) => {
       const previewFile = new FileReader()
@@ -51,7 +56,6 @@ const UploadCustom = ({ onImageUpload, uploadProgress }: UploadCustomProps) => {
       onImageUpload(file)
       previewFile.onload = function () {
         setPreview(previewFile.result)
-        
       }
 
       previewFile.readAsDataURL(acceptedFiles[0])
@@ -108,7 +112,7 @@ const UploadCustom = ({ onImageUpload, uploadProgress }: UploadCustomProps) => {
             alt="Upload"
             style={{ width: 63, height: 63, marginBottom: 10 }}
           />
-          <p style={{ textAlign: "center", marginBottom:"5px" }}>
+          <p style={{ textAlign: "center", marginBottom: "5px" }}>
             Братішка, перетягни сюди файли або
             <br />
             <strong>
@@ -116,11 +120,16 @@ const UploadCustom = ({ onImageUpload, uploadProgress }: UploadCustomProps) => {
             </strong>
           </p>
 
-          {uploadProgress === 0 || !preview ? null : <div className={styles.progress}>
-            <div className={styles["progress-bar"]} style={{width: `${uploadProgress.toFixed(2)}%`}}>
-              {uploadProgress.toFixed(2)}%
+          {uploadProgress === 0 || !preview ? null : (
+            <div className={styles.progress}>
+              <div
+                className={styles["progress-bar"]}
+                style={{ width: `${uploadProgress.toFixed(2)}%` }}
+              >
+                {uploadProgress.toFixed(2)}%
+              </div>
             </div>
-          </div>}
+          )}
         </div>
       )}
 

@@ -1,69 +1,67 @@
-import { useEffect, useRef, useState } from "react";
-import search from "../../assets/images/search-red.svg";
-import { auth } from "../../firebase/config";
-import styles from "./Header.module.scss";
+import { useEffect, useRef, useState } from "react"
+import search from "../../assets/images/search-red.svg"
+import { auth } from "../../firebase/config"
+import styles from "./Header.module.scss"
 
+import { onAuthStateChanged } from "firebase/auth"
+import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import {
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithPopup,
-  signOut,
-} from "firebase/auth";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { removeActiveUser, setActiveUser } from "../../redux/slices/authSlice";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { AdminOnlyLink } from "../AdminOnlyRoute";
-import ButtonCustom from "../ButtonCustom";
-import Search from "../Search";
+  loginWithGoogle,
+  logoutUser,
+  setActiveUser,
+} from "../../redux/slices/authSlice"
+import { RootState, useAppDispatch } from "../../redux/store"
+import { AdminOnlyLink } from "../AdminOnlyRoute"
+import ButtonCustom from "../ButtonCustom"
+import Search from "../Search"
 
 const Header = () => {
-  const { i18n } = useTranslation();
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const searchRef = useRef<HTMLInputElement>(null);
-  const [isActiveSearch, setIsActiveSearch] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const { i18n } = useTranslation()
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth)
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const searchRef = useRef<HTMLInputElement>(null)
+  const [isActiveSearch, setIsActiveSearch] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
 
   //Change language
   const handleCheckFlagLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-  };
+    i18n.changeLanguage(lang)
+  }
 
   //Monitor currently signed in user
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(setActiveUser(user));
+        dispatch(setActiveUser(user))
       }
-    });
-  }, [dispatch]);
+    })
+  }, [dispatch])
 
   //Login with Google
-  const signInWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then(() => {
-        toast.success("Login Successful");
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-  };
+  // const signInWithGoogle = () => {
+  //   const provider = new GoogleAuthProvider();
+  //   signInWithPopup(auth, provider)
+  //     .then(() => {
+  //       toast.success("Login Successful");
+  //     })
+  //     .catch((error) => {
+  //       toast.error(error.message);
+  //     });
+  // };
 
   //Logout
-  const logoutUser = () => {
-    signOut(auth)
-      .then(() => {
-        toast.success("Logout successfully");
-        navigate("/");
-        dispatch(removeActiveUser());
-      })
-      .catch((error) => toast.error(error.message));
-  };
+  // const logoutUser = () => {
+  //   signOut(auth)
+  //     .then(() => {
+  //       toast.success("Logout successfully");
+  //       navigate("/");
+  //       dispatch(removeActiveUser());
+  //     })
+  //     .catch((error) => toast.error(error.message));
+  // };
 
   //Closes Search Input when clicking outside
   useEffect(() => {
@@ -72,17 +70,17 @@ const Header = () => {
         searchRef.current &&
         !searchRef.current.contains(event.target as Node)
       ) {
-        setIsActiveSearch(false);
-        setSearchValue("");
+        setIsActiveSearch(false)
+        setSearchValue("")
       }
-    };
+    }
 
-    document.body.addEventListener("click", handleSearchClick);
+    document.body.addEventListener("click", handleSearchClick)
 
     return () => {
-      document.body.removeEventListener("click", handleSearchClick);
-    };
-  }, [isActiveSearch]);
+      document.body.removeEventListener("click", handleSearchClick)
+    }
+  }, [isActiveSearch])
 
   return (
     <div className={styles.header}>
@@ -135,8 +133,8 @@ const Header = () => {
               src={search}
               alt="Search"
               onClick={(e) => {
-                e.stopPropagation();
-                setIsActiveSearch(true);
+                e.stopPropagation()
+                setIsActiveSearch(true)
               }}
             />
             {isLoggedIn ? (
@@ -150,14 +148,14 @@ const Header = () => {
                 </AdminOnlyLink>
                 <ButtonCustom
                   className={styles.login}
-                  onClick={logoutUser}
+                  onClick={() => dispatch(logoutUser())}
                   children={"Logout"}
                 />
               </>
             ) : (
               <ButtonCustom
                 className={styles.login}
-                onClick={signInWithGoogle}
+                onClick={() => dispatch(loginWithGoogle())}
                 children={"Login"}
               />
             )}
@@ -165,7 +163,7 @@ const Header = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

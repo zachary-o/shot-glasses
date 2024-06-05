@@ -1,20 +1,21 @@
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import ButtonCustom from "../../components/ButtonCustom"
-import Continents from "../../components/Continents"
+import Continents, { Continent } from "../../components/Continents"
 import FilterTitle from "../../components/FilterTitle"
-import SearchSelect from "../../components/SearchSelect"
+import SearchSelect, { CountryOption } from "../../components/SearchSelect"
 import TextfieldCustom from "../../components/TextfieldCustom"
 import UploadCustom from "../../components/UploadCustom"
 
+import { addDoc, collection } from "firebase/firestore"
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import { FormEvent, useState } from "react"
+import { toast } from "react-toastify"
+import Loader from "../../components/Loader"
 import { db, storage } from "../../firebase/config"
 import styles from "./Admin.module.scss"
 import "./datePickerStyles.scss"
-import { toast } from "react-toastify"
-import { addDoc, collection } from "firebase/firestore"
-import Loader from "../../components/Loader"
+import { MultiValue, SingleValue } from "react-select"
 
 const initialState = {
   cityEng: "",
@@ -33,6 +34,14 @@ const Admin = () => {
   const [item, setItem] = useState({ ...initialState })
   const [uploadProgress, setUploadProgress] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null)
+  const [selectedContinent, setSelectedContinent] = useState<Continent | null>(
+    null
+  )
+  let isMulti = false
+  const [selectedCountry, setSelectedCountry] = useState<
+    SingleValue<CountryOption> | MultiValue<CountryOption>
+  >(isMulti ? [] : null)
 
   const handleInputChange = (name: string, value: string) => {
     setItem((prevItem) => ({
@@ -95,7 +104,7 @@ const Admin = () => {
     setIsLoading(true)
 
     try {
-      const docRef = await addDoc(collection(db, "shot-glasses"), {
+      await addDoc(collection(db, "shot-glasses"), {
         cityEng: item.cityEng,
         cityUkr: item.cityUkr,
         countryEng: item.continentEng,
@@ -110,6 +119,9 @@ const Admin = () => {
       setIsLoading(false)
       setUploadProgress(0)
       setItem({ ...initialState })
+      setPreview(null)
+      setSelectedContinent(null)
+      setSelectedCountry([])
       toast.success("Item uploaded sucessfully")
     } catch (error) {
       setIsLoading(false)
@@ -128,6 +140,8 @@ const Admin = () => {
           <UploadCustom
             onImageUpload={handleImageChange}
             uploadProgress={uploadProgress}
+            preview={preview}
+            setPreview={setPreview}
           />
           <div className={styles["admin-right"]}>
             <div className={styles.inputs}>
@@ -170,12 +184,21 @@ const Admin = () => {
                 />
               </div>
               <div>
-                <FilterTitle title="Континент" isChevronVisible={false} />
-                <Continents onChange={handleContinentSelect} />
+                <FilterTitle title="Країнa" isChevronVisible={false} />
+                <SearchSelect
+                  isMulti={isMulti}
+                  onChange={handleCountrySelect}
+                  selectedCountry={selectedCountry}
+                  setSelectedCountry={setSelectedCountry}
+                />
               </div>
               <div>
-                <FilterTitle title="Країнa" isChevronVisible={false} />
-                <SearchSelect isMulti={false} onChange={handleCountrySelect} />
+                <FilterTitle title="Континент" isChevronVisible={false} />
+                <Continents
+                  onChange={handleContinentSelect}
+                  selectedContinent={selectedContinent}
+                  setSelectedContinent={setSelectedContinent}
+                />
               </div>
             </div>
             <ButtonCustom

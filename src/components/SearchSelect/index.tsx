@@ -1,21 +1,20 @@
-import { useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useMemo, useState } from "react"
+import { useTranslation } from "react-i18next"
 import {
   MultiValue,
   OptionProps,
   default as ReactSelect,
   SingleValue,
   StylesConfig,
-  components
-} from "react-select";
-import search from "../../assets/images/search-gray.svg";
-import CheckboxCustom from "../CheckboxCustom";
-import styles from "./SearchSelect.module.scss";
-import countryList from "./countries";
+  components,
+} from "react-select"
+import CheckboxCustom from "../CheckboxCustom"
+import styles from "./SearchSelect.module.scss"
+import countryList from "./countries"
 
-interface CountryOption {
-  label: string | null;
-  value: string | null;
+export interface CountryOption {
+  label: string | null
+  value: string | null
 }
 
 const Option = (props: OptionProps<CountryOption, boolean>) => {
@@ -26,85 +25,102 @@ const Option = (props: OptionProps<CountryOption, boolean>) => {
           isReactSelect={true}
           label={props.label}
           isSelected={props.isSelected}
-          onChange={()=>{}}
+          onChange={() => {}}
         />
       </components.Option>
     </div>
-  );
-};
-
-interface SearchSelectProps {
-  isMulti: boolean;
-  onChange: (nameEng: string, nameUkr: string) => void
+  )
 }
 
-const SearchSelect = ({ isMulti = false, onChange }: SearchSelectProps) => {
-  const [selectedOption, setSelectedOption] = useState<
-  SingleValue<CountryOption> | MultiValue<CountryOption>
->(isMulti ? [] : null);
-const [inputValue, setInputValue] = useState<string>("");
+interface SearchSelectProps {
+  isMulti: boolean
+  onChange: (nameEng: string, nameUkr: string) => void
+  selectedCountry?:
+    | SingleValue<CountryOption>
+    | MultiValue<CountryOption>
+    | []
+    | null
+  setSelectedCountry?: React.Dispatch<
+    React.SetStateAction<SingleValue<CountryOption> | MultiValue<CountryOption>>
+  >
+}
 
+const SearchSelect = ({
+  isMulti = false,
+  onChange,
+  selectedCountry,
+  setSelectedCountry,
+}: SearchSelectProps) => {
+  const [inputValue, setInputValue] = useState<string>("")
 
-  const { i18n } = useTranslation();
- 
-  const list: CountryOption[] = useMemo(() => countryList.map(country => ({
-    label: i18n.language === "uk" ? country.nameUkr : country.nameEng,
-    value: country.nameEng
-  })), [countryList, i18n.language]);
+  const { i18n } = useTranslation()
 
-  // console.log('list', list)
-  // console.log('selectedOption', selectedOption)
+  const list: CountryOption[] = useMemo(
+    () =>
+      countryList.map((country) => ({
+        label: i18n.language === "uk" ? country.nameUkr : country.nameEng,
+        value: country.nameEng,
+      })),
+    [countryList, i18n.language]
+  )
 
-  const handleSelect = (selectedOption: SingleValue<CountryOption> | MultiValue<CountryOption>) => {
-    setSelectedOption(selectedOption);
-  
-    if (selectedOption !== null) {
-      if (!Array.isArray(selectedOption)) {
-        // Type assertion for single value
-        const value = countryList.find(countryItem => countryItem.nameEng === selectedOption.value);
+  const handleSelect = (
+    selectedCountry: SingleValue<CountryOption> | MultiValue<CountryOption>
+  ) => {
+    if (setSelectedCountry) {
+      setSelectedCountry(selectedCountry)
+    }
+
+    if (selectedCountry !== null) {
+      if (!Array.isArray(selectedCountry)) {
+        const singleCountryOption =
+          selectedCountry as SingleValue<CountryOption>
+        const value = countryList.find(
+          (countryItem) => countryItem.nameEng === singleCountryOption?.value
+        )
         if (value) {
-          onChange(value.nameEng, value.nameUkr);
+          onChange(value.nameEng, value.nameUkr)
         }
       } else {
-        // Handle the case when selectedOption is an array of values
-        selectedOption.forEach(option => {
-          const value = countryList.find(countryItem => countryItem.nameEng === option.value);
+        const multiCountryOption = selectedCountry as MultiValue<CountryOption>
+        multiCountryOption.forEach((option) => {
+          const value = countryList.find(
+            (countryItem) => countryItem.nameEng === option.value
+          )
           if (value) {
-            onChange(value.nameEng, value.nameUkr);
+            onChange(value.nameEng, value.nameUkr)
           }
-        });
+        })
       }
     }
-  };
+  }
 
   const handleInputChange = (newValue: string) => {
-    setInputValue(newValue);
-  };
-  
+    setInputValue(newValue)
+  }
 
   return (
     <div className={styles["search-select"]}>
-      {selectedOption || inputValue  ? null : <img src={search} alt="Search" />}
+      {/* {selectedCountry || inputValue ? null : <img src={search} alt="Search" />} */}
       <ReactSelect
         options={list}
         isMulti={isMulti}
         closeMenuOnSelect={!isMulti}
-        hideSelectedOptions={false}
         components={{
           Option,
         }}
         onChange={handleSelect}
-        value={selectedOption}
+        value={selectedCountry}
         inputValue={inputValue}
         onInputChange={handleInputChange}
         styles={customStyles}
         placeholder="Пошук"
       />
     </div>
-  );
-};
+  )
+}
 
-export default SearchSelect;
+export default SearchSelect
 
 const customStyles: StylesConfig<CountryOption, true> = {
   control: (provided, state) => ({
@@ -112,8 +128,7 @@ const customStyles: StylesConfig<CountryOption, true> = {
     width: "128px",
     minHeight: "27px",
     maxHeight: "27px",
-    padding: "0 5px",
-    paddingLeft: "20px",
+    padding: 0,
     margin: 0,
     border: "1px solid #141414",
     borderRadius: "5px",
@@ -192,4 +207,4 @@ const customStyles: StylesConfig<CountryOption, true> = {
         : undefined,
     },
   }),
-};
+}
