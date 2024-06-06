@@ -15,6 +15,11 @@ export interface CountryOption {
   value: string
 }
 
+interface CountryPayload {
+  nameEng: string
+  nameUkr: string
+}
+
 interface FormState {
   cityEng: string
   cityUkr: string
@@ -56,9 +61,8 @@ export const uploadImage = createAsyncThunk(
   "admin/uploadImage",
   async (file: File, { rejectWithValue, dispatch }) => {
     try {
-      const image = file
-      const storageRef = ref(storage, `shot-glasses/${Date.now()}${image.name}`)
-      const uploadTask = uploadBytesResumable(storageRef, image)
+      const storageRef = ref(storage, `shot-glasses/${Date.now()}${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file)
 
       return new Promise<string>((resolve, reject) => {
         uploadTask.on(
@@ -138,10 +142,7 @@ const adminFormSlice = createSlice({
       state.continentEng = nameEng
       state.continentUkr = nameUkr
     },
-    handleCountrySelect: (
-      state,
-      action: PayloadAction<{ nameEng: string; nameUkr: string }>
-    ) => {
+    handleCountrySelect: (state, action: PayloadAction<CountryPayload>) => {
       const { nameEng, nameUkr } = action.payload
       state.countryEng = nameEng
       state.countryUkr = nameUkr

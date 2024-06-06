@@ -1,6 +1,6 @@
 export interface CountryType {
-  nameEng: string;
-  nameUkr: string;
+  nameEng: string
+  nameUkr: string
 }
 
 const countryList: CountryType[] = [
@@ -328,6 +328,6 @@ const countryList: CountryType[] = [
   { nameEng: "Zambia", nameUkr: "Замбія" },
   { nameEng: "Zimbabwe", nameUkr: "Зімбабве" },
   { nameEng: "Åland Islands", nameUkr: "Аландські острови" },
-];
+]
 
-export default countryList;
+export default countryList

@@ -1,11 +1,11 @@
-import styles from "./CheckboxCustom.module.scss";
+import styles from "./CheckboxCustom.module.scss"
 
 interface CheckboxCustomProps {
-  label?: string;
+  label?: string
   isSelected?: boolean
-  isReactSelect?: boolean;
-  checked?: boolean;
-  onChange: () => void;
+  isReactSelect?: boolean
+  checked?: boolean
+  onChange?: () => void
 }
 
 const CheckboxCustom = ({
@@ -16,26 +16,36 @@ const CheckboxCustom = ({
   onChange,
 }: CheckboxCustomProps) => {
   const handleCheck = () => {
-    onChange();
-  };
+    if (onChange) {
+      onChange()
+    }
+  }
 
   if (isReactSelect) {
     return (
       <div className={styles["checkbox-container"]}>
-        <input type="checkbox" checked={checked||isSelected} onChange={handleCheck} />
+        <input
+          type="checkbox"
+          checked={checked || isSelected}
+          onChange={handleCheck}
+        />
         <span className={styles.checkmark}></span>
         {label}
       </div>
-    );
+    )
   } else {
     return (
       <label className={styles["checkbox-container"]}>
-        <input type="checkbox" checked={checked||isSelected} onChange={handleCheck} />
+        <input
+          type="checkbox"
+          checked={checked || isSelected}
+          onChange={handleCheck}
+        />
         <span className={styles.checkmark}></span>
         {label}
       </label>
-    );
+    )
   }
-};
+}
 
-export default CheckboxCustom;
+export default CheckboxCustom

@@ -6,17 +6,23 @@
   padding: 20px 30px;
   width: 243px;
   height: 289px;
-  border: 1px solid #666666;
-  border-radius: 10px;
+  border: 1px solid #d2d0d0;
+  border-radius: 5px;
+
+  &:hover {
+    border: 1px solid $red;
+  }
 
   .shotglass-image {
     margin-bottom: 12px;
   }
 
   .country {
-    margin-bottom: 5px;
     font-size: 18px;
     line-height: 150%;
+    font-family: "Road UI";
+    font-style: normal;
+    font-weight: 700;
   }
 
   .city {
@@ -28,6 +34,7 @@
 
     &:hover {
       text-decoration: underline;
+      text-decoration-style: dashed;
     }
   }
 

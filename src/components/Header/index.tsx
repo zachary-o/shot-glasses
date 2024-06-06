@@ -40,30 +40,6 @@ const Header = () => {
     })
   }, [dispatch])
 
-  //Login with Google
-  // const signInWithGoogle = () => {
-  //   const provider = new GoogleAuthProvider();
-  //   signInWithPopup(auth, provider)
-  //     .then(() => {
-  //       toast.success("Login Successful");
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error.message);
-  //     });
-  // };
-
-  //Logout
-  // const logoutUser = () => {
-  //   signOut(auth)
-  //     .then(() => {
-  //       toast.success("Logout successfully");
-  //       navigate("/");
-  //       dispatch(removeActiveUser());
-  //     })
-  //     .catch((error) => toast.error(error.message));
-  // };
-
-  //Closes Search Input when clicking outside
   useEffect(() => {
     const handleSearchClick = (event: MouseEvent) => {
       if (

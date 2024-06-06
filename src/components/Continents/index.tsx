@@ -38,7 +38,6 @@ const continents: Continent[] = [
 
 interface ContinentsProps {
   isMulti: boolean
-  // onChange: (nameEng: string, nameUkr: string) => void
 }
 
 const Continents = ({ isMulti }: ContinentsProps) => {
@@ -48,18 +47,18 @@ const Continents = ({ isMulti }: ContinentsProps) => {
   const dispatch = useAppDispatch()
 
   const handleCheckboxChange = (continent: Continent) => {
+    console.log(selectedContinent, continent)
     const { nameEng, nameUkr } = continent
     if (!isMulti) {
       if (selectedContinent === null) {
         dispatch(setSelectedContinent({ nameEng, nameUkr }))
+        dispatch(handleContinentSelect({ nameEng, nameUkr }))
       } else if (
         (selectedContinent as Continent).nameEng === nameEng &&
         (selectedContinent as Continent).nameUkr === nameUkr
       ) {
         dispatch(setSelectedContinent(null))
-      } else {
-        dispatch(setSelectedContinent({ nameEng, nameUkr }))
-        dispatch(handleContinentSelect({ nameEng, nameUkr }))
+        dispatch(handleContinentSelect({ nameEng: "", nameUkr: "" }))
       }
     }
   }

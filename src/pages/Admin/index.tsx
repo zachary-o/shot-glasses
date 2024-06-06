@@ -118,10 +118,7 @@ const Admin = () => {
               </div>
               <div>
                 <FilterTitle title="Країнa" isChevronVisible={false} />
-                <SearchSelect
-                  isMulti={false}
-                  // onChange={(value) => dispatch(handleCountrySelect(value))}
-                />
+                <SearchSelect isMulti={false} />
               </div>
               <div>
                 <FilterTitle title="Континент" isChevronVisible={false} />
