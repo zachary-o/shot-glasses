@@ -1,8 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
-import { db } from "../../firebase/config"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
-interface Item {
+export interface Item {
   id: string
   cityEng: string
   cityUkr: string
@@ -14,52 +12,37 @@ interface Item {
   latitude: string
   longitude: string
   purchaseDate: Date | null
+  createdAt: Date | null
 }
 
 interface ItemsState {
   items: Item[]
+  loading: boolean
+  error: string | null
 }
 
 const initialState: ItemsState = {
   items: [],
+  loading: false,
+  error: null,
 }
-
-export const getItems = createAsyncThunk(
-  "items/getItems",
-  async (_, { dispatch }) => {
-    try {
-      const itemsRef = collection(db, "shot-glasses")
-      const q = query(itemsRef, orderBy("cityEng", "desc"))
-      onSnapshot(q, (snapshot) => {
-        const allItems = snapshot.docs.map((item) => ({
-          id: item.id,
-          ...item.data(),
-        }))
-        console.log("allItems", allItems)
-        dispatch(setItems(allItems))
-      })
-    } catch (error) {
-      console.log("error", error)
-    }
-  }
-)
 
 const itemsSlice = createSlice({
   name: "items",
   initialState,
   reducers: {
-    setItems: (state, action) => {
-      console.log("faction.payloadirst", action.payload)
+    setItems: (state, action: PayloadAction<Item[]>) => {
       state.items = action.payload
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(getItems.fulfilled, (state) => {
-      return { ...state }
-    })
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload
+    },
+    setError: (state, action: PayloadAction<string | null>) => {
+      state.error = action.payload
+    },
   },
 })
 
-export const { setItems } = itemsSlice.actions
+export const { setItems, setLoading, setError } = itemsSlice.actions
 
 export default itemsSlice.reducer

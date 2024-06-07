@@ -9,7 +9,7 @@ import {
 import { RootState, useAppDispatch } from "../../redux/store"
 import { useSelector } from "react-redux"
 
-const continents: Continent[] = [
+const continentsList: Continent[] = [
   {
     nameEng: "Africa",
     nameUkr: "Африка",
@@ -38,9 +38,15 @@ const continents: Continent[] = [
 
 interface ContinentsProps {
   isMulti: boolean
+  continents: Continent[]
+  setContinents: (value: Continent[]) => void
 }
 
-const Continents = ({ isMulti }: ContinentsProps) => {
+const Continents = ({
+  isMulti,
+  continents,
+  setContinents,
+}: ContinentsProps) => {
   const { selectedContinent } = useSelector((state: RootState) => state.admin)
 
   const { t } = useTranslation()
@@ -50,7 +56,10 @@ const Continents = ({ isMulti }: ContinentsProps) => {
     console.log(selectedContinent, continent)
     const { nameEng, nameUkr } = continent
     if (!isMulti) {
-      if (selectedContinent === null) {
+      if (
+        selectedContinent === null ||
+        (selectedContinent as Continent).nameEng !== nameEng
+      ) {
         dispatch(setSelectedContinent({ nameEng, nameUkr }))
         dispatch(handleContinentSelect({ nameEng, nameUkr }))
       } else if (
@@ -61,11 +70,14 @@ const Continents = ({ isMulti }: ContinentsProps) => {
         dispatch(handleContinentSelect({ nameEng: "", nameUkr: "" }))
       }
     }
+    if (isMulti) {
+      let updatedContinents: Continent[]
+    }
   }
 
   return (
     <div className={styles["continents-container"]}>
-      {continents.map((continent) => {
+      {continentsList.map((continent) => {
         const translatedLabel = t(
           `continent.${continent.nameEng.replace(/\s/g, "")}`
         )

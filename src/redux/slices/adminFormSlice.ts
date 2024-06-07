@@ -31,6 +31,7 @@ interface FormState {
   latitude: string
   purchaseDate: Date | null
   imageUrl: string
+  createdAt: Date | null
   preview: string | ArrayBuffer | null
   selectedContinent: Continent | Continent[] | null
   selectedCountry: SingleValue<CountryOption> | MultiValue<CountryOption>
@@ -49,6 +50,7 @@ const initialState: FormState = {
   latitude: "",
   purchaseDate: null,
   imageUrl: "",
+  createdAt: null,
   preview: null,
   selectedContinent: null,
   selectedCountry: null,

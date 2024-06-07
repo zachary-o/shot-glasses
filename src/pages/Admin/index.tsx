@@ -21,6 +21,7 @@ import {
 import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./Admin.module.scss"
 import "./datePickerStyles.scss"
+import { Timestamp } from "firebase/firestore"
 
 const Admin = () => {
   const dispatch = useAppDispatch()
@@ -56,6 +57,7 @@ const Admin = () => {
         latitude,
         purchaseDate,
         imageUrl,
+        createdAt: Timestamp.now().toDate(),
         preview,
         selectedContinent,
         selectedCountry,

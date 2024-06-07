@@ -16,10 +16,12 @@ import { RootState, useAppDispatch } from "../../redux/store"
 import { AdminOnlyLink } from "../AdminOnlyRoute"
 import ButtonCustom from "../ButtonCustom"
 import Search from "../Search"
+import { filterBySearch } from "../../redux/slices/filterSlice"
 
 const Header = () => {
   const { i18n } = useTranslation()
   const { isLoggedIn } = useSelector((state: RootState) => state.auth)
+  const { items } = useSelector((state: RootState) => state.items)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const searchRef = useRef<HTMLInputElement>(null)
@@ -40,6 +42,7 @@ const Header = () => {
     })
   }, [dispatch])
 
+  //Toggles search input when clicking outside or on it
   useEffect(() => {
     const handleSearchClick = (event: MouseEvent) => {
       if (
@@ -57,6 +60,11 @@ const Header = () => {
       document.body.removeEventListener("click", handleSearchClick)
     }
   }, [isActiveSearch])
+
+  //Search
+  useEffect(() => {
+    dispatch(filterBySearch({ items, searchValue }))
+  }, [dispatch, searchValue, items])
 
   return (
     <div className={styles.header}>
@@ -98,10 +106,12 @@ const Header = () => {
                   : styles["search-input-inactive"]
               }
               ref={searchRef}
-              onClick={(event) => event.stopPropagation()}
+              onClick={(event) => {
+                event.stopPropagation()
+              }}
               spellCheck={false}
               value={searchValue}
-              onChange={(event) => setSearchValue(event.target.value)}
+              onChange={setSearchValue}
             />
             <img
               className={styles.search}
@@ -109,8 +119,9 @@ const Header = () => {
               src={search}
               alt="Search"
               onClick={(e) => {
-                e.stopPropagation()
                 setIsActiveSearch(true)
+                searchRef.current?.focus()
+                e.stopPropagation()
               }}
             />
             {isLoggedIn ? (

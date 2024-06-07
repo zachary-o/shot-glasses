@@ -1,6 +1,5 @@
 import { Tooltip } from "react-tooltip"
 import styles from "./Card.module.scss"
-import img from "../../assets/images/shot-glass.png"
 
 interface CardProps {
   id?: string
@@ -16,8 +15,12 @@ interface CardProps {
   purchaseDate?: Date
 }
 
-const Card = ({}: // id,
-// cityEng,
+const Card = ({
+  cityEng,
+  countryEng,
+  imageUrl,
+}: // id,
+
 // cityUkr,
 // continentEng,
 // continentUkr,
@@ -28,17 +31,26 @@ const Card = ({}: // id,
 // longitude,
 // purchaseDate,
 CardProps) => {
+  const truncateText = (text: string | undefined, length: number) => {
+    if (text) {
+      if (text.length > length) {
+        return `${text.slice(0, length)}...`
+      }
+    }
+    return text
+  }
+
   return (
     <div className={styles["card-container"]}>
-      <img className={styles["shotglass-image"]} src={img} alt="" />
-      <p className={styles.country}>sdsdsds,</p>
+      <img className={styles["shotglass-image"]} src={imageUrl} alt="" />
+      <p className={styles.country}>{truncateText(countryEng, 19)}</p>
       <div>
         <span
           className={styles.city}
           data-tooltip-id="city-id"
           data-tooltip-content="Див. на карті"
         >
-          sdsdsdsdsd
+          {truncateText(cityEng, 19)}
         </span>
         <Tooltip
           id="city-id"

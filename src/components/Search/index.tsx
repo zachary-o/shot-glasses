@@ -1,18 +1,16 @@
-import React, { ChangeEvent } from "react";
+import React from "react"
 
 interface SearchProps {
-  className?: string;
-  placeholder?: string;
-  spellCheck: boolean;
-  value?: string;
-  onClick?: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  ref?: React.RefObject<HTMLInputElement>;
+  className?: string
+  placeholder?: string
+  spellCheck: boolean
+  value: string
+  onClick?: (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => void
+  onChange: (newValue: string) => void
+  ref?: React.RefObject<HTMLInputElement>
 }
 
 const Search = React.forwardRef<HTMLInputElement, SearchProps>(
-
-    
   ({ className, placeholder, spellCheck, value, onClick, onChange }, ref) => {
     return (
       <input
@@ -21,11 +19,11 @@ const Search = React.forwardRef<HTMLInputElement, SearchProps>(
         spellCheck={spellCheck}
         value={value}
         onClick={onClick}
-        onChange={onChange}
+        onChange={(event) => onChange(event.target.value)}
         ref={ref}
       />
-    );
+    )
   }
-);
+)
 
-export default Search;
+export default Search
