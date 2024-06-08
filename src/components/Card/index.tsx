@@ -1,44 +1,34 @@
-import { Tooltip } from "react-tooltip"
-import styles from "./Card.module.scss"
+import { Tooltip } from "react-tooltip";
+import styles from "./Card.module.scss";
+import placeholderImg from "../../assets/images/shot-glass.png";
 
 interface CardProps {
-  id?: string
-  cityEng?: string
-  cityUkr?: string
-  continentEng?: string
-  continentUkr?: string
-  countryEng?: string
-  countryUkr?: string
-  imageUrl?: string
-  latitude?: string
-  longitude?: string
-  purchaseDate?: Date
+  id?: string;
+  cityEng: string;
+  cityUkr?: string;
+  continentEng?: string;
+  continentUkr?: string;
+  countryEng: string;
+  countryUkr?: string;
+  imageUrl: string;
+  latitude?: string;
+  longitude?: string;
+  purchaseDate?: Date;
 }
 
 const Card = ({
   cityEng,
   countryEng,
-  imageUrl,
-}: // id,
-
-// cityUkr,
-// continentEng,
-// continentUkr,
-// countryEng,
-// countryUkr,
-// imageUrl,
-// latitude,
-// longitude,
-// purchaseDate,
-CardProps) => {
-  const truncateText = (text: string | undefined, length: number) => {
+  imageUrl = placeholderImg,
+}: CardProps) => {
+  const truncateText = (text: string, length: number) => {
     if (text) {
       if (text.length > length) {
-        return `${text.slice(0, length)}...`
+        return `${text.slice(0, length)}...`;
       }
     }
-    return text
-  }
+    return text;
+  };
 
   return (
     <div className={styles["card-container"]}>
@@ -60,6 +50,6 @@ CardProps) => {
         />
       </div>
     </div>
-  )
-}
-export default Card
+  );
+};
+export default Card;

@@ -30,6 +30,7 @@ export const loginWithGoogle = createAsyncThunk(
       const user = result.user
       dispatch(setActiveUser(user))
       toast.success("Login successful")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(`Login failed: ${error.message}`)
       return rejectWithValue(error.message)
@@ -44,6 +45,7 @@ export const logoutUser = createAsyncThunk(
       await signOut(auth)
       dispatch(removeActiveUser())
       toast.success("Logout successful")
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(`Logout failed: ${error.message}`)
       return rejectWithValue(error.message)

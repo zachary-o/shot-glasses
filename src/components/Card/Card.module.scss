@@ -11,6 +11,7 @@
 
   &:hover {
     border: 1px solid $red;
+    background-color: darken($color: #fffdfa, $amount: 1%);
   }
 
   .shotglass-image {
@@ -23,7 +24,6 @@
   .country {
     font-size: 18px;
     line-height: 150%;
-    font-family: "Road UI";
     font-style: normal;
     font-weight: 700;
   }

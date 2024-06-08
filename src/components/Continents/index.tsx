@@ -1,45 +1,19 @@
-import { useTranslation } from "react-i18next"
-import CheckboxCustom from "../CheckboxCustom"
-import styles from "./Continents.module.scss"
+import { useTranslation } from "react-i18next";
+import CheckboxCustom from "../CheckboxCustom";
+import styles from "./Continents.module.scss";
 import {
   Continent,
   handleContinentSelect,
   setSelectedContinent,
-} from "../../redux/slices/adminFormSlice"
-import { RootState, useAppDispatch } from "../../redux/store"
-import { useSelector } from "react-redux"
-
-const continentsList: Continent[] = [
-  {
-    nameEng: "Africa",
-    nameUkr: "Африка",
-  },
-  {
-    nameEng: "Asia",
-    nameUkr: "Азія",
-  },
-  {
-    nameEng: "Australia",
-    nameUkr: "Австралія",
-  },
-  {
-    nameEng: "Europe",
-    nameUkr: "Європа",
-  },
-  {
-    nameEng: "South America",
-    nameUkr: "Південна Америка",
-  },
-  {
-    nameEng: "North America",
-    nameUkr: "Північна Америка",
-  },
-]
+} from "../../redux/slices/adminFormSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { continentsList } from "./continents";
 
 interface ContinentsProps {
-  isMulti: boolean
-  continents: Continent[]
-  setContinents: (value: Continent[]) => void
+  isMulti: boolean;
+  continents?: Continent[];
+  setContinents?: (value: Continent[]) => void;
 }
 
 const Continents = ({
@@ -47,40 +21,46 @@ const Continents = ({
   continents,
   setContinents,
 }: ContinentsProps) => {
-  const { selectedContinent } = useSelector((state: RootState) => state.admin)
+  const { selectedContinent } = useSelector((state: RootState) => state.admin);
 
-  const { t } = useTranslation()
-  const dispatch = useAppDispatch()
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const handleCheckboxChange = (continent: Continent) => {
-    console.log(selectedContinent, continent)
-    const { nameEng, nameUkr } = continent
+    console.log(selectedContinent, continent);
+    const { nameEng, nameUkr } = continent;
     if (!isMulti) {
       if (
         selectedContinent === null ||
         (selectedContinent as Continent).nameEng !== nameEng
       ) {
-        dispatch(setSelectedContinent({ nameEng, nameUkr }))
-        dispatch(handleContinentSelect({ nameEng, nameUkr }))
+        dispatch(setSelectedContinent({ nameEng, nameUkr }));
+        dispatch(handleContinentSelect({ nameEng, nameUkr }));
       } else if (
         (selectedContinent as Continent).nameEng === nameEng &&
         (selectedContinent as Continent).nameUkr === nameUkr
       ) {
-        dispatch(setSelectedContinent(null))
-        dispatch(handleContinentSelect({ nameEng: "", nameUkr: "" }))
+        dispatch(setSelectedContinent(null));
+        dispatch(handleContinentSelect({ nameEng: "", nameUkr: "" }));
       }
     }
     if (isMulti) {
-      let updatedContinents: Continent[]
+      let updatedContinents: Continent[];
+      if (continents?.some((c) => c.nameEng === nameEng)) {
+        updatedContinents = continents.filter((c) => c.nameEng !== nameEng);
+      } else {
+        updatedContinents = [...continents!, continent];
+      }
+      setContinents!(updatedContinents);
     }
-  }
+  };
 
   return (
     <div className={styles["continents-container"]}>
       {continentsList.map((continent) => {
         const translatedLabel = t(
           `continent.${continent.nameEng.replace(/\s/g, "")}`
-        )
+        );
 
         return (
           <div key={continent.nameEng} className={styles.continents}>
@@ -96,10 +76,10 @@ const Continents = ({
               }
             />
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default Continents
+export default Continents;
