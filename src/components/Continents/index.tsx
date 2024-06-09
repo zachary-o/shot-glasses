@@ -8,7 +8,9 @@ import {
 } from "../../redux/slices/adminFormSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import { useSelector } from "react-redux";
-import { continentsList } from "./continents";
+// import { continentsList } from "./continents";
+import { useMemo } from "react";
+import geoList from "../../geoData";
 
 interface ContinentsProps {
   isMulti: boolean;
@@ -22,6 +24,20 @@ const Continents = ({
   setContinents,
 }: ContinentsProps) => {
   const { selectedContinent } = useSelector((state: RootState) => state.admin);
+ const continentsList = useMemo(() => {
+   const uniqueContinentsSet = new Set(
+     geoList.map((item) =>
+       JSON.stringify({
+         nameEng: item.continentEng,
+         nameUkr: item.continentUkr,
+       })
+     )
+   );
+
+   return Array.from(uniqueContinentsSet).map((continentString) =>
+     JSON.parse(continentString)
+   );
+ }, []);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
