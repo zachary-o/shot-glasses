@@ -30,7 +30,7 @@ const Home = () => {
     const fetchItems = () => {
       try {
         const itemsRef = collection(db, "shot-glasses");
-        const q = query(itemsRef, orderBy("cityEng", "desc"));
+        const q = query(itemsRef, orderBy("createdAt", "desc"));
         onSnapshot(q, (snapshot) => {
           const allItems = snapshot.docs.map((item) => ({
             id: item.id,

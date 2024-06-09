@@ -9,6 +9,8 @@
     "Australia": "Australia",
     "Europe": "Europe",
     "SouthAmerica": "South America",
-    "NorthAmerica": "North America"
+    "NorthAmerica": "North America",
+    "Oceania": "Oceania",
+    "Antarctica": "Antarctica"
   }
 }

@@ -1,6 +1,6 @@
-import { memo, useCallback, useMemo, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
+import { memo, useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import {
   MultiValue,
   OptionProps,
@@ -8,16 +8,16 @@ import {
   SingleValue,
   StylesConfig,
   components,
-} from "react-select"
+} from "react-select";
 import {
   CountryOption,
   handleCountrySelect,
   setSelectedCountry,
-} from "../../redux/slices/adminFormSlice"
-import { RootState, useAppDispatch } from "../../redux/store"
-import CheckboxCustom from "../CheckboxCustom"
-import styles from "./SearchSelect.module.scss"
-import countryList from "./countries"
+} from "../../redux/slices/adminFormSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import CheckboxCustom from "../CheckboxCustom";
+import styles from "./SearchSelect.module.scss";
+import countryList from "../../geoData";
 
 const Option = memo((props: OptionProps<CountryOption, boolean>) => {
   return (
@@ -30,67 +30,69 @@ const Option = memo((props: OptionProps<CountryOption, boolean>) => {
         />
       </components.Option>
     </div>
-  )
-})
+  );
+});
 
 interface SearchSelectProps {
-  isMulti: boolean
+  isMulti: boolean;
+  countries?: CountryOption[];
+  setCountries?: (value: CountryOption[]) => void;
 }
 
-const SearchSelect = ({ isMulti = false }: SearchSelectProps) => {
-  const [inputValue, setInputValue] = useState<string>("")
-  const { selectedCountry } = useSelector((state: RootState) => state.admin)
-  const dispatch = useAppDispatch()
-  const { i18n } = useTranslation()
+const SearchSelect = ({
+  isMulti,
+  countries,
+  setCountries,
+}: SearchSelectProps) => {
+  const [inputValue, setInputValue] = useState<string>("");
+  const { selectedCountry } = useSelector((state: RootState) => state.admin);
+  // const { continentsFilter } = useSelector((state: RootState) => state.filter);
+  const dispatch = useAppDispatch();
+  const { i18n } = useTranslation();
 
   // Handle language change and alphabetic order inside the country list
   const list: CountryOption[] = useMemo(() => {
     const sortedList = countryList.map((country) => ({
       label: i18n.language === "uk" ? country.nameUkr : country.nameEng,
       value: country.nameEng,
-    }))
+    }));
 
     if (i18n.language === "uk") {
-      sortedList.sort((a, b) => a.label.localeCompare(b.label, "uk"))
+      sortedList.sort((a, b) => a.label.localeCompare(b.label, "uk"));
     } else {
-      sortedList.sort((a, b) => a.label.localeCompare(b.label, "en"))
+      sortedList.sort((a, b) => a.label.localeCompare(b.label, "en"));
     }
 
-    return sortedList
-  }, [i18n.language])
+    return sortedList;
+  }, [i18n.language]);
 
+  // const availableOptions =
+
+  //
   const handleSelect = useCallback(
     (newValue: SingleValue<CountryOption> | MultiValue<CountryOption>) => {
-      if (Array.isArray(newValue)) {
-        // Handle multi-select
-        newValue.forEach((option) => {
-          const value = countryList.find(
-            (countryItem) => countryItem.nameEng === option.value
-          )
-          if (value) {
-            dispatch(setSelectedCountry(option))
-            dispatch(handleCountrySelect(value))
-          }
-        })
+      if (isMulti) {
+        if (Array.isArray(newValue)) {
+          setCountries?.(newValue);
+        }
       } else {
-        // Handle single-select
+        dispatch(setSelectedCountry(newValue as SingleValue<CountryOption>));
         const value = countryList.find(
           (countryItem) =>
             countryItem.nameEng ===
-            (newValue as SingleValue<CountryOption>)!.value
-        )
+            (newValue as SingleValue<CountryOption>)?.value
+        );
         if (value) {
-          dispatch(setSelectedCountry(newValue as SingleValue<CountryOption>))
-          dispatch(handleCountrySelect(value))
+          dispatch(handleCountrySelect(value));
         }
       }
     },
-    [dispatch, setSelectedCountry, handleCountrySelect, countryList]
-  )
+    [dispatch, isMulti, setCountries]
+  );
 
   const handleInputChange = (newValue: string) => {
-    setInputValue(newValue)
-  }
+    setInputValue(newValue);
+  };
 
   return (
     <div className={styles["search-select"]}>
@@ -100,25 +102,25 @@ const SearchSelect = ({ isMulti = false }: SearchSelectProps) => {
         closeMenuOnSelect={!isMulti}
         components={{ Option }}
         onChange={handleSelect}
-        value={selectedCountry}
+        value={isMulti ? countries : selectedCountry}
         inputValue={inputValue}
         onInputChange={handleInputChange}
         styles={customStyles}
         placeholder="Пошук"
       />
     </div>
-  )
-}
+  );
+};
 
-export default SearchSelect
+export default SearchSelect;
 
+// Styles
 const customStyles: StylesConfig<CountryOption, true> = {
   control: (provided, state) => ({
     ...provided,
     width: "128px",
     minHeight: "27px",
     maxHeight: "27px",
-    padding: 0,
     margin: 0,
     border: "1px solid #141414",
     borderRadius: "5px",
@@ -127,19 +129,11 @@ const customStyles: StylesConfig<CountryOption, true> = {
     fontSize: "14px !important",
     lineHeight: "150%",
     color: "#141414",
-    transition: "all 0.2s ease-in-out",
     ...(state.isFocused && {
-      width: "128px",
-      height: "27px !important",
       border: "none",
       borderBottom: "1px solid #1712EC",
       borderRadius: 0,
       boxShadow: "none",
-      fontStyle: "normal",
-      fontWeight: "400",
-      fontSize: "14px !important",
-      lineHeight: "150%",
-      color: "#141414",
     }),
   }),
   menu: (provided) => ({
@@ -175,9 +169,24 @@ const customStyles: StylesConfig<CountryOption, true> = {
     ...provided,
     display: "none",
   }),
+  valueContainer: (provided) => ({
+    ...provided,
+    minHeight: "27px",
+    maxHeight: "27px",
+    padding: "0 8px",
+  }),
   multiValue: (provided) => ({
     ...provided,
-    display: "none",
+    maxHeight: "22px",
+    display: "flex",
+    alignItems: "center",
+  }),
+  multiValueRemove: (provided) => ({
+    ...provided,
+    ":hover": {
+      cursor: "pointer",
+      backgroundColor: "#fa9084",
+    },
   }),
   option: (provided, state) => ({
     ...provided,
@@ -197,4 +206,8 @@ const customStyles: StylesConfig<CountryOption, true> = {
         : undefined,
     },
   }),
-}
+  placeholder: (provided, state) => ({
+    ...provided,
+    display: state.isFocused ? "none" : "",
+  }),
+};

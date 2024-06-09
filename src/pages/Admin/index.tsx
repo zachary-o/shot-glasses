@@ -1,14 +1,14 @@
-import { FormEvent } from "react"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import { useSelector } from "react-redux"
-import ButtonCustom from "../../components/ButtonCustom"
-import Continents from "../../components/Continents"
-import FilterTitle from "../../components/FilterTitle"
-import Loader from "../../components/Loader"
-import SearchSelect from "../../components/SearchSelect"
-import TextfieldCustom from "../../components/TextfieldCustom"
-import UploadCustom from "../../components/UploadCustom"
+import { FormEvent } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from "react-redux";
+import ButtonCustom from "../../components/ButtonCustom";
+import Continents from "../../components/Continents";
+import FilterTitle from "../../components/FilterTitle";
+import Loader from "../../components/Loader";
+import SearchSelect from "../../components/SearchSelect";
+import TextfieldCustom from "../../components/TextfieldCustom";
+import UploadCustom from "../../components/UploadCustom";
 import {
   addItem,
   handleCityEngChange,
@@ -17,14 +17,14 @@ import {
   handleLatitudeChange,
   handleLongitudeChange,
   uploadImage,
-} from "../../redux/slices/adminFormSlice"
-import { RootState, useAppDispatch } from "../../redux/store"
-import styles from "./Admin.module.scss"
-import "./datePickerStyles.scss"
-import { Timestamp } from "firebase/firestore"
+} from "../../redux/slices/adminFormSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import styles from "./Admin.module.scss";
+import "./datePickerStyles.scss";
+import { Timestamp } from "firebase/firestore";
 
 const Admin = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const {
     cityEng,
     cityUkr,
@@ -41,10 +41,10 @@ const Admin = () => {
     selectedCountry,
     uploadProgress,
     isLoading,
-  } = useSelector((state: RootState) => state.admin)
+  } = useSelector((state: RootState) => state.admin);
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     dispatch(
       addItem({
         cityEng,
@@ -64,12 +64,12 @@ const Admin = () => {
         uploadProgress,
         isLoading,
       })
-    )
-  }
+    );
+  };
 
   const handleImageUpload = (file: File[]) => {
-    dispatch(uploadImage(file[0]))
-  }
+    dispatch(uploadImage(file[0]));
+  };
 
   return (
     <>
@@ -136,7 +136,7 @@ const Admin = () => {
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;

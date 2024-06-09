@@ -28,12 +28,12 @@ const Header = () => {
   const [isActiveSearch, setIsActiveSearch] = useState(false)
   const [searchValue, setSearchValue] = useState("")
 
-  //Change language
+  // Change language
   const handleCheckFlagLanguage = (lang: string) => {
     i18n.changeLanguage(lang)
   }
 
-  //Monitor currently signed in user
+  // Monitor currently signed in user
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -42,7 +42,7 @@ const Header = () => {
     })
   }, [dispatch])
 
-  //Toggles search input when clicking outside or on it
+  // Toggles search input when clicking outside or on it
   useEffect(() => {
     const handleSearchClick = (event: MouseEvent) => {
       if (
@@ -61,7 +61,7 @@ const Header = () => {
     }
   }, [isActiveSearch])
 
-  //Search
+  // Search
   useEffect(() => {
     dispatch(filterBySearch({ items, searchValue }))
   }, [dispatch, searchValue, items])
