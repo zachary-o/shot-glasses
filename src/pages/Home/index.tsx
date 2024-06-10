@@ -1,8 +1,9 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { useEffect } from "react";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import refresh from "../../assets/images/refresh.png";
+import sadImg from "../../assets/images/shot-glass-sad.png";
 import Card from "../../components/Card";
 import Skeleton from "../../components/Card/Skeleton";
 import Filter from "../../components/Filter";
@@ -16,29 +17,32 @@ import {
 } from "../../redux/slices/itemsSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import styles from "./Home.module.scss";
-import sadImg from "../../assets/images/shot-glass-sad.png";
 
 const Home = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { loading } = useSelector((state: RootState) => state.items);
   const { filteredItems } = useSelector((state: RootState) => state.filter);
+  const [displayedItems, setDisplayedItems] = useState<number>(8);
   console.log("filteredItems", filteredItems);
 
   useEffect(() => {
     dispatch(setLoading(true));
-    const fetchItems = () => {
+    const fetchItems = async () => {
       try {
         const itemsRef = collection(db, "shot-glasses");
-        const q = query(itemsRef, orderBy("createdAt", "desc"));
-        onSnapshot(q, (snapshot) => {
-          const allItems = snapshot.docs.map((item) => ({
-            id: item.id,
-            ...item.data(),
-          }));
-          dispatch(setItems(allItems as Item[]));
-          dispatch(setLoading(false));
-        });
+        const q = query(
+          itemsRef,
+          orderBy("createdAt", "desc"),
+          limit(displayedItems)
+        );
+        const snapshot = await getDocs(q);
+        const allItems = snapshot.docs.map((item) => ({
+          id: item.id,
+          ...item.data(),
+        }));
+        dispatch(setItems(allItems as Item[]));
+        dispatch(setLoading(false));
       } catch (error) {
         dispatch(setError("Failed to fetch items"));
         dispatch(setLoading(false));
@@ -46,7 +50,12 @@ const Home = () => {
     };
 
     fetchItems();
-  }, [dispatch]);
+  }, [dispatch, displayedItems]);
+
+  // Function to fetch more items
+  const fetchMoreItems = () => {
+    setDisplayedItems((prevCount) => prevCount + 8);
+  };
 
   return (
     <>
@@ -82,7 +91,7 @@ const Home = () => {
               )}
             </div>
           </div>
-          <button className={styles["show-more-btn"]}>
+          <button className={styles["show-more-btn"]} onClick={fetchMoreItems}>
             <img src={refresh} alt="Show more" />
             Показати ще
           </button>
