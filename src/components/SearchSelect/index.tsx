@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from "react"
+import { memo, useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import {
@@ -18,6 +18,7 @@ import {
 import { RootState, useAppDispatch } from "../../redux/store"
 import CheckboxCustom from "../CheckboxCustom"
 import styles from "./SearchSelect.module.scss"
+import { filterByCountries } from "../../redux/slices/filterSlice"
 
 const Option = memo((props: OptionProps<CountryOption, boolean>) => {
   return (
@@ -35,20 +36,20 @@ const Option = memo((props: OptionProps<CountryOption, boolean>) => {
 
 interface SearchSelectProps {
   isMulti: boolean
-  countries?: CountryOption[]
-  setCountries?: (value: CountryOption[]) => void
 }
 
-const SearchSelect = ({
-  isMulti,
-  countries,
-  setCountries,
-}: SearchSelectProps) => {
+const SearchSelect = ({ isMulti }: SearchSelectProps) => {
   const { i18n } = useTranslation()
   const dispatch = useAppDispatch()
   const { selectedCountry } = useSelector((state: RootState) => state.admin)
   const { filteredItems } = useSelector((state: RootState) => state.filter)
+  const { items } = useSelector((state: RootState) => state.items)
   const [inputValue, setInputValue] = useState<string>("")
+  const [countries, setCountries] = useState<CountryOption[] | []>([])
+
+  useEffect(() => {
+    dispatch(filterByCountries({ items, countries }))
+  }, [dispatch, countries, items])
 
   // Handle language change and alphabetic order inside the country list
   const list: CountryOption[] = useMemo(() => {
