@@ -1,8 +1,8 @@
 export interface GeoType {
-  nameEng: string;
-  nameUkr: string;
-  continentEng: string;
-  continentUkr: string;
+  nameEng: string
+  nameUkr: string
+  continentEng: string
+  continentUkr: string
 }
 
 const geoList: GeoType[] = [
@@ -48,6 +48,7 @@ const geoList: GeoType[] = [
     continentEng: "North America",
     continentUkr: "Північна Америка",
   },
+
   {
     nameEng: "Antarctica",
     nameUkr: "Антарктида",
@@ -1501,6 +1502,34 @@ const geoList: GeoType[] = [
     continentEng: "Europe",
     continentUkr: "Європа",
   },
-];
+]
 
-export default geoList;
+type ContinentGroups = {
+  [continent: string]: GeoType[]
+}
+
+export function convertData(): GeoType[] {
+  const result = geoList.reduce((acc: ContinentGroups, cur: GeoType) => {
+    if (!acc[cur.continentEng]) {
+      acc[cur.continentEng] = [
+        {
+          nameEng: cur.nameEng,
+          nameUkr: cur.nameUkr,
+          continentEng: cur.continentEng,
+          continentUkr: cur.continentUkr,
+        },
+      ]
+    } else {
+      acc[cur.continentEng].push({
+        nameEng: cur.nameEng,
+        nameUkr: cur.nameUkr,
+        continentEng: cur.continentEng,
+        continentUkr: cur.continentUkr,
+      })
+    }
+    return acc
+  }, {} as ContinentGroups)
+  return Object.values(result).flat()
+}
+
+export default geoList

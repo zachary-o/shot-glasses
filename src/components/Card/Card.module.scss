@@ -28,30 +28,61 @@
     font-weight: 700;
   }
 
-  .city {
-    cursor: pointer;
-    font-size: 18px;
-    line-height: 150%;
-    margin: 0;
-    padding: 0;
+  .city-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
-    &:hover {
-      text-decoration: underline;
-      text-decoration-style: dashed;
+    .city {
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 150%;
+      margin: 0;
+      padding: 0;
+
+      &:hover {
+        text-decoration: underline;
+        text-decoration-style: dashed;
+      }
+    }
+
+    .more-info,
+    .more-info-close {
+      width: 18px;
+      height: 18px;
+      border-radius: 100%;
+      background-color: #c7c7c7;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-left: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $red;
+      }
+    }
+    .more-info-close {
+      background-color: $red;
     }
   }
 
   .tooltip {
     text-align: center;
-    padding: 8px 16px;
+    padding: 5px;
     background: #f5f3f0;
-    border: 1px dashed $red;
+    border: 1px solid #d2d0d0;
     border-radius: 5px 5px 5px 0px;
     font-style: normal;
     font-weight: 400;
-    font-size: 14px;
-    line-height: 135%;
+    font-size: 10px;
+    line-height: 13.5px;
+    background-color: #fff;
+    opacity: 1;
     color: $black;
     transform: translate(-15px, -30px);
+    cursor: pointer;
   }
 }

@@ -9,16 +9,16 @@ import {
   StylesConfig,
   components,
 } from "react-select"
-import geoList from "../../geoData"
+import geoList, { convertData } from "../../geoData"
 import {
   CountryOption,
   handleCountrySelect,
   setSelectedCountry,
 } from "../../redux/slices/adminFormSlice"
+import { filterByCountries } from "../../redux/slices/filterSlice"
 import { RootState, useAppDispatch } from "../../redux/store"
 import CheckboxCustom from "../CheckboxCustom"
 import styles from "./SearchSelect.module.scss"
-import { filterByCountries } from "../../redux/slices/filterSlice"
 
 const Option = memo((props: OptionProps<CountryOption, boolean>) => {
   return (
@@ -42,7 +42,9 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
   const { i18n } = useTranslation()
   const dispatch = useAppDispatch()
   const { selectedCountry } = useSelector((state: RootState) => state.admin)
-  const { filteredItems } = useSelector((state: RootState) => state.filter)
+  const { filteredItems, prevSelectedCountries } = useSelector(
+    (state: RootState) => state.filter
+  )
   const { items } = useSelector((state: RootState) => state.items)
   const [inputValue, setInputValue] = useState<string>("")
   const [countries, setCountries] = useState<CountryOption[] | []>([])
@@ -53,22 +55,24 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
 
   // Handle language change and alphabetic order inside the country list
   const list: CountryOption[] = useMemo(() => {
-    let sortedList: CountryOption[] = geoList.map((country) => ({
+    let sortedList: CountryOption[] = convertData().map((country: any) => ({
       label: i18n.language === "uk" ? country.nameUkr : country.nameEng,
       value: country.nameEng,
       continentUkr: country.continentUkr,
       continentEng: country.continentEng,
     }))
 
-    if (filteredItems.length > 0 && isMulti) {
-      sortedList = sortedList.filter((country) =>
-        filteredItems.some((item) => item.countryEng === country.value)
-      )
+    if (prevSelectedCountries.length > 0 && isMulti) {
+      sortedList = sortedList.filter((country: any) => {
+        // console.log("country", country)
+        return prevSelectedCountries.some(
+          (item: any) => item.countryEng === country.value
+        )
+      })
     }
 
     const locale = i18n.language === "uk" ? "uk" : "en"
     sortedList.sort((a, b) => a.label.localeCompare(b.label, locale))
-    console.log("sortedList", sortedList)
     return sortedList
   }, [i18n.language, filteredItems, geoList])
 

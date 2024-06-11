@@ -7,11 +7,11 @@ const Filter = () => {
   return (
     <div className={styles["filter-container"]}>
       <div>
-        <FilterTitle title="Континенти" isChevronVisible={true} />
+        <FilterTitle title="Континенти" />
         <Continents isMulti={true} />
       </div>
       <div>
-        <FilterTitle title="Країни" isChevronVisible={true} />
+        <FilterTitle title="Країни" />
         <SearchSelect isMulti={true} />
       </div>
     </div>

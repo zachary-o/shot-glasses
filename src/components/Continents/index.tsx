@@ -10,7 +10,11 @@ import { RootState, useAppDispatch } from "../../redux/store"
 import { useSelector } from "react-redux"
 import { useEffect, useMemo, useState } from "react"
 import geoList from "../../geoData"
-import { filterByContinents } from "../../redux/slices/filterSlice"
+import {
+  filterByContinents,
+  serPrevSelectedCountries,
+} from "../../redux/slices/filterSlice"
+import { Item } from "../../redux/slices/itemsSlice"
 
 interface ContinentsProps {
   isMulti: boolean
@@ -37,7 +41,7 @@ const Continents = ({ isMulti }: ContinentsProps) => {
       )
     )
 
-    return Array.from(uniqueContinentsSet).map((continentString) =>
+    return Array.from(uniqueContinentsSet)!.map((continentString) =>
       JSON.parse(continentString)
     )
   }, [])
@@ -65,9 +69,15 @@ const Continents = ({ isMulti }: ContinentsProps) => {
       if (continents?.some((c) => c.nameEng === nameEng)) {
         updatedContinents = continents.filter((c) => c.nameEng !== nameEng)
       } else {
-        updatedContinents = [...continents!, continent]
+        updatedContinents = [...continents, continent]
       }
-      setContinents!(updatedContinents)
+      setContinents(updatedContinents)
+      const itemsBasedOnContinents = items.filter((item: Item) =>
+        updatedContinents.some(
+          (continent) => continent.nameEng === item.continentEng
+        )
+      )
+      dispatch(serPrevSelectedCountries(itemsBasedOnContinents))
     }
   }
 

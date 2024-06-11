@@ -8,22 +8,4 @@
   color: $black;
   position: relative;
   margin-bottom: 5px;
-
-  &::after {
-    content: "";
-    background-image: url("../../assets/images/chevron_right.svg");
-    width: 24px;
-    height: 24px;
-    position: absolute;
-  }
-}
-
-.title-chevron-hidden {
-  font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 150%;
-  color: $black;
-  position: relative;
-  margin-bottom: 5px;
 }
