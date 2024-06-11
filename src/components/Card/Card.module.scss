@@ -72,7 +72,6 @@
   .tooltip {
     text-align: center;
     padding: 5px;
-    background: #f5f3f0;
     border: 1px solid #d2d0d0;
     border-radius: 5px 5px 5px 0px;
     font-style: normal;
@@ -82,7 +81,17 @@
     background-color: #fff;
     opacity: 1;
     color: $black;
+    font-weight: 600;
     transform: translate(-15px, -30px);
     cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
   }
+}
+
+.tooltip {
+  font-weight: 800;
+  color: red;
+  cursor: pointer;
 }

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Tooltip } from "react-tooltip"
 import styles from "./Card.module.scss"
+import CardModal from "./CardModal"
 
 interface CardProps {
   id?: string
@@ -16,9 +17,20 @@ interface CardProps {
   purchaseDate?: Date
 }
 
-const Card = ({ cityEng, countryEng, imageUrl }: CardProps) => {
+const Card = ({
+  cityEng,
+  cityUkr,
+  continentEng,
+  continentUkr,
+  countryEng,
+  countryUkr,
+  latitude,
+  longitude,
+  imageUrl,
+}: CardProps) => {
   const [isOpen, setIsOpen] = useState(false)
-  // console.log("isOpen", isOpen)
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  console.log("isOpen", isOpen)
 
   const truncateText = (text: string, length: number) => {
     if (text) {
@@ -30,42 +42,59 @@ const Card = ({ cityEng, countryEng, imageUrl }: CardProps) => {
   }
 
   return (
-    <div className={styles["card-container"]}>
-      <img className={styles["shotglass-image"]} src={imageUrl} alt="" />
-      <p className={styles.country}>{truncateText(countryEng, 17)}</p>
-      <div className={styles["city-container"]}>
-        <p className={styles.city}>{truncateText(cityEng, 19)}</p>
-        {isOpen ? (
-          <span
-            className={styles["more-info-close"]}
-            data-tooltip-id="city-id"
-            data-tooltip-content="Див. на карті"
-            onClick={() => setIsOpen(false)}
-          >
-            x
-          </span>
-        ) : (
-          <span
-            className={styles["more-info"]}
-            data-tooltip-id="city-id"
-            onClick={() => setIsOpen(true)}
-          >
-            i
-          </span>
-        )}
-
-        <Tooltip
-          id="city-id"
-          className={styles.tooltip}
-          noArrow
-          place="right"
-          openOnClick
-          isOpen={isOpen}
-          style={{ cursor: "pointer" }}
-          // render={}
-        />
+    <>
+      <div className={styles["card-container"]}>
+        <img className={styles["shotglass-image"]} src={imageUrl} alt="" />
+        <p className={styles.country}>{truncateText(countryEng, 17)}</p>
+        <div className={styles["city-container"]}>
+          <p className={styles.city}>{truncateText(cityEng, 19)}</p>
+          {isOpen ? (
+            <span
+              className={styles["more-info-close"]}
+              data-tooltip-id="city-id"
+              // data-tooltip-content="Див. на карті"
+              onClick={() => setIsOpen(false)}
+            >
+              x
+            </span>
+          ) : (
+            <span
+              className={styles["more-info"]}
+              // data-tooltip-id="city-id"
+              onClick={() => setIsOpen(true)}
+            >
+              i
+            </span>
+          )}
+          <Tooltip
+            id="city-id"
+            className={styles.tooltip}
+            noArrow
+            place="right"
+            imperativeModeOnly
+            openOnClick
+            isOpen={isOpen}
+            render={() => (
+              <span onClick={() => setIsOpenModal(true)}>Див. на карті</span>
+            )}
+            openEvents={{}}
+          />
+        </div>
       </div>
-    </div>
+      {isOpenModal && (
+        <CardModal
+          cityEng={cityEng}
+          cityUkr={cityUkr}
+          continentEng={continentEng}
+          continentUkr={continentUkr}
+          countryEng={countryEng}
+          countryUkr={countryUkr}
+          imageUrl={imageUrl}
+          latitude={latitude}
+          longitude={longitude}
+        />
+      )}
+    </>
   )
 }
 export default Card
