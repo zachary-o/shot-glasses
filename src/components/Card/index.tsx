@@ -1,20 +1,20 @@
-import { useState } from "react"
-import { Tooltip } from "react-tooltip"
-import styles from "./Card.module.scss"
-import CardModal from "./CardModal"
+import { useState } from "react";
+import { Tooltip } from "react-tooltip";
+import styles from "./Card.module.scss";
+import Modal from "../Modal";
 
 interface CardProps {
-  id?: string
-  cityEng: string
-  cityUkr?: string
-  continentEng?: string
-  continentUkr?: string
-  countryEng: string
-  countryUkr?: string
-  imageUrl: string
-  latitude?: string
-  longitude?: string
-  purchaseDate?: Date
+  id?: string;
+  cityEng: string;
+  cityUkr?: string;
+  continentEng?: string;
+  continentUkr?: string;
+  countryEng: string;
+  countryUkr?: string;
+  imageUrl: string;
+  latitude?: string;
+  longitude?: string;
+  purchaseDate?: Date;
 }
 
 const Card = ({
@@ -28,18 +28,19 @@ const Card = ({
   longitude,
   imageUrl,
 }: CardProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isOpenModal, setIsOpenModal] = useState(false)
-  console.log("isOpen", isOpen)
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  console.log("isOpen", isOpen);
+  console.log("isOpenModal", isOpenModal);
 
   const truncateText = (text: string, length: number) => {
     if (text) {
       if (text.length > length) {
-        return `${text.slice(0, length)}...`
+        return `${text.slice(0, length)}...`;
       }
     }
-    return text
-  }
+    return text;
+  };
 
   return (
     <>
@@ -71,18 +72,19 @@ const Card = ({
             className={styles.tooltip}
             noArrow
             place="right"
+            delayHide={0}
             imperativeModeOnly
             openOnClick
+            clickable
             isOpen={isOpen}
             render={() => (
               <span onClick={() => setIsOpenModal(true)}>Див. на карті</span>
             )}
-            openEvents={{}}
           />
         </div>
       </div>
       {isOpenModal && (
-        <CardModal
+        <Modal
           cityEng={cityEng}
           cityUkr={cityUkr}
           continentEng={continentEng}
@@ -92,9 +94,11 @@ const Card = ({
           imageUrl={imageUrl}
           latitude={latitude}
           longitude={longitude}
+          isOpenModal={isOpenModal}
+          // setIsOpenModal={setIsOpenModal}
         />
       )}
     </>
-  )
-}
-export default Card
+  );
+};
+export default Card;

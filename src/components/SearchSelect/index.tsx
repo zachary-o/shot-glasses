@@ -1,6 +1,6 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import {
   MultiValue,
   OptionProps,
@@ -8,17 +8,18 @@ import {
   SingleValue,
   StylesConfig,
   components,
-} from "react-select"
-import geoList, { convertData } from "../../geoData"
+} from "react-select";
+import geoList, { GeoType, convertData } from "../../geoData";
 import {
   CountryOption,
   handleCountrySelect,
   setSelectedCountry,
-} from "../../redux/slices/adminFormSlice"
-import { filterByCountries } from "../../redux/slices/filterSlice"
-import { RootState, useAppDispatch } from "../../redux/store"
-import CheckboxCustom from "../CheckboxCustom"
-import styles from "./SearchSelect.module.scss"
+} from "../../redux/slices/adminFormSlice";
+import { filterByCountries } from "../../redux/slices/filterSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import CheckboxCustom from "../CheckboxCustom";
+import styles from "./SearchSelect.module.scss";
+import { Item } from "../../redux/slices/itemsSlice";
 
 const Option = memo((props: OptionProps<CountryOption, boolean>) => {
   return (
@@ -31,77 +32,77 @@ const Option = memo((props: OptionProps<CountryOption, boolean>) => {
         />
       </components.Option>
     </div>
-  )
-})
+  );
+});
 
 interface SearchSelectProps {
-  isMulti: boolean
+  isMulti: boolean;
 }
 
 const SearchSelect = ({ isMulti }: SearchSelectProps) => {
-  const { i18n } = useTranslation()
-  const dispatch = useAppDispatch()
-  const { selectedCountry } = useSelector((state: RootState) => state.admin)
-  const { filteredItems, prevSelectedCountries } = useSelector(
+  const { i18n } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { selectedCountry } = useSelector((state: RootState) => state.admin);
+  const { prevSelectedCountries } = useSelector(
     (state: RootState) => state.filter
-  )
-  const { items } = useSelector((state: RootState) => state.items)
-  const [inputValue, setInputValue] = useState<string>("")
-  const [countries, setCountries] = useState<CountryOption[] | []>([])
+  );
+  const { items } = useSelector((state: RootState) => state.items);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [countries, setCountries] = useState<CountryOption[] | []>([]);
 
   useEffect(() => {
-    dispatch(filterByCountries({ items, countries }))
-  }, [dispatch, countries, items])
+    dispatch(filterByCountries({ items, countries }));
+  }, [dispatch, countries, items]);
 
   // Handle language change and alphabetic order inside the country list
   const list: CountryOption[] = useMemo(() => {
-    let sortedList: CountryOption[] = convertData().map((country: any) => ({
+    let sortedList: CountryOption[] = convertData().map((country: GeoType) => ({
       label: i18n.language === "uk" ? country.nameUkr : country.nameEng,
       value: country.nameEng,
       continentUkr: country.continentUkr,
       continentEng: country.continentEng,
-    }))
+    }));
 
     if (prevSelectedCountries.length > 0 && isMulti) {
-      sortedList = sortedList.filter((country: any) => {
+      sortedList = sortedList.filter((country: CountryOption) => {
         // console.log("country", country)
         return prevSelectedCountries.some(
-          (item: any) => item.countryEng === country.value
-        )
-      })
+          (item: Item) => item.countryEng === country.value
+        );
+      });
     }
 
-    const locale = i18n.language === "uk" ? "uk" : "en"
-    sortedList.sort((a, b) => a.label.localeCompare(b.label, locale))
-    return sortedList
-  }, [i18n.language, filteredItems, geoList])
+    const locale = i18n.language === "uk" ? "uk" : "en";
+    sortedList.sort((a, b) => a.label.localeCompare(b.label, locale));
+    return sortedList;
+  }, [prevSelectedCountries, isMulti, i18n.language]);
 
   // Handle select from the dropdown
   const handleSelect = useCallback(
     (newValue: SingleValue<CountryOption> | MultiValue<CountryOption>) => {
-      console.log("newValue", newValue)
+      console.log("newValue", newValue);
       if (isMulti) {
         if (Array.isArray(newValue)) {
-          setCountries?.(newValue)
+          setCountries?.(newValue);
         }
       } else {
-        dispatch(setSelectedCountry(newValue as SingleValue<CountryOption>))
+        dispatch(setSelectedCountry(newValue as SingleValue<CountryOption>));
         const value = geoList.find(
           (countryItem) =>
             countryItem.nameEng ===
             (newValue as SingleValue<CountryOption>)?.value
-        )
+        );
         if (value) {
-          dispatch(handleCountrySelect(value))
+          dispatch(handleCountrySelect(value));
         }
       }
     },
     [dispatch, isMulti, setCountries]
-  )
+  );
 
   const handleInputChange = (newValue: string) => {
-    setInputValue(newValue)
-  }
+    setInputValue(newValue);
+  };
 
   return (
     <div className={styles["search-select"]}>
@@ -118,10 +119,10 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
         placeholder="Пошук"
       />
     </div>
-  )
-}
+  );
+};
 
-export default SearchSelect
+export default SearchSelect;
 
 // Styles
 const customStyles: StylesConfig<CountryOption, true> = {
@@ -219,4 +220,4 @@ const customStyles: StylesConfig<CountryOption, true> = {
     ...provided,
     display: state.isFocused ? "none" : "",
   }),
-}
+};
