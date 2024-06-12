@@ -1,74 +1,85 @@
-import { Icon } from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { useRef } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import pin from "../../assets/images/pin.png";
-import styles from "./Modal.module.scss";
+import "leaflet/dist/leaflet.css"
+import { useCallback, useEffect, useRef } from "react"
+import ButtonCustom from "../ButtonCustom"
+import Map from "../Map"
+import styles from "./Modal.module.scss"
 
 interface ModalProps {
-  cityEng: string;
-  cityUkr?: string;
-  continentEng?: string;
-  continentUkr?: string;
-  countryEng: string;
-  countryUkr?: string;
-  imageUrl: string;
-  latitude?: string;
-  longitude?: string;
-  isOpenModal?: boolean;
-  // setIsOpenModal: (isOpen: boolean) => void;
+  cityEng: string
+  cityUkr: string
+  continentEng?: string
+  continentUkr?: string
+  countryEng: string
+  countryUkr?: string
+  imageUrl: string
+  latitude: string
+  longitude: string
+  isOpenModal?: boolean
+  setIsOpenModal: (isOpen: boolean) => void
 }
+
 const Modal = ({
-  // cityUkr,
+  latitude,
+  longitude,
   isOpenModal,
   cityEng,
-}: // setIsOpenModal,
+  cityUkr,
+  setIsOpenModal,
+}: ModalProps) => {
+  const contentRef = useRef<HTMLDivElement>(null)
 
-//   cityUkr,
-//   continentEng,
-//   continentUkr,
-//   countryEng,
-//   countryUkr,
-//   imageUrl,
-//   latitude,
-//   longitude,
-ModalProps) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  // Function to close the modal if click is outside modal content
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (
+        contentRef.current &&
+        !contentRef.current.contains(event.target as Node)
+      ) {
+        setIsOpenModal(false)
+      }
+    },
+    [setIsOpenModal]
+  )
 
-  if (isOpenModal) {
-    document.body.classList.add("active-modal");
-  } else {
-    document.body.classList.remove("active-modal");
-  }
+  useEffect(() => {
+    if (isOpenModal) {
+      document.body.classList.add("active-modal")
+      document.addEventListener("mousedown", handleClickOutside)
+    } else {
+      document.body.classList.remove("active-modal")
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
 
-  const marker = {
-    geocode: [48.8566, 2.3522],
-  };
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [isOpenModal, handleClickOutside])
 
-  const icon = new Icon({
-    iconUrl: pin,
-    size: [30, 30],
-  });
+  // const mapStyles = { height: 400, width: 600 }
 
   return (
-    <div className={styles.modal} ref={modalRef}>
+    <div className={styles.modal}>
       <div className={styles.overlay}></div>
-      <div className={styles["modal-content"]}>
-        <MapContainer
-          center={[48.85, 2.35]}
-          zoom={6}
-          style={{ height: 400, width: 600 }}
+      <div className={styles["modal-content"]} ref={contentRef}>
+        <ButtonCustom
+          type="button"
+          onClick={() => setIsOpenModal(false)}
+          className={styles["modal-close"]}
         >
-          <TileLayer url="https://tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <Marker position={marker.geocode} icon={icon}>
-            <Popup>
-              <h2>{cityEng}</h2>
-            </Popup>
-          </Marker>
-        </MapContainer>
+          x
+        </ButtonCustom>
+        <Map
+          cityEng={cityEng}
+          cityUkr={cityUkr}
+          latitude={latitude}
+          longitude={longitude}
+          isMulti={false}
+          zoom={6}
+        />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal

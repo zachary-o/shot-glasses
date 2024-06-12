@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { Tooltip } from "react-tooltip";
-import styles from "./Card.module.scss";
-import Modal from "../Modal";
+import { useState } from "react"
+import { Tooltip } from "react-tooltip"
+import styles from "./Card.module.scss"
+import Modal from "../Modal"
 
 interface CardProps {
-  id?: string;
-  cityEng: string;
-  cityUkr?: string;
-  continentEng?: string;
-  continentUkr?: string;
-  countryEng: string;
-  countryUkr?: string;
-  imageUrl: string;
-  latitude?: string;
-  longitude?: string;
-  purchaseDate?: Date;
+  id?: string
+  cityEng: string
+  cityUkr: string
+  continentEng?: string
+  continentUkr?: string
+  countryEng: string
+  countryUkr?: string
+  imageUrl: string
+  latitude: string
+  longitude: string
+  purchaseDate?: Date
 }
 
 const Card = ({
@@ -28,19 +28,19 @@ const Card = ({
   longitude,
   imageUrl,
 }: CardProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  console.log("isOpen", isOpen);
-  console.log("isOpenModal", isOpenModal);
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  // console.log("isOpen", isOpen)
+  // console.log("isOpenModal", isOpenModal)
 
   const truncateText = (text: string, length: number) => {
     if (text) {
       if (text.length > length) {
-        return `${text.slice(0, length)}...`;
+        return `${text.slice(0, length)}...`
       }
     }
-    return text;
-  };
+    return text
+  }
 
   return (
     <>
@@ -78,7 +78,14 @@ const Card = ({
             clickable
             isOpen={isOpen}
             render={() => (
-              <span onClick={() => setIsOpenModal(true)}>Див. на карті</span>
+              <span
+                onClick={() => {
+                  setIsOpen(false)
+                  setIsOpenModal(true)
+                }}
+              >
+                Див. на карті
+              </span>
             )}
           />
         </div>
@@ -95,10 +102,10 @@ const Card = ({
           latitude={latitude}
           longitude={longitude}
           isOpenModal={isOpenModal}
-          // setIsOpenModal={setIsOpenModal}
+          setIsOpenModal={setIsOpenModal}
         />
       )}
     </>
-  );
-};
-export default Card;
+  )
+}
+export default Card

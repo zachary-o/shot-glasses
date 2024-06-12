@@ -6,7 +6,7 @@ import styles from "./Header.module.scss"
 import { onAuthStateChanged } from "firebase/auth"
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {
   loginWithGoogle,
   logoutUser,
@@ -93,12 +93,13 @@ const Header = () => {
 
           {/* RIGHT PART OF THE HEADER */}
           <div className={styles["header-right"]}>
-            <p
+            <Link
+              to="/dashboard"
               className={styles["header-map"]}
               // style={{ marginRight: isActiveSearch ? "4px" : "" }}
             >
               Карта
-            </p>
+            </Link>
             <Search
               className={
                 isActiveSearch

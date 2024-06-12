@@ -84,14 +84,9 @@
     font-weight: 600;
     transform: translate(-15px, -30px);
     cursor: pointer;
+
     &:hover {
       text-decoration: underline;
     }
   }
-}
-
-.tooltip {
-  font-weight: 800;
-  color: red;
-  cursor: pointer;
 }
