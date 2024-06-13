@@ -22,6 +22,7 @@ import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./Admin.module.scss"
 import "./datePickerStyles.scss"
 import { Timestamp } from "firebase/firestore"
+import { Tooltip } from "react-tooltip"
 
 const Admin = () => {
   const dispatch = useAppDispatch()
@@ -103,13 +104,27 @@ const Admin = () => {
                   onChange={(value) => dispatch(handleLatitudeChange(value))}
                   name="latitude"
                 />
-                <TextfieldCustom
-                  placeholder="Довгота"
-                  required={true}
-                  value={longitude}
-                  onChange={(value) => dispatch(handleLongitudeChange(value))}
-                  name="longitude"
-                />
+                <div className={styles.longitude}>
+                  <span className={styles.info} data-tooltip-id="longitude-id">
+                    i
+                  </span>
+                  <TextfieldCustom
+                    placeholder="Довгота"
+                    required={true}
+                    value={longitude}
+                    onChange={(value) => dispatch(handleLongitudeChange(value))}
+                    name="longitude"
+                  />
+                  <Tooltip
+                    className={styles["longitude-tooltip"]}
+                    id="longitude-id"
+                    noArrow
+                    place="right"
+                    delayHide={0}
+                    render={() => <TooltipChild />}
+                  />
+                </div>
+
                 <DatePicker
                   selected={purchaseDate}
                   onChange={(date) => dispatch(handleDateChange(date))}
@@ -140,3 +155,13 @@ const Admin = () => {
 }
 
 export default Admin
+
+const TooltipChild = () => {
+  return (
+    <p>
+      If the location is in the Western Hemisphere (west of the Prime Meridian),
+      you must put a "-" (negative sign) before the longitude value. For
+      example, for Dallas, USA, the longitude should be entered as "-96.7970".
+    </p>
+  )
+}

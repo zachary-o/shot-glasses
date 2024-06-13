@@ -3,35 +3,35 @@ import { useFetchItems } from "../../firebase/useFetchItems"
 import { RootState } from "../../redux/store"
 import styles from "./Dashboard.module.scss"
 import Loader from "../../components/Loader"
+import Map from "../../components/Map"
+import PieChartCustom from "../../components/Highcharts/Piechart"
 
 const Dashboard = () => {
   useFetchItems()
   const { loading, items } = useSelector((state: RootState) => state.items)
 
-  //   const mapItems = items.map((item) => {
-  //     return {
-  //       latitude: item.latitude,
-  //       longitude: item.longitude,
-  //       cityEng: item.cityEng,
-  //       cityUkr: item.cityUkr,
-  //     }
-  //   })
-
-  console.log("Dashboard", items)
+  const customStyles = {
+    width: "100%",
+    height: "540px",
+    borderRadius: "10px",
+    backgroundColor: "none",
+    marginBottom: "40px",
+  }
 
   return (
     <>
       {loading && <Loader />}
       <div className="container">
         <h4 className={styles["dashboard-title"]}>Статистика по світу</h4>
-        {/* <Map
-          cityEng={mapItems[0].cityEng}
-          cityUkr={mapItems[0].cityUkr}
-          latitude={mapItems[0].latitude}
-          longitude={mapItems[0].longitude}
+        <Map
           isMulti={false}
-          zoom={1}
-        /> */}
+          zoom={2}
+          items={items}
+          customStyles={customStyles}
+        />
+        <div className={styles["highcharts-container"]}>
+          <PieChartCustom />
+        </div>
       </div>
     </>
   )

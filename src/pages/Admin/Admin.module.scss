@@ -1,3 +1,5 @@
+@import "../../scss/variables";
+
 .admin-title {
   font-style: normal;
   font-weight: 700;
@@ -31,6 +33,50 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+
+        .longitude {
+          position: relative;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .info {
+            position: absolute;
+            bottom: 40%;
+            left: -20%;
+            width: 18px;
+            height: 18px;
+            border-radius: 100%;
+            background-color: #c7c7c7;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 5px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: $red;
+            }
+          }
+
+          .longitude-tooltip {
+            max-width: 400px;
+            padding: 5px;
+            border: 1px solid #d2d0d0;
+            border-radius: 5px 5px 5px 0px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 10px;
+            line-height: 13.5px;
+            background-color: #fff;
+            opacity: 1;
+            color: $black;
+            font-weight: 600;
+            transform: translate(-15px, -40px);
+          }
+        }
       }
     }
   }

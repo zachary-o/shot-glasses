@@ -56,7 +56,7 @@ const Modal = ({
     }
   }, [isOpenModal, handleClickOutside])
 
-  // const mapStyles = { height: 400, width: 600 }
+  const customStyles = { height: 400, width: 600 }
 
   return (
     <div className={styles.modal}>
@@ -76,6 +76,7 @@ const Modal = ({
           longitude={longitude}
           isMulti={false}
           zoom={6}
+          customStyles={customStyles}
         />
       </div>
     </div>

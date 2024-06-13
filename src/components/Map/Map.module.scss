@@ -1,0 +1,13 @@
+@import "../../scss/variables";
+
+.custom-marker-cluster {
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  background-color: $red;
+  border: 1px solid $light-black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
