@@ -5,6 +5,7 @@ import styles from "./Dashboard.module.scss"
 import Loader from "../../components/Loader"
 import Map from "../../components/Map"
 import PieChartCustom from "../../components/Highcharts/Piechart"
+import BarChartCustom from "../../components/Highcharts/Barchart"
 
 const Dashboard = () => {
   useFetchItems()
@@ -31,7 +32,7 @@ const Dashboard = () => {
         />
         <div className={styles["highcharts-container"]}>
           <PieChartCustom />
-          <PieChartCustom />
+          <BarChartCustom />
         </div>
       </div>
     </>
