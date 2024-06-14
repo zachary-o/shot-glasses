@@ -31,6 +31,7 @@ const Dashboard = () => {
         />
         <div className={styles["highcharts-container"]}>
           <PieChartCustom />
+          <PieChartCustom />
         </div>
       </div>
     </>

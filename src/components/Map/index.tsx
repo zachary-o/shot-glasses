@@ -3,6 +3,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
 import MarkerClusterGroup from "react-leaflet-cluster"
 import pin from "../../assets/images/pin.png"
 import { Item } from "../../redux/slices/itemsSlice"
+import styles from "./Map.module.scss"
 
 interface CustomStyles {
   width: number | string
@@ -43,8 +44,8 @@ MapProps) => {
 
   const createCustomClusterIcon = (cluster: any) => {
     return L.divIcon({
-      html: `<div><span>${cluster.getChildCount()}</span></div>`,
-      className: "custom-cluster-icon",
+      html: `<span>${cluster.getChildCount()}</span>`,
+      className: `${styles["custom-marker-cluster"]}`,
       iconSize: L.point(40, 40),
     })
   }
