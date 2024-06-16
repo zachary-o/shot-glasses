@@ -93,7 +93,11 @@ const Home = () => {
           </div>
           <div className={styles.content}>
             <Filter />
-            <div className={filteredItems.length === 0 ? "" : styles.cards}>
+            <div
+              className={
+                filteredItems.length === 0 ? styles["no-items"] : styles.cards
+              }
+            >
               {loading ? (
                 [...Array(8)].map((_, index) => <Skeleton key={index} />)
               ) : filteredItems.length === 0 ? (
@@ -104,7 +108,7 @@ const Home = () => {
                     alt="No results"
                   />
                   <h2 className={styles["no-items-header"]}>
-                    No shot glasses found
+                    {t("homePage.noItems")}
                   </h2>
                 </div>
               ) : (
@@ -123,10 +127,15 @@ const Home = () => {
               )}
             </div>
           </div>
-          <button className={styles["show-more-btn"]} onClick={fetchMoreItems}>
-            <img src={refresh} alt="Show more" />
-            {t("homePage.showMore")}
-          </button>
+          {filteredItems.length > 1 && (
+            <button
+              className={styles["show-more-btn"]}
+              onClick={fetchMoreItems}
+            >
+              <img src={refresh} alt="Show more" />
+              {t("homePage.showMore")}
+            </button>
+          )}
         </div>
       </div>
     </>

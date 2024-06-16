@@ -88,7 +88,7 @@ const Header = () => {
               <>
                 <AdminOnlyLink>
                   <ButtonCustom
-                    className={styles.admin}
+                    className={location.pathname === "/admin" ? styles.hidden : styles.admin}
                     onClick={() => navigate("/admin")}
                     children={t("header.admin")}
                   />

@@ -71,8 +71,6 @@
         line-height: 150%;
       }
 
-      
-
       .login {
         border: none;
         padding: 10px 20px;
@@ -108,6 +106,11 @@
           border: 2px solid $red;
           border-radius: 10px;
         }
+      }
+
+      .hidden {
+        visibility: hidden;
+        width: 146px;
       }
     }
   }
