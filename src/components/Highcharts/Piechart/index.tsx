@@ -1,35 +1,46 @@
-import PieChart from "highcharts-react-official"
-import Highcharts from "highcharts/highstock"
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { Item } from "../../../redux/slices/itemsSlice"
-import { RootState } from "../../../redux/store"
-import styles from "./Piechart.module.scss"
+import PieChart from "highcharts-react-official";
+import Highcharts from "highcharts/highstock";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { Item } from "../../../redux/slices/itemsSlice";
+import { RootState } from "../../../redux/store";
+import styles from "./Piechart.module.scss";
+
+interface PieChartDataItem {
+  nameEng: string;
+  nameUkr: string;
+  count: number;
+}
 
 const PieChartCustom = () => {
-  const { items } = useSelector((state: RootState) => state.items)
-  const [pieChartData, setPieChartData] = useState([])
+  const { t, i18n } = useTranslation();
+  const { items } = useSelector((state: RootState) => state.items);
+  const [pieChartData, setPieChartData] = useState<PieChartDataItem[] | []>([]);
 
   useEffect(() => {
     const calculatePieChartData = () => {
-      const result = items.reduce((acc: any, obj: Item) => {
-        if (!acc[obj.continentEng]) {
-          acc[obj.continentEng] = {
-            nameEng: obj.continentEng,
-            nameUkr: obj.continentUkr,
-            count: 1,
+      const result = items.reduce<Record<string, PieChartDataItem>>(
+        (acc, obj: Item) => {
+          if (!acc[obj.continentEng]) {
+            acc[obj.continentEng] = {
+              nameEng: obj.continentEng,
+              nameUkr: obj.continentUkr,
+              count: 1,
+            };
+          } else {
+            acc[obj.continentEng].count += 1;
           }
-        } else {
-          acc[obj.continentEng].count += 1
-        }
 
-        return acc
-      }, {})
+          return acc;
+        },
+        {}
+      );
 
-      setPieChartData(Object.values(result))
-    }
-    calculatePieChartData()
-  }, [items])
+      setPieChartData(Object.values(result));
+    };
+    calculatePieChartData();
+  }, [items]);
 
   const piechartOptions = {
     chart: {
@@ -40,7 +51,7 @@ const PieChartCustom = () => {
       height: 350,
     },
     title: {
-      text: "Статистика по континентам",
+      text: t("dashboard.continentsStats"),
       align: "left",
       verticalAlign: "top",
       style: {
@@ -67,11 +78,11 @@ const PieChartCustom = () => {
     series: [
       {
         name: "Continents",
-        data: pieChartData.map((item: any) => {
+        data: pieChartData.map((item: PieChartDataItem) => {
           return {
-            name: item.nameEng,
+            name: i18n.language === "uk" ? item.nameUkr : item.nameEng,
             y: item.count,
-          }
+          };
         }),
       },
     ],
@@ -90,13 +101,13 @@ const PieChartCustom = () => {
       headerFormat: "",
       pointFormat: "{point.name}: <b>{point.y}</b>",
     },
-  }
+  };
 
   return (
     <div className={styles["piechart-container"]}>
       <PieChart highcharts={Highcharts} options={piechartOptions} />
     </div>
-  )
-}
+  );
+};
 
-export default PieChartCustom
+export default PieChartCustom;

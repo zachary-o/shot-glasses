@@ -1,70 +1,41 @@
-import { useEffect, useRef, useState } from "react"
-import search from "../../assets/images/search-red.svg"
-import { auth } from "../../firebase/config"
-import styles from "./Header.module.scss"
+import { useEffect } from "react";
+import { auth } from "../../firebase/config";
+import styles from "./Header.module.scss";
 
-import { onAuthStateChanged } from "firebase/auth"
-import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
+import { onAuthStateChanged } from "firebase/auth";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   loginWithGoogle,
   logoutUser,
   setActiveUser,
-} from "../../redux/slices/authSlice"
-import { RootState, useAppDispatch } from "../../redux/store"
-import { AdminOnlyLink } from "../AdminOnlyRoute"
-import ButtonCustom from "../ButtonCustom"
-import Search from "../Search"
-import { filterBySearch } from "../../redux/slices/filterSlice"
+} from "../../redux/slices/authSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { AdminOnlyLink } from "../AdminOnlyRoute";
+import ButtonCustom from "../ButtonCustom";
+import { resetForm } from "../../redux/slices/adminFormSlice";
 
 const Header = () => {
-  const { i18n } = useTranslation()
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth)
-  const { items } = useSelector((state: RootState) => state.items)
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const searchRef = useRef<HTMLInputElement>(null)
-  const [isActiveSearch, setIsActiveSearch] = useState(false)
-  const [searchValue, setSearchValue] = useState("")
+  const { t, i18n } = useTranslation();
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useAppDispatch();
 
   // Change language
-  const handleCheckFlagLanguage = (lang: string) => {
-    i18n.changeLanguage(lang)
-  }
+  const handleChangelLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   // Monitor currently signed in user
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(setActiveUser(user))
+        dispatch(setActiveUser(user));
       }
-    })
-  }, [dispatch])
-
-  // Toggles search input when clicking outside or on it
-  useEffect(() => {
-    const handleSearchClick = (event: MouseEvent) => {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target as Node)
-      ) {
-        setIsActiveSearch(false)
-        setSearchValue("")
-      }
-    }
-
-    document.body.addEventListener("click", handleSearchClick)
-
-    return () => {
-      document.body.removeEventListener("click", handleSearchClick)
-    }
-  }, [isActiveSearch])
-
-  // Search
-  useEffect(() => {
-    dispatch(filterBySearch({ items, searchValue }))
-  }, [dispatch, searchValue, items])
+    });
+  }, [dispatch]);
 
   return (
     <div className={styles.header}>
@@ -72,86 +43,74 @@ const Header = () => {
         {/* LEFT PART OF THE HEADER */}
         <div className={styles["header-inner"]}>
           <div className={styles["header-left"]}>
-            <h3 className={styles.logo} onClick={() => navigate("/")}>
-              Рюмки
+            <h3
+              className={styles.logo}
+              onClick={() => {
+                navigate("/");
+                dispatch(resetForm());
+              }}
+            >
+              {t("header.logo")}
             </h3>
             <div className={styles.languages}>
               <button
                 className={i18n?.language === "en" ? styles.active : ""}
-                onClick={() => handleCheckFlagLanguage("en")}
+                onClick={() => {
+                  handleChangelLanguage("en");
+                  dispatch(resetForm());
+                }}
               >
                 EN
               </button>
               <button
                 className={i18n?.language === "uk" ? styles.active : ""}
-                onClick={() => handleCheckFlagLanguage("uk")}
+                onClick={() => {
+                  handleChangelLanguage("uk");
+                  dispatch(resetForm());
+                }}
               >
                 УКР
               </button>
             </div>
           </div>
-
-          {/* RIGHT PART OF THE HEADER */}
-          <div className={styles["header-right"]}>
+          {location.pathname !== "/dashboard" && (
             <Link
               to="/dashboard"
-              className={styles["header-map"]}
-              // style={{ marginRight: isActiveSearch ? "4px" : "" }}
+              className={styles["header-dashboard"]}
+              onClick={() => dispatch(resetForm())}
             >
-              Карта
+              {t("header.dashboard")}
             </Link>
-            <Search
-              className={
-                isActiveSearch
-                  ? styles["search-input"]
-                  : styles["search-input-inactive"]
-              }
-              ref={searchRef}
-              onClick={(event) => {
-                event.stopPropagation()
-              }}
-              spellCheck={false}
-              value={searchValue}
-              onChange={setSearchValue}
-            />
-            <img
-              className={styles.search}
-              style={{ display: isActiveSearch ? "none" : "" }}
-              src={search}
-              alt="Search"
-              onClick={(e) => {
-                setIsActiveSearch(true)
-                searchRef.current?.focus()
-                e.stopPropagation()
-              }}
-            />
+          )}
+          {/* RIGHT PART OF THE HEADER */}
+          <div className={styles["header-right"]}>
             {isLoggedIn ? (
               <>
                 <AdminOnlyLink>
                   <ButtonCustom
                     className={styles.admin}
                     onClick={() => navigate("/admin")}
-                    children={"Admin"}
+                    children={t("header.admin")}
                   />
                 </AdminOnlyLink>
                 <ButtonCustom
                   className={styles.login}
                   onClick={() => dispatch(logoutUser())}
-                  children={"Logout"}
+                  children={t("header.logout")}
                 />
               </>
             ) : (
               <ButtonCustom
                 className={styles.login}
                 onClick={() => dispatch(loginWithGoogle())}
-                children={"Login"}
+                children={t("header.login")}
               />
             )}
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

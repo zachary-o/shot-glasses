@@ -1,15 +1,17 @@
-import { useSelector } from "react-redux"
-import { useFetchItems } from "../../firebase/useFetchItems"
-import { RootState } from "../../redux/store"
-import styles from "./Dashboard.module.scss"
-import Loader from "../../components/Loader"
-import Map from "../../components/Map"
-import PieChartCustom from "../../components/Highcharts/Piechart"
-import BarChartCustom from "../../components/Highcharts/Barchart"
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import BarChartCustom from "../../components/Highcharts/BarChart";
+import PieChartCustom from "../../components/Highcharts/PieChart";
+import Loader from "../../components/Loader";
+import Map from "../../components/Map";
+import { useFetchItems } from "../../firebase/useFetchItems";
+import { RootState } from "../../redux/store";
+import styles from "./Dashboard.module.scss";
 
 const Dashboard = () => {
-  useFetchItems()
-  const { loading, items } = useSelector((state: RootState) => state.items)
+  const { t } = useTranslation();
+  useFetchItems();
+  const { loading, items } = useSelector((state: RootState) => state.items);
 
   const customStyles = {
     width: "100%",
@@ -17,13 +19,13 @@ const Dashboard = () => {
     borderRadius: "10px",
     backgroundColor: "none",
     marginBottom: "40px",
-  }
+  };
 
   return (
     <>
       {loading && <Loader />}
       <div className="container">
-        <h4 className={styles["dashboard-title"]}>Статистика по світу</h4>
+        <h4 className={styles["dashboard-title"]}>{t("dashboard.title")}</h4>
         <Map
           isMulti={false}
           zoom={2}
@@ -36,7 +38,7 @@ const Dashboard = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

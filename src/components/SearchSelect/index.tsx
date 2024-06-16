@@ -16,10 +16,10 @@ import {
   setSelectedCountry,
 } from "../../redux/slices/adminFormSlice";
 import { filterByCountries } from "../../redux/slices/filterSlice";
+import { Item } from "../../redux/slices/itemsSlice";
 import { RootState, useAppDispatch } from "../../redux/store";
 import CheckboxCustom from "../CheckboxCustom";
 import styles from "./SearchSelect.module.scss";
-import { Item } from "../../redux/slices/itemsSlice";
 
 const Option = memo((props: OptionProps<CountryOption, boolean>) => {
   return (
@@ -40,7 +40,8 @@ interface SearchSelectProps {
 }
 
 const SearchSelect = ({ isMulti }: SearchSelectProps) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+
   const dispatch = useAppDispatch();
   const { selectedCountry } = useSelector((state: RootState) => state.admin);
   const { prevSelectedCountries } = useSelector(
@@ -116,7 +117,7 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
         inputValue={inputValue}
         onInputChange={handleInputChange}
         styles={customStyles}
-        placeholder="Пошук"
+        placeholder={t("homePage.placeholder")}
       />
     </div>
   );

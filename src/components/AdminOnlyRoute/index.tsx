@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store";
@@ -10,6 +11,7 @@ interface AdminOnlyRouteProps {
 }
 
 const AdminOnlyRoute = ({ children }: AdminOnlyRouteProps) => {
+  const { t } = useTranslation();
   const { email } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
@@ -18,12 +20,12 @@ const AdminOnlyRoute = ({ children }: AdminOnlyRouteProps) => {
   }
   return (
     <div className="container">
-      <h2>Permission denied.</h2>
-      <p>This page can only be viewed by an Admin.</p>
+      <h2>{t("adminRoute.permissionDenied")}</h2>
+      <p>{t("adminRoute.textInfo")}</p>
       <br />
       <ButtonCustom
         className={styles.admin}
-        children="Go back"
+        children={t("adminRoute.backBtn")}
         onClick={() => navigate("/")}
       />
     </div>

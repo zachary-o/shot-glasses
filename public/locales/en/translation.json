@@ -1,6 +1,61 @@
 {
+  "header": {
+    "logo": "Shot glasses",
+    "dashboard": "Dashboard",
+    "admin": "Admin",
+    "logout": "Logout",
+    "login": "Login"
+  },
   "homePage": {
-    "title": "Shot glasses from all over the world!"
+    "title": "Shot glasses from all over the world!",
+    "total": "Total",
+    "placeholder": "Search...",
+    "noItems": "No shot glasses found",
+    "showMore": "Show more"
+  },
+  "dashboard": {
+    "title": "World statistics",
+    "continentsStats": "Statistics by continent",
+    "countriesStats": "TOP 10 countries"
+  },
+  "admin": {
+    "addItem": "Add a new shot glass",
+    "additionalInfo": "Additional Info",
+    "cityEng": "City in English",
+    "cityUkr": "City in Ukrainian",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "purchaseDate": "Purchase date",
+    "uploadBtn": "Upload",
+    "tooltip": "If the location is in the Western Hemisphere (west of the Prime Meridian), you must put a \"-\" (negative sign) before the longitude value. For example, for Dallas, USA, the longitude should be entered as \"-96.7970\"."
+  },
+  "uploader": {
+    "pleaseUpload": "Please upload an image",
+    "dropFiles": "Drop the files here...",
+    "bro": "Bro, drag and drop files here or",
+    "click": "click to upload"
+  },
+  "filter": {
+    "continentsHeader": "Continents",
+    "countriesHeader": "Countries"
+  },
+  "adminRoute": {
+    "permissionDenied": "Permission denied.",
+    "textInfo": "This page can only be viewed by an Admin.",
+    "backBtn": "Back"
+  },
+  "card": {
+    "tooltip": "Look on the map"
+  },
+  "toast": {
+    "imgUploadErr": "Error occurred while uploading an image",
+    "imgUploadSuccess": "Image uploaded successfully",
+    "itemUploadSuccess": "Item uploaded successfully",
+    "itemUploadErr": "Error occurred while uploading an item",
+    "loginSuccess": "Login successful",
+    "loginErr": "Login failed",
+    "logoutSuccess": "Logout success",
+    "logoutErr": "Logout failed"
   },
 
   "continent": {

@@ -1,14 +1,17 @@
-import { FormEvent } from "react"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-import { useSelector } from "react-redux"
-import ButtonCustom from "../../components/ButtonCustom"
-import Continents from "../../components/Continents"
-import FilterTitle from "../../components/FilterTitle"
-import Loader from "../../components/Loader"
-import SearchSelect from "../../components/SearchSelect"
-import TextfieldCustom from "../../components/TextfieldCustom"
-import UploadCustom from "../../components/UploadCustom"
+import { Timestamp } from "firebase/firestore";
+import { FormEvent } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { Tooltip } from "react-tooltip";
+import ButtonCustom from "../../components/ButtonCustom";
+import Continents from "../../components/Continents";
+import FilterTitle from "../../components/FilterTitle";
+import Loader from "../../components/Loader";
+import SearchSelect from "../../components/SearchSelect";
+import TextfieldCustom from "../../components/TextfieldCustom";
+import UploadCustom from "../../components/UploadCustom";
 import {
   addItem,
   handleCityEngChange,
@@ -17,15 +20,14 @@ import {
   handleLatitudeChange,
   handleLongitudeChange,
   uploadImage,
-} from "../../redux/slices/adminFormSlice"
-import { RootState, useAppDispatch } from "../../redux/store"
-import styles from "./Admin.module.scss"
-import "./datePickerStyles.scss"
-import { Timestamp } from "firebase/firestore"
-import { Tooltip } from "react-tooltip"
+} from "../../redux/slices/adminFormSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import styles from "./Admin.module.scss";
+import "./datePickerStyles.scss";
 
 const Admin = () => {
-  const dispatch = useAppDispatch()
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const {
     cityEng,
     cityUkr,
@@ -42,10 +44,10 @@ const Admin = () => {
     selectedCountry,
     uploadProgress,
     isLoading,
-  } = useSelector((state: RootState) => state.admin)
+  } = useSelector((state: RootState) => state.admin);
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     dispatch(
       addItem({
         cityEng,
@@ -65,40 +67,40 @@ const Admin = () => {
         uploadProgress,
         isLoading,
       })
-    )
-  }
+    );
+  };
 
   const handleImageUpload = (file: File[]) => {
-    dispatch(uploadImage(file[0]))
-  }
+    dispatch(uploadImage(file[0]));
+  };
 
   return (
     <>
       {isLoading && <Loader />}
       <div className="container">
-        <h4 className={styles["admin-title"]}>Додати новеньку рюмочку</h4>
+        <h4 className={styles["admin-title"]}>{t("admin.addItem")}</h4>
         <form className={styles["admin-inner"]} onSubmit={handleFormSubmit}>
           <UploadCustom onImageUpload={handleImageUpload} />
           <div className={styles["admin-right"]}>
             <div className={styles.inputs}>
               <div className={styles.textfields}>
-                <FilterTitle title="Additional info" />
+                <FilterTitle title={t("admin.additionalInfo")} />
                 <TextfieldCustom
-                  placeholder="Місто англійською"
+                  placeholder={t("admin.cityEng")}
                   required={true}
                   value={cityEng}
                   onChange={(value) => dispatch(handleCityEngChange(value))}
                   name="cityEng"
                 />
                 <TextfieldCustom
-                  placeholder="Місто українською"
+                  placeholder={t("admin.cityUkr")}
                   required={true}
                   value={cityUkr}
                   onChange={(value) => dispatch(handleCityUkrChange(value))}
                   name="cityUkr"
                 />
                 <TextfieldCustom
-                  placeholder="Широта"
+                  placeholder={t("admin.latitude")}
                   required={true}
                   value={latitude}
                   onChange={(value) => dispatch(handleLatitudeChange(value))}
@@ -109,7 +111,7 @@ const Admin = () => {
                     i
                   </span>
                   <TextfieldCustom
-                    placeholder="Довгота"
+                    placeholder={t("admin.longitude")}
                     required={true}
                     value={longitude}
                     onChange={(value) => dispatch(handleLongitudeChange(value))}
@@ -130,38 +132,34 @@ const Admin = () => {
                   onChange={(date) => dispatch(handleDateChange(date))}
                   className={styles["custom-datepicker"]}
                   dateFormat="dd/MM/yyyy"
-                  placeholderText={"Дата покупки"}
+                  placeholderText={t("admin.purchaseDate")}
                 />
               </div>
               <div>
-                <FilterTitle title="Країнa" />
+                <FilterTitle title={t("filter.countriesHeader")} />
                 <SearchSelect isMulti={false} />
               </div>
               <div>
-                <FilterTitle title="Континент" />
+                <FilterTitle title={t("filter.continentsHeader")} />
                 <Continents isMulti={false} />
               </div>
             </div>
             <ButtonCustom
               type="submit"
-              children="Upload"
+              children={t("admin.uploadBtn")}
               className={styles["upload-btn"]}
             />
           </div>
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;
 
 const TooltipChild = () => {
-  return (
-    <p>
-      If the location is in the Western Hemisphere (west of the Prime Meridian),
-      you must put a "-" (negative sign) before the longitude value. For
-      example, for Dallas, USA, the longitude should be entered as "-96.7970".
-    </p>
-  )
-}
+  const { t } = useTranslation();
+
+  return <p>{t("admin.tooltip")}</p>;
+};

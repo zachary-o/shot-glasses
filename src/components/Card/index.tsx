@@ -1,20 +1,21 @@
-import { useState } from "react"
-import { Tooltip } from "react-tooltip"
-import styles from "./Card.module.scss"
-import Modal from "../Modal"
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Tooltip } from "react-tooltip";
+import Modal from "../Modal";
+import styles from "./Card.module.scss";
 
 interface CardProps {
-  id?: string
-  cityEng: string
-  cityUkr: string
-  continentEng?: string
-  continentUkr?: string
-  countryEng: string
-  countryUkr?: string
-  imageUrl: string
-  latitude: string
-  longitude: string
-  purchaseDate?: Date
+  id?: string;
+  cityEng: string;
+  cityUkr: string;
+  continentEng?: string;
+  continentUkr?: string;
+  countryEng: string;
+  countryUkr?: string;
+  imageUrl: string;
+  latitude: string;
+  longitude: string;
+  purchaseDate?: Date;
 }
 
 const Card = ({
@@ -28,32 +29,35 @@ const Card = ({
   longitude,
   imageUrl,
 }: CardProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isOpenModal, setIsOpenModal] = useState(false)
-  // console.log("isOpen", isOpen)
-  // console.log("isOpenModal", isOpenModal)
+  const { t, i18n } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   const truncateText = (text: string, length: number) => {
     if (text) {
       if (text.length > length) {
-        return `${text.slice(0, length)}...`
+        return `${text.slice(0, length)}...`;
       }
     }
-    return text
-  }
-
+    return text;
+  };
+  const country = i18n.language === "uk" ? countryUkr : countryEng;
+  const city = i18n.language === "uk" ? cityUkr : cityEng;
   return (
     <>
       <div className={styles["card-container"]}>
-        <img className={styles["shotglass-image"]} src={imageUrl} alt="" />
-        <p className={styles.country}>{truncateText(countryEng, 17)}</p>
+        <img
+          className={styles["shotglass-image"]}
+          src={imageUrl}
+          alt="Shot glass"
+        />
+        <p className={styles.country}>{truncateText(country as string, 17)}</p>
         <div className={styles["city-container"]}>
-          <p className={styles.city}>{truncateText(cityEng, 19)}</p>
+          <p className={styles.city}>{truncateText(city as string, 19)}</p>
           {isOpen ? (
             <span
               className={styles["more-info-close"]}
               data-tooltip-id="city-id"
-              // data-tooltip-content="Див. на карті"
               onClick={() => setIsOpen(false)}
             >
               x
@@ -61,7 +65,6 @@ const Card = ({
           ) : (
             <span
               className={styles["more-info"]}
-              // data-tooltip-id="city-id"
               onClick={() => setIsOpen(true)}
             >
               i
@@ -80,11 +83,11 @@ const Card = ({
             render={() => (
               <span
                 onClick={() => {
-                  setIsOpen(false)
-                  setIsOpenModal(true)
+                  setIsOpen(false);
+                  setIsOpenModal(true);
                 }}
               >
-                Див. на карті
+                {t("card.tooltip")}
               </span>
             )}
           />
@@ -106,6 +109,6 @@ const Card = ({
         />
       )}
     </>
-  )
-}
-export default Card
+  );
+};
+export default Card;

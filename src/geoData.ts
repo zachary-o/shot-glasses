@@ -98,7 +98,7 @@ const geoList: GeoType[] = [
     continentUkr: "Азія",
   },
   {
-    nameEng: "Bahamas (the)",
+    nameEng: "Bahamas",
     nameUkr: "Багами",
     continentEng: "North America",
     continentUkr: "Північна Америка",
@@ -194,7 +194,7 @@ const geoList: GeoType[] = [
     continentUkr: "Південна Америка",
   },
   {
-    nameEng: "British Indian Ocean Territory (the)",
+    nameEng: "British Indian Ocean Territory",
     nameUkr: "Британська територія в Індійському океані",
     continentEng: "Asia",
     continentUkr: "Азія",
@@ -248,13 +248,13 @@ const geoList: GeoType[] = [
     continentUkr: "Північна Америка",
   },
   {
-    nameEng: "Cayman Islands (the)",
+    nameEng: "Cayman Islands",
     nameUkr: "Кайманові Острови",
     continentEng: "North America",
     continentUkr: "Північна Америка",
   },
   {
-    nameEng: "Central African Republic (the)",
+    nameEng: "Central African Republic",
     nameUkr: "Центральноафриканська Республіка",
     continentEng: "Africa",
     continentUkr: "Африка",
@@ -284,7 +284,7 @@ const geoList: GeoType[] = [
     continentUkr: "Океанія",
   },
   {
-    nameEng: "Cocos (Keeling) Islands (the)",
+    nameEng: "Cocos (Keeling) Islands",
     nameUkr: "Кокосові (Кілінг) Острови",
     continentEng: "Asia",
     continentUkr: "Азія",
@@ -296,7 +296,7 @@ const geoList: GeoType[] = [
     continentUkr: "Південна Америка",
   },
   {
-    nameEng: "Comoros (the)",
+    nameEng: "Comoros",
     nameUkr: "Коморські Острови",
     continentEng: "Africa",
     continentUkr: "Африка",
@@ -308,13 +308,13 @@ const geoList: GeoType[] = [
     continentUkr: "Африка",
   },
   {
-    nameEng: "Congo (the)",
+    nameEng: "Congo",
     nameUkr: "Конго",
     continentEng: "Africa",
     continentUkr: "Африка",
   },
   {
-    nameEng: "Cook Islands (the)",
+    nameEng: "Cook Islands",
     nameUkr: "Острови Кука",
     continentEng: "Oceania",
     continentUkr: "Океанія",
@@ -380,7 +380,7 @@ const geoList: GeoType[] = [
     continentUkr: "Північна Америка",
   },
   {
-    nameEng: "Dominican Republic (the)",
+    nameEng: "Dominican Republic",
     nameUkr: "Домініканська Республіка",
     continentEng: "North America",
     continentUkr: "Північна Америка",
@@ -434,13 +434,13 @@ const geoList: GeoType[] = [
     continentUkr: "Африка",
   },
   {
-    nameEng: "Falkland Islands (the) [Malvinas]",
+    nameEng: "Falkland Islands [Malvinas]",
     nameUkr: "Фолклендські (Мальвінські) Острови",
     continentEng: "South America",
     continentUkr: "Південна Америка",
   },
   {
-    nameEng: "Faroe Islands (the)",
+    nameEng: "Faroe Islands",
     nameUkr: "Фарерські Острови",
     continentEng: "Europe",
     continentUkr: "Європа",
@@ -476,7 +476,7 @@ const geoList: GeoType[] = [
     continentUkr: "Океанія",
   },
   {
-    nameEng: "French Southern Territories (the)",
+    nameEng: "French Southern Territories",
     nameUkr: "Французькі Південні Території",
     continentEng: "Antarctica",
     continentUkr: "Антарктида",
@@ -488,7 +488,7 @@ const geoList: GeoType[] = [
     continentUkr: "Африка",
   },
   {
-    nameEng: "Gambia (the)",
+    nameEng: "Gambia",
     nameUkr: "Гамбія",
     continentEng: "Africa",
     continentUkr: "Африка",
@@ -590,7 +590,7 @@ const geoList: GeoType[] = [
     continentUkr: "Антарктида",
   },
   {
-    nameEng: "Holy See (the)",
+    nameEng: "Holy See",
     nameUkr: "Святий Престол (Ватикан)",
     continentEng: "Europe",
     continentUkr: "Європа",
@@ -734,7 +734,7 @@ const geoList: GeoType[] = [
     continentUkr: "Азія",
   },
   {
-    nameEng: "Lao People's Democratic Republic (the)",
+    nameEng: "Lao People's Democratic Republic",
     nameUkr: "Лаос",
     continentEng: "Asia",
     continentUkr: "Азія",
@@ -830,7 +830,7 @@ const geoList: GeoType[] = [
     continentUkr: "Європа",
   },
   {
-    nameEng: "Marshall Islands (the)",
+    nameEng: "Marshall Islands",
     nameUkr: "Маршаллові Острови",
     continentEng: "Oceania",
     continentUkr: "Океанія",
@@ -938,7 +938,7 @@ const geoList: GeoType[] = [
     continentUkr: "Азія",
   },
   {
-    nameEng: "Netherlands (the)",
+    nameEng: "Netherlands",
     nameUkr: "Нідерланди",
     continentEng: "Europe",
     continentUkr: "Європа",
@@ -962,7 +962,7 @@ const geoList: GeoType[] = [
     continentUkr: "Північна Америка",
   },
   {
-    nameEng: "Niger (the)",
+    nameEng: "Niger",
     nameUkr: "Нігер",
     continentEng: "Africa",
     continentUkr: "Африка",
@@ -992,7 +992,7 @@ const geoList: GeoType[] = [
     continentUkr: "Європа",
   },
   {
-    nameEng: "Northern Mariana Islands (the)",
+    nameEng: "Northern Mariana Islands",
     nameUkr: "Північні Маріанські Острови",
     continentEng: "Oceania",
     continentUkr: "Океанія",
@@ -1052,7 +1052,7 @@ const geoList: GeoType[] = [
     continentUkr: "Південна Америка",
   },
   {
-    nameEng: "Philippines (the)",
+    nameEng: "Philippines",
     nameUkr: "Філіппіни",
     continentEng: "Asia",
     continentUkr: "Азія",
@@ -1094,7 +1094,7 @@ const geoList: GeoType[] = [
     continentUkr: "Європа",
   },
   {
-    nameEng: "Russian Federation (the)",
+    nameEng: "Russian Federation",
     nameUkr: "Росія",
     continentEng: "Europe",
     continentUkr: "Європа",
@@ -1269,7 +1269,7 @@ const geoList: GeoType[] = [
     continentUkr: "Азія",
   },
   {
-    nameEng: "Sudan (the)",
+    nameEng: "Sudan",
     nameUkr: "Судан",
     continentEng: "Africa",
     continentUkr: "Африка",
@@ -1377,7 +1377,7 @@ const geoList: GeoType[] = [
     continentUkr: "Азія",
   },
   {
-    nameEng: "Turks and Caicos Islands (the)",
+    nameEng: "Turks and Caicos Islands",
     nameUkr: "Острови Теркс і Кайкос",
     continentEng: "North America",
     continentUkr: "Північна Америка",
@@ -1401,25 +1401,25 @@ const geoList: GeoType[] = [
     continentUkr: "Європа",
   },
   {
-    nameEng: "United Arab Emirates (the)",
+    nameEng: "United Arab Emirates",
     nameUkr: "Об'єднані Арабські Емірати",
     continentEng: "Asia",
     continentUkr: "Азія",
   },
   {
-    nameEng: "United Kingdom of Great Britain and Northern Ireland (the)",
+    nameEng: "United Kingdom of Great Britain and Northern Ireland",
     nameUkr: "Об'єднане Королівство Великої Британії та Північної Ірландії",
     continentEng: "Europe",
     continentUkr: "Європа",
   },
   {
-    nameEng: "United States Minor Outlying Islands (the)",
+    nameEng: "United States Minor Outlying Islands",
     nameUkr: "Малі Віддалені Острови Сполучених Штатів",
     continentEng: "North America",
     continentUkr: "Північна Америка",
   },
   {
-    nameEng: "United States of America (the)",
+    nameEng: "United States of America",
     nameUkr: "Сполучені Штати Америки",
     continentEng: "North America",
     continentUkr: "Північна Америка",

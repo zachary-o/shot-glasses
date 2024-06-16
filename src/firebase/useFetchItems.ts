@@ -1,45 +1,59 @@
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore"
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  collection,
+  getCountFromServer,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import {
   Item,
   setError,
   setItems,
   setLoading,
-} from "../redux/slices/itemsSlice"
-import { db } from "./config"
+} from "../redux/slices/itemsSlice";
+import { db } from "./config";
 
 export const useFetchItems = (displayedItems?: number) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     const fetchItems = async () => {
-      dispatch(setLoading(true))
+      dispatch(setLoading(true));
       try {
-        const itemsRef = collection(db, "shot-glasses")
-        let q
+        const itemsRef = collection(db, "shot-glasses");
+
+        const totalCountSnapshot = await getCountFromServer(itemsRef);
+        const totalCount = totalCountSnapshot.data().count;
+        setTotalItems(totalCount);
+
+        let q;
         if (displayedItems) {
           q = query(
             itemsRef,
             orderBy("createdAt", "desc"),
             limit(displayedItems)
-          )
+          );
         } else {
-          q = query(itemsRef)
+          q = query(itemsRef);
         }
-        const snapshot = await getDocs(q)
+        const snapshot = await getDocs(q);
         const allItems = snapshot.docs.map((item) => ({
           id: item.id,
           ...item.data(),
-        }))
-        dispatch(setItems(allItems as Item[]))
-        dispatch(setLoading(false))
+        }));
+        dispatch(setItems(allItems as Item[]));
+        dispatch(setLoading(false));
       } catch (error) {
-        dispatch(setError("Failed to fetch items"))
-        dispatch(setLoading(false))
+        dispatch(setError("Failed to fetch items"));
+        dispatch(setLoading(false));
       }
-    }
+    };
 
-    fetchItems()
-  }, [dispatch])
-}
+    fetchItems();
+  }, [dispatch, displayedItems, totalItems]);
+  return { totalItems };
+};

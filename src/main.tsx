@@ -6,8 +6,8 @@ import "react-toastify/dist/ReactToastify.css"
 import App from "./App.tsx"
 
 import { ToastContainer } from "react-toastify"
-import store from "./redux/store.ts"
 import "./i18n.ts"
+import store from "./redux/store.ts"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>

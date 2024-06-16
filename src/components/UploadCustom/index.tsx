@@ -1,12 +1,13 @@
-import { CSSProperties, useCallback, useMemo } from "react"
-import { useDropzone } from "react-dropzone"
-import uploadImgDragging from "../../assets/images/upload-img-dragging.png"
-import uploadImgError from "../../assets/images/upload-img-error.png"
-import uploadImg from "../../assets/images/upload-img.png"
-import styles from "./UploadCustom.module.scss"
-import { RootState, useAppDispatch } from "../../redux/store"
-import { useSelector } from "react-redux"
-import { setPreview } from "../../redux/slices/adminFormSlice"
+import { CSSProperties, useCallback, useMemo } from "react";
+import { useDropzone } from "react-dropzone";
+import uploadImgDragging from "../../assets/images/upload-img-dragging.png";
+import uploadImgError from "../../assets/images/upload-img-error.png";
+import uploadImg from "../../assets/images/upload-img.png";
+import styles from "./UploadCustom.module.scss";
+import { RootState, useAppDispatch } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { setPreview } from "../../redux/slices/adminFormSlice";
+import { useTranslation } from "react-i18next";
 
 const baseStyle: CSSProperties = {
   flex: 1,
@@ -23,45 +24,46 @@ const baseStyle: CSSProperties = {
   color: "#141414",
   outline: "none",
   transition: "border .24s ease-in-out",
-}
+};
 
 const focusedStyle: CSSProperties = {
   border: "2px dashed #2196f3",
-}
+};
 
 const acceptStyle: CSSProperties = {
   border: "2px dashed #1712EC",
   background: "#E6E6FF",
-}
+};
 
 const rejectStyle: CSSProperties = {
   border: "2px dashed #ff1744",
   background: "lighten($color: #ff1744, $amount: 20%)",
-}
+};
 
 interface UploadCustomProps {
-  onImageUpload: (file: File[]) => void
+  onImageUpload: (file: File[]) => void;
 }
 
 const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
-  const dispatch = useAppDispatch()
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const { preview, uploadProgress } = useSelector(
     (state: RootState) => state.admin
-  )
+  );
 
   const onDrop = useCallback(
     (acceptedFiles: Array<File>) => {
-      const previewFile = new FileReader()
-      const file = acceptedFiles
-      onImageUpload(file)
+      const previewFile = new FileReader();
+      const file = acceptedFiles;
+      onImageUpload(file);
       previewFile.onload = function () {
-        dispatch(setPreview(previewFile.result))
-      }
+        dispatch(setPreview(previewFile.result));
+      };
 
-      previewFile.readAsDataURL(acceptedFiles[0])
+      previewFile.readAsDataURL(acceptedFiles[0]);
     },
-    [onImageUpload]
-  )
+    [dispatch, onImageUpload]
+  );
 
   const {
     getRootProps,
@@ -73,7 +75,7 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
   } = useDropzone({
     onDrop,
     accept: { "image/*": [] },
-  })
+  });
 
   const style = useMemo(
     () => ({
@@ -83,7 +85,7 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
       ...(isDragReject ? rejectStyle : {}),
     }),
     [isFocused, isDragAccept, isDragReject]
-  )
+  );
 
   return (
     <div {...getRootProps({ style })}>
@@ -100,9 +102,9 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
             }}
           />
           {isDragReject ? (
-            <p style={{ color: "#ff1744" }}>Please upload an image</p>
+            <p style={{ color: "#ff1744" }}>{t("uploader.pleaseUpload")}</p>
           ) : (
-            <p>Drop the files here ...</p>
+            <p>{t("uploader.dropFiles")}</p>
           )}
         </>
       ) : (
@@ -113,10 +115,10 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
             style={{ width: 63, height: 63, marginBottom: 10 }}
           />
           <p style={{ textAlign: "center", marginBottom: "5px" }}>
-            Братішка, перетягни сюди файли або
+            {t("uploader.bro")}
             <br />
             <strong>
-              <span style={{ color: "#9B0D00" }}>натисни, щоб завантажити</span>
+              <span style={{ color: "#9B0D00" }}>{t("uploader.click")}</span>
             </strong>
           </p>
 
@@ -144,8 +146,8 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
           <span
             className={styles["preview-clear"]}
             onClick={(event) => {
-              event.stopPropagation()
-              setPreview(null)
+              event.stopPropagation();
+              setPreview(null);
             }}
           >
             x
@@ -153,6 +155,6 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
         </p>
       )}
     </div>
-  )
-}
-export default UploadCustom
+  );
+};
+export default UploadCustom;
