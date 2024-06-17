@@ -1,13 +1,16 @@
-import { CSSProperties, useCallback, useMemo } from "react";
-import { useDropzone } from "react-dropzone";
-import uploadImgDragging from "../../assets/images/upload-img-dragging.png";
-import uploadImgError from "../../assets/images/upload-img-error.png";
-import uploadImg from "../../assets/images/upload-img.png";
-import styles from "./UploadCustom.module.scss";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { useSelector } from "react-redux";
-import { setPreview } from "../../redux/slices/adminFormSlice";
-import { useTranslation } from "react-i18next";
+import { deleteObject, ref } from "firebase/storage"
+import { CSSProperties, useCallback, useMemo } from "react"
+import { useDropzone } from "react-dropzone"
+import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
+import { toast } from "react-toastify"
+import uploadImgDragging from "../../assets/images/upload-img-dragging.png"
+import uploadImgError from "../../assets/images/upload-img-error.png"
+import uploadImg from "../../assets/images/upload-img.png"
+import { storage } from "../../firebase/config"
+import { setPreview, setPreviewUrl } from "../../redux/slices/adminFormSlice"
+import { RootState, useAppDispatch } from "../../redux/store"
+import styles from "./UploadCustom.module.scss"
 
 const baseStyle: CSSProperties = {
   flex: 1,
@@ -24,46 +27,61 @@ const baseStyle: CSSProperties = {
   color: "#141414",
   outline: "none",
   transition: "border .24s ease-in-out",
-};
+}
 
 const focusedStyle: CSSProperties = {
   border: "2px dashed #2196f3",
-};
+}
 
 const acceptStyle: CSSProperties = {
   border: "2px dashed #1712EC",
   background: "#E6E6FF",
-};
+}
 
 const rejectStyle: CSSProperties = {
   border: "2px dashed #ff1744",
   background: "lighten($color: #ff1744, $amount: 20%)",
-};
+}
 
 interface UploadCustomProps {
-  onImageUpload: (file: File[]) => void;
+  onImageUpload: (file: File[]) => void
 }
 
 const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { preview, uploadProgress } = useSelector(
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { preview, previewUrl, uploadProgress } = useSelector(
     (state: RootState) => state.admin
-  );
+  )
 
   const onDrop = useCallback(
     (acceptedFiles: Array<File>) => {
-      const previewFile = new FileReader();
-      const file = acceptedFiles;
-      onImageUpload(file);
+      const previewFile = new FileReader()
+      const file = acceptedFiles
+      onImageUpload(file)
       previewFile.onload = function () {
-        dispatch(setPreview(previewFile.result));
-      };
+        dispatch(setPreview(previewFile.result))
+      }
 
-      previewFile.readAsDataURL(acceptedFiles[0]);
+      previewFile.readAsDataURL(acceptedFiles[0])
     },
     [dispatch, onImageUpload]
-  );
+  )
+
+  const deletePreviewImage = async (
+    event: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    event.stopPropagation()
+    dispatch(setPreview(null))
+    try {
+      const storageRef = ref(storage, previewUrl)
+      await deleteObject(storageRef)
+      dispatch(setPreviewUrl(""))
+      toast.success(t("toast.previewImgDeleteSuccess"))
+    } catch (error: any) {
+      toast.error(`${t("toast.previewImgDeleteErr")}: ${error.message}`)
+    }
+  }
 
   const {
     getRootProps,
@@ -75,7 +93,7 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
   } = useDropzone({
     onDrop,
     accept: { "image/*": [] },
-  });
+  })
 
   const style = useMemo(
     () => ({
@@ -85,7 +103,7 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
       ...(isDragReject ? rejectStyle : {}),
     }),
     [isFocused, isDragAccept, isDragReject]
-  );
+  )
 
   return (
     <div {...getRootProps({ style })}>
@@ -145,16 +163,13 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
           />
           <span
             className={styles["preview-clear"]}
-            onClick={(event) => {
-              event.stopPropagation();
-              setPreview(null);
-            }}
+            onClick={(event) => deletePreviewImage(event)}
           >
             x
           </span>
         </p>
       )}
     </div>
-  );
-};
-export default UploadCustom;
+  )
+}
+export default UploadCustom

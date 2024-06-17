@@ -50,6 +50,8 @@
   "toast": {
     "imgUploadErr": "Error occurred while uploading an image",
     "imgUploadSuccess": "Image uploaded successfully",
+    "previewImgDeleteSuccess": "Image deleted successfully",
+    "previewImgDeleteErr": "Error occurred while deleting an image",
     "itemUploadSuccess": "Item uploaded successfully",
     "itemUploadErr": "Error occurred while uploading an item",
     "loginSuccess": "Login successful",

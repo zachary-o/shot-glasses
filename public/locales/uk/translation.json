@@ -50,6 +50,8 @@
   "toast": {
     "imgUploadErr": "Під час завантаження зображення сталася помилка",
     "imgUploadSuccess": "Зображення успішно завантажено",
+    "previewImgDeleteSuccess": "Зображення успішно видалено",
+    "previewImgDeleteErr": "Під час видалення зображення сталася помилка",
     "itemUploadSuccess": "Рюмоку успішно завантажено",
     "itemUploadErr": "Під час завантаження рюмки сталася помилка",
     "loginSuccess": "Вхід успішний",
