@@ -7,7 +7,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 22px;
   margin-bottom: 40px;
 
   .title {
@@ -20,47 +19,10 @@
     text-align: center;
     color: #000000;
     margin-bottom: 60px;
-  }
 
-  .total-and-search {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    .total {
-      font-style: normal;
-      font-weight: 700;
-      font-size: 18px;
-      line-height: 150%;
-      color: $black;
-      margin-left: 174px;
-    }
-
-    .search-container {
-      position: relative;
-
-      .search-input {
-        padding: 5px 10px;
-        padding-left: 30px;
-        border: 1px solid $red;
-        border-radius: 10px;
-        transition: opacity 0.15s ease-in-out;
-        opacity: 1;
-        caret-color: $red;
-        color: darken($color: $red, $amount: 10%);
-      }
-
-      .search {
-        width: 24px;
-        height: 24px;
-        color: $red;
-        cursor: pointer;
-        position: absolute;
-        top: 3px;
-        left: 5px;
-      }
+    @media (max-width: 720px) {
+      font-size: 40px;
+      line-height: 68%;
     }
   }
 
@@ -72,28 +34,83 @@
     gap: 22px;
     margin-bottom: 40px;
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      row-gap: 20px;
-      column-gap: 30px;
-      position: relative;
+    @media (max-width: 1250px) {
+      justify-content: center;
     }
 
-    .no-items {
-      width: 100%;
+    .cards-container {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
 
-      .no-items-image {
-        width: 300px;
+      .search-container {
+        position: relative;
+        margin-bottom: 20px;
+        align-self: flex-end;
+
+        @media (max-width: 950px) {
+          align-self: center;
+        }
+
+        .search-input {
+          padding: 5px 10px;
+          padding-left: 30px;
+          border: 1px solid $red;
+          border-radius: 10px;
+          transition: opacity 0.15s ease-in-out;
+          opacity: 1;
+          caret-color: $red;
+          color: darken($color: $red, $amount: 10%);
+        }
+
+        .search {
+          width: 24px;
+          height: 24px;
+          color: $red;
+          cursor: pointer;
+          position: absolute;
+          top: 3px;
+          left: 5px;
+        }
       }
 
-      .no-items-header {
-        text-align: center;
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        row-gap: 20px;
+        column-gap: 30px;
+        position: relative;
+
+        @media (max-width: 1250px) {
+          grid-template-columns: repeat(3, 1fr);
+          grid-template-rows: repeat(2, 1fr);
+          column-gap: 20px;
+        }
+
+        @media (max-width: 950px) {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: repeat(2, 1fr);
+        }
+
+        @media (max-width: 720px) {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+
+      .no-items {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .no-items-image {
+          width: 300px;
+        }
+
+        .no-items-header {
+          text-align: center;
+        }
       }
     }
   }

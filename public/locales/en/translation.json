@@ -57,7 +57,8 @@
     "loginSuccess": "Login successful",
     "loginErr": "Login failed",
     "logoutSuccess": "Logout success",
-    "logoutErr": "Logout failed"
+    "logoutErr": "Logout failed",
+    "itemsFetchErr": "Failed to fetch items"
   },
 
   "continent": {

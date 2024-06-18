@@ -52,12 +52,13 @@
     "imgUploadSuccess": "Зображення успішно завантажено",
     "previewImgDeleteSuccess": "Зображення успішно видалено",
     "previewImgDeleteErr": "Під час видалення зображення сталася помилка",
-    "itemUploadSuccess": "Рюмоку успішно завантажено",
+    "itemUploadSuccess": "Рюмку успішно завантажено",
     "itemUploadErr": "Під час завантаження рюмки сталася помилка",
     "loginSuccess": "Вхід успішний",
     "loginErr": "Помилка при вході",
     "logoutSuccess": "Вихід успішний",
-    "logoutErr": "Помилка при виході"
+    "logoutErr": "Помилка при виході",
+    "itemsFetchErr": "Під час завантаження рюмок сталася помилка"
   },
 
   "continent": {

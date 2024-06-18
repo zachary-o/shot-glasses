@@ -15,12 +15,19 @@
       align-items: center;
       gap: 87px;
 
+      @media (max-width: 950px) {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0;
+      }
+
       .logo {
         font-family: "Pacifico", serif;
         color: $red;
         font-weight: 400;
         font-size: 41px;
         line-height: 72px;
+        height: 60px;
         width: 216px;
         cursor: pointer;
       }
@@ -81,6 +88,10 @@
         line-height: 150%;
         margin-left: 40px;
         cursor: pointer;
+
+        @media (max-width: 950px) {
+          margin-left: 20px;
+        }
       }
 
       .admin {

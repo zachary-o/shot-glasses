@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState } from "react"
 import geoList from "../../geoData"
 import {
   filterByContinents,
-  serPrevSelectedCountries,
+  setPrevSelectedCountries,
 } from "../../redux/slices/filterSlice"
 import { Item } from "../../redux/slices/itemsSlice"
 
@@ -77,7 +77,7 @@ const Continents = ({ isMulti }: ContinentsProps) => {
           (continent) => continent.nameEng === item.continentEng
         )
       )
-      dispatch(serPrevSelectedCountries(itemsBasedOnContinents))
+      dispatch(setPrevSelectedCountries(itemsBasedOnContinents))
     }
   }
 

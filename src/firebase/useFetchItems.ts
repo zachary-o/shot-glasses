@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 import {
   collection,
   getCountFromServer,
@@ -7,53 +7,56 @@ import {
   limit,
   orderBy,
   query,
-} from "firebase/firestore";
+} from "firebase/firestore"
 import {
   Item,
   setError,
   setItems,
   setLoading,
-} from "../redux/slices/itemsSlice";
-import { db } from "./config";
+} from "../redux/slices/itemsSlice"
+import { db } from "./config"
+import i18n from "i18next"
+import { toast } from "react-toastify"
 
 export const useFetchItems = (displayedItems?: number) => {
-  const dispatch = useDispatch();
-  const [totalItems, setTotalItems] = useState(0);
+  const dispatch = useDispatch()
+  const [totalItems, setTotalItems] = useState(0)
 
   useEffect(() => {
     const fetchItems = async () => {
-      dispatch(setLoading(true));
+      dispatch(setLoading(true))
       try {
-        const itemsRef = collection(db, "shot-glasses");
+        const itemsRef = collection(db, "shot-glasses")
 
-        const totalCountSnapshot = await getCountFromServer(itemsRef);
-        const totalCount = totalCountSnapshot.data().count;
-        setTotalItems(totalCount);
+        const totalCountSnapshot = await getCountFromServer(itemsRef)
+        const totalCount = totalCountSnapshot.data().count
+        setTotalItems(totalCount)
 
-        let q;
+        let q
         if (displayedItems) {
           q = query(
             itemsRef,
             orderBy("createdAt", "desc"),
             limit(displayedItems)
-          );
+          )
         } else {
-          q = query(itemsRef);
+          q = query(itemsRef)
         }
-        const snapshot = await getDocs(q);
+        const snapshot = await getDocs(q)
         const allItems = snapshot.docs.map((item) => ({
           id: item.id,
           ...item.data(),
-        }));
-        dispatch(setItems(allItems as Item[]));
-        dispatch(setLoading(false));
+        }))
+        dispatch(setItems(allItems as Item[]))
+        dispatch(setLoading(false))
       } catch (error) {
-        dispatch(setError("Failed to fetch items"));
-        dispatch(setLoading(false));
+        toast.error(i18n.t("toast.itemsFetchErr"))
+        dispatch(setError("Failed to fetch items"))
+        dispatch(setLoading(false))
       }
-    };
+    }
 
-    fetchItems();
-  }, [dispatch, displayedItems, totalItems]);
-  return { totalItems };
-};
+    fetchItems()
+  }, [dispatch, displayedItems, totalItems])
+  return { totalItems }
+}
