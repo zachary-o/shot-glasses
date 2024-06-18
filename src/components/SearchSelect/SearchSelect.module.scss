@@ -1,7 +1,7 @@
 @import "../../scss/variables";
 
 .search-select {
-  position: relative;
+  display: flex;
 
   img {
     color: $black;

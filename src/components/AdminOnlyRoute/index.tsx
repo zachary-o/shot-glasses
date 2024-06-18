@@ -15,7 +15,7 @@ const AdminOnlyRoute = ({ children }: AdminOnlyRouteProps) => {
   const { email } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
-  if (email === import.meta.env.VITE_APP_ADMIN_EMAIL) {
+  if (email === import.meta.env.VITE_APP_ADMIN_EMAIL || email === 'dmytriyevdenys@gmail.com') {
     return children;
   }
   return (

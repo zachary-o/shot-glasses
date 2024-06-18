@@ -81,7 +81,6 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
   // Handle select from the dropdown
   const handleSelect = useCallback(
     (newValue: SingleValue<CountryOption> | MultiValue<CountryOption>) => {
-      console.log("newValue", newValue);
       if (isMulti) {
         if (Array.isArray(newValue)) {
           setCountries?.(newValue);
@@ -103,8 +102,9 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
 
   const handleInputChange = (newValue: string) => {
     setInputValue(newValue);
+    
   };
-
+    
   return (
     <div className={styles["search-select"]}>
       <ReactSelect
@@ -122,6 +122,7 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
     </div>
   );
 };
+
 
 export default SearchSelect;
 
@@ -185,6 +186,7 @@ const customStyles: StylesConfig<CountryOption, true> = {
     minHeight: "27px",
     maxHeight: "27px",
     padding: "0 8px",
+    width: "100%"
   }),
   multiValue: (provided) => ({
     ...provided,

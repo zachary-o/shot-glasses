@@ -52,8 +52,7 @@ const Home = () => {
   // Search
   useEffect(() => {
     dispatch(filterBySearch({ items, searchValue }));
-  }, [dispatch, searchValue, items]);
-
+  }, [dispatch, searchValue, items]);  
   return (
     <>
       {loading && <Loader />}
@@ -63,7 +62,7 @@ const Home = () => {
           <div className={styles["total-and-search"]}>
             <p className={styles.total}>
               {t("homePage.total")}:{" "}
-              {searchValue ? filteredItems.length : totalItems}
+              {filteredItems ? filteredItems.length : totalItems}
             </p>
             <div className={styles["search-container"]}>
               <Search

@@ -5,6 +5,8 @@ import { Continent, CountryOption } from "./adminFormSlice";
 interface FilterState {
   filteredItems: Item[];
   prevSelectedCountries: Item[];
+  filterContinents: Continent[];
+  filterCountries: CountryOption[];
 }
 
 interface SearchPayload {
@@ -25,6 +27,36 @@ interface FilterCountriesPayload {
 const initialState: FilterState = {
   filteredItems: [],
   prevSelectedCountries: [],
+  filterContinents: [],
+  filterCountries: [],
+};
+
+const filterItems = (
+  items: Item[],
+  countries: CountryOption[],
+  continents: Continent[]
+) => {
+  let tempItems = items;
+
+  if (continents.length > 0) {
+    tempItems = tempItems.filter((item: Item) =>
+      continents.some(
+        (continent: Continent) =>
+          continent.nameEng === item.continentEng ||
+          continent.nameUkr === item.continentUkr
+      )
+    );
+  }
+
+  if (countries.length > 0) {
+    tempItems = tempItems.filter((item: Item) =>
+      countries.some(
+        (country: CountryOption) => country.value === item.countryEng
+      )
+    );
+  }
+
+  return tempItems;
 };
 
 const filterSlice = createSlice({
@@ -33,13 +65,16 @@ const filterSlice = createSlice({
   reducers: {
     filterBySearch: (state, action: PayloadAction<SearchPayload>) => {
       const { items, searchValue } = action.payload;
-      const tempItems = items.filter(
-        (item: Item) =>
-          item.cityEng.toLowerCase().includes(searchValue.toLowerCase()) ||
-          item.cityUkr.toLowerCase().includes(searchValue.toLowerCase()) ||
-          item.countryEng.toLowerCase().includes(searchValue.toLowerCase()) ||
-          item.countryUkr.toLowerCase().includes(searchValue.toLowerCase())
-      );
+      const regex = new RegExp(searchValue.toLowerCase(), "i");
+      const tempItems = items.filter((item: Item) => {
+        return [
+          item.cityEng,
+          item.cityUkr,
+          item.countryEng,
+          item.countryUkr,
+        ].some((field) => regex.test(field.toLowerCase()));
+      });
+
       state.filteredItems = tempItems;
     },
     filterByContinents: (
@@ -47,34 +82,24 @@ const filterSlice = createSlice({
       action: PayloadAction<FilterContinentsPayload>
     ) => {
       const { items, continents } = action.payload;
-      if (continents.length === 0) {
-        state.filteredItems = items;
-      } else {
-        const tempItems = items.filter((item: Item) =>
-          continents.some(
-            (continent: Continent) =>
-              continent.nameEng === item.continentEng ||
-              continent.nameUkr === item.continentUkr
-          )
-        );
-        state.filteredItems = tempItems;
-      }
+      state.filterContinents = continents;
+      state.filteredItems = filterItems(
+        items,
+        state.filterCountries,
+        continents
+      );
     },
     filterByCountries: (
       state,
       action: PayloadAction<FilterCountriesPayload>
     ) => {
       const { items, countries } = action.payload;
-      if (countries.length === 0) {
-        state.filteredItems = items;
-      } else {
-        const tempItems = items.filter((item: Item) =>
-          countries.some(
-            (country: CountryOption) => country.value === item.countryEng
-          )
-        );
-        state.filteredItems = tempItems;
-      }
+      state.filterCountries = countries;
+      state.filteredItems = filterItems(
+        items,
+        countries,
+        state.filterContinents
+      );
     },
     serPrevSelectedCountries: (state, action: PayloadAction<Item[]>) => {
       state.prevSelectedCountries = action.payload;
