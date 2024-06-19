@@ -81,7 +81,6 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
   // Handle select from the dropdown
   const handleSelect = useCallback(
     (newValue: SingleValue<CountryOption> | MultiValue<CountryOption>) => {
-      console.log("newValue", newValue);
       if (isMulti) {
         if (Array.isArray(newValue)) {
           setCountries?.(newValue);
@@ -103,8 +102,10 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
 
   const handleInputChange = (newValue: string) => {
     setInputValue(newValue);
+    
   };
-
+    console.log(countries);
+    
   return (
     <div className={styles["search-select"]}>
       <ReactSelect
@@ -123,15 +124,17 @@ const SearchSelect = ({ isMulti }: SearchSelectProps) => {
   );
 };
 
+
 export default SearchSelect;
 
 // Styles
 const customStyles: StylesConfig<CountryOption, true> = {
   control: (provided, state) => ({
     ...provided,
-    width: "128px",
+    minWidth: "128px",
+    width: 'max-content',
+    maxWidth: '190px',
     minHeight: "27px",
-    maxHeight: "27px",
     margin: 0,
     border: "1px solid #141414",
     borderRadius: "5px",
@@ -182,15 +185,22 @@ const customStyles: StylesConfig<CountryOption, true> = {
   }),
   valueContainer: (provided) => ({
     ...provided,
+    display: 'flex',
+    flexWrap: 'wrap',
     minHeight: "27px",
-    maxHeight: "27px",
-    padding: "0 8px",
+    padding: "2px 8px",
+    width: "100%",
+    gap: '5px'
   }),
   multiValue: (provided) => ({
     ...provided,
-    maxHeight: "22px",
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
+    margin: '2px 0',
+  }),
+  multiValueLabel: (provided) => ({
+    ...provided,
+    whiteSpace: 'normal',
   }),
   multiValueRemove: (provided) => ({
     ...provided,
@@ -222,3 +232,4 @@ const customStyles: StylesConfig<CountryOption, true> = {
     display: state.isFocused ? "none" : "",
   }),
 };
+
