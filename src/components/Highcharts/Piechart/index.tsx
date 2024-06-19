@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Item } from "../../../redux/slices/itemsSlice";
 import { RootState } from "../../../redux/store";
-import styles from "./Piechart.module.scss";
+import styles from "./PieChart.module.scss";
 
 interface PieChartDataItem {
   nameEng: string;
