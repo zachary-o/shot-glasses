@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Item } from "./itemsSlice"
-import { Continent, CountryOption } from "./adminFormSlice"
 import i18n from "i18next"
+import { Continent, CountryOption } from "./adminFormSlice"
+import { Item } from "./itemsSlice"
 
 interface FilterState {
   filteredItems: Item[]
@@ -126,6 +126,9 @@ const filterSlice = createSlice({
     setDisplayedItems: (state, action: PayloadAction<number>) => {
       state.displayedItems = action.payload
     },
+    resetFilters: () => {
+      return initialState
+    },
   },
 })
 
@@ -135,6 +138,7 @@ export const {
   filterByCountries,
   setPrevSelectedCountries,
   setDisplayedItems,
+  resetFilters,
 } = filterSlice.actions
 
 export default filterSlice.reducer

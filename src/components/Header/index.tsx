@@ -1,41 +1,42 @@
-import { useEffect } from "react";
-import { auth } from "../../firebase/config";
-import styles from "./Header.module.scss";
+import { useEffect } from "react"
+import { auth } from "../../firebase/config"
+import styles from "./Header.module.scss"
 
-import { onAuthStateChanged } from "firebase/auth";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth"
+import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import {
   loginWithGoogle,
   logoutUser,
   setActiveUser,
-} from "../../redux/slices/authSlice";
-import { RootState, useAppDispatch } from "../../redux/store";
-import { AdminOnlyLink } from "../AdminOnlyRoute";
-import ButtonCustom from "../ButtonCustom";
-import { resetForm } from "../../redux/slices/adminFormSlice";
+} from "../../redux/slices/authSlice"
+import { RootState, useAppDispatch } from "../../redux/store"
+import { AdminOnlyLink } from "../AdminOnlyRoute"
+import ButtonCustom from "../ButtonCustom"
+import { resetForm } from "../../redux/slices/adminFormSlice"
+import { resetFilters } from "../../redux/slices/filterSlice"
 
 const Header = () => {
-  const { t, i18n } = useTranslation();
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useAppDispatch();
+  const { t, i18n } = useTranslation()
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useAppDispatch()
 
   // Change language
   const handleChangelLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-  };
+    i18n.changeLanguage(lang)
+  }
 
   // Monitor currently signed in user
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(setActiveUser(user));
+        dispatch(setActiveUser(user))
       }
-    });
-  }, [dispatch]);
+    })
+  }, [dispatch])
 
   return (
     <div className={styles.header}>
@@ -46,8 +47,8 @@ const Header = () => {
             <h3
               className={styles.logo}
               onClick={() => {
-                navigate("/");
-                dispatch(resetForm());
+                navigate("/")
+                dispatch(resetForm())
               }}
             >
               {t("header.logo")}
@@ -56,8 +57,9 @@ const Header = () => {
               <button
                 className={i18n?.language === "en" ? styles.active : ""}
                 onClick={() => {
-                  handleChangelLanguage("en");
-                  dispatch(resetForm());
+                  handleChangelLanguage("en")
+                  dispatch(resetForm())
+                  dispatch(resetFilters())
                 }}
               >
                 EN
@@ -65,8 +67,9 @@ const Header = () => {
               <button
                 className={i18n?.language === "uk" ? styles.active : ""}
                 onClick={() => {
-                  handleChangelLanguage("uk");
-                  dispatch(resetForm());
+                  handleChangelLanguage("uk")
+                  dispatch(resetForm())
+                  dispatch(resetFilters())
                 }}
               >
                 УКР
@@ -88,7 +91,11 @@ const Header = () => {
               <>
                 <AdminOnlyLink>
                   <ButtonCustom
-                    className={location.pathname === "/admin" ? styles.hidden : styles.admin}
+                    className={
+                      location.pathname === "/admin"
+                        ? styles.hidden
+                        : styles.admin
+                    }
                     onClick={() => navigate("/admin")}
                     children={t("header.admin")}
                   />
@@ -110,7 +117,7 @@ const Header = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

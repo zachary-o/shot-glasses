@@ -9,13 +9,13 @@ import Skeleton from "../../components/Card/Skeleton"
 import Filter from "../../components/Filter"
 import Loader from "../../components/Loader"
 import Search from "../../components/Search"
+
 import {
   filterBySearch,
   setDisplayedItems,
 } from "../../redux/slices/filterSlice"
 import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./Home.module.scss"
-// import { useFetchItems } from "../../firebase/useFetchItems"
 
 const Home = () => {
   const { t } = useTranslation()
@@ -23,7 +23,6 @@ const Home = () => {
   const { filteredItems, displayedItems } = useSelector(
     (state: RootState) => state.filter
   )
-  // const { totalItems } = useFetchItems()
   const [searchValue, setSearchValue] = useState("")
   const [isActiveSearch, setIsActiveSearch] = useState(false)
   const searchRef = useRef<HTMLInputElement>(null)
@@ -55,55 +54,15 @@ const Home = () => {
 
   // Search
   useEffect(() => {
-<<<<<<< HEAD
     dispatch(filterBySearch({ items, searchValue }))
   }, [dispatch, searchValue, items])
 
-=======
-    dispatch(filterBySearch({ items, searchValue }));
-  }, [dispatch, searchValue, items]);  
->>>>>>> ede9204178428d0751ee42a5ecbc13bbe41d1f18
   return (
     <>
       {loading && <Loader />}
       <div className="container">
         <div className={styles["home-inner"]}>
           <h1 className={styles.title}>{t("homePage.title")}</h1>
-<<<<<<< HEAD
-
-=======
-          <div className={styles["total-and-search"]}>
-            <p className={styles.total}>
-              {t("homePage.total")}:{" "}
-              {filteredItems ? filteredItems.length : totalItems}
-            </p>
-            <div className={styles["search-container"]}>
-              <Search
-                className={styles["search-input"]}
-                placeholder={t("homePage.placeholder")}
-                ref={searchRef}
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-                spellCheck={false}
-                value={searchValue}
-                onChange={setSearchValue}
-              />
-              {searchValue ? null : (
-                <img
-                  className={styles.search}
-                  src={search}
-                  alt="Search"
-                  onClick={(e) => {
-                    setIsActiveSearch(true);
-                    searchRef.current?.focus();
-                    e.stopPropagation();
-                  }}
-                />
-              )}
-            </div>
-          </div>
->>>>>>> ede9204178428d0751ee42a5ecbc13bbe41d1f18
           <div className={styles.content}>
             <Filter />
             <div className={styles["cards-container"]}>

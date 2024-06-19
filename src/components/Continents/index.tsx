@@ -1,20 +1,21 @@
+import i18n from "i18next"
+import { useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
-import CheckboxCustom from "../CheckboxCustom"
-import styles from "./Continents.module.scss"
+import { useSelector } from "react-redux"
+import geoList from "../../geoData"
 import {
   Continent,
   handleContinentSelect,
   setSelectedContinent,
 } from "../../redux/slices/adminFormSlice"
-import { RootState, useAppDispatch } from "../../redux/store"
-import { useSelector } from "react-redux"
-import { useEffect, useMemo, useState } from "react"
-import geoList from "../../geoData"
 import {
   filterByContinents,
   setPrevSelectedCountries,
 } from "../../redux/slices/filterSlice"
 import { Item } from "../../redux/slices/itemsSlice"
+import { RootState, useAppDispatch } from "../../redux/store"
+import CheckboxCustom from "../CheckboxCustom"
+import styles from "./Continents.module.scss"
 
 interface ContinentsProps {
   isMulti: boolean
@@ -27,10 +28,12 @@ const Continents = ({ isMulti }: ContinentsProps) => {
   const { items } = useSelector((state: RootState) => state.items)
   const [continents, setContinents] = useState<Continent[] | []>([])
 
+  // Filter items by continents
   useEffect(() => {
     dispatch(filterByContinents({ items, continents }))
   }, [dispatch, continents, items])
 
+  // Create a list of all continents
   const continentsList = useMemo(() => {
     const uniqueContinentsSet = new Set(
       geoList.map((item) =>
@@ -81,6 +84,22 @@ const Continents = ({ isMulti }: ContinentsProps) => {
     }
   }
 
+  // Reset state on language change
+  useEffect(() => {
+    const handleLanguageChange = () => {
+      setContinents([])
+      dispatch(setSelectedContinent(null))
+    }
+
+    i18n.on("languageChanged", handleLanguageChange)
+
+    return () => {
+      i18n.off("languageChanged", handleLanguageChange)
+    }
+  }, [dispatch, i18n])
+
+  console.log("continents", continents)
+
   return (
     <div className={styles["continents-container"]}>
       {continentsList.map((continent) => {
@@ -95,10 +114,13 @@ const Continents = ({ isMulti }: ContinentsProps) => {
               isReactSelect={false}
               onChange={() => handleCheckboxChange(continent)}
               checked={
-                selectedContinent !== null &&
-                (selectedContinent as Continent).nameEng ===
-                  continent.nameEng &&
-                (selectedContinent as Continent).nameUkr === continent.nameUkr
+                isMulti
+                  ? continents.some((c) => c.nameEng === continent.nameEng)
+                  : selectedContinent !== null &&
+                    (selectedContinent as Continent).nameEng ===
+                      continent.nameEng &&
+                    (selectedContinent as Continent).nameUkr ===
+                      continent.nameUkr
               }
             />
           </div>
