@@ -14,9 +14,9 @@ import {
   setItems,
   setLoading,
 } from "../redux/slices/itemsSlice"
-import { db } from "./config"
 import i18n from "i18next"
 import { toast } from "react-toastify"
+import { db } from "../firebase/config"
 
 export const useFetchItems = (displayedItems?: number) => {
   const dispatch = useDispatch()

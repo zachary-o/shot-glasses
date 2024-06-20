@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
-import { useFetchItems } from "../../firebase/useFetchItems"
 import { RootState } from "../../redux/store"
 import Continents from "../Continents"
 import FilterTitle from "../FilterTitle"
 import SearchSelect from "../SearchSelect"
 import styles from "./Filter.module.scss"
+import { useFetchItems } from "../../hooks/useFetchItems"
 
 const Filter = () => {
   const { t } = useTranslation()

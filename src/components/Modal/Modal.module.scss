@@ -55,3 +55,9 @@ body.active-modal {
     color: #fff;
   }
 }
+
+@media (max-width: 425px) {
+  .modal-content {
+    max-width: 420px;
+  }
+}

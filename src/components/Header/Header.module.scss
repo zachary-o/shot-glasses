@@ -4,6 +4,18 @@
   padding-top: 32px;
   margin-bottom: 40px;
 
+  .logo,
+  .logo-mobile {
+    font-family: "Pacifico", serif;
+    color: $red;
+    font-weight: 400;
+    font-size: 41px;
+    line-height: 72px;
+    height: 60px;
+    width: 216px;
+    cursor: pointer;
+  }
+
   .header-inner {
     display: flex;
     align-items: center;
@@ -15,21 +27,14 @@
       align-items: center;
       gap: 87px;
 
+      @media (max-width: 1024px) {
+        gap: 20px;
+      }
+
       @media (max-width: 950px) {
         align-items: flex-start;
         flex-direction: column;
         gap: 0;
-      }
-
-      .logo {
-        font-family: "Pacifico", serif;
-        color: $red;
-        font-weight: 400;
-        font-size: 41px;
-        line-height: 72px;
-        height: 60px;
-        width: 216px;
-        cursor: pointer;
       }
 
       .languages {
@@ -117,6 +122,127 @@
       .hidden {
         visibility: hidden;
         width: 146px;
+      }
+    }
+  }
+}
+
+.logo-mobile {
+  display: none;
+}
+
+.close-menu,
+.burger-menu {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: none;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .header {
+    padding: 0;
+  }
+
+  .header-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo-mobile {
+      display: block;
+    }
+
+    .close-menu,
+    .burger-menu {
+      display: block;
+      visibility: visible;
+      opacity: 1;
+      path {
+        fill: $red;
+      }
+    }
+
+    .burger-menu {
+      padding-top: 20px;
+    }
+  }
+
+  .header-inner {
+    position: fixed;
+    z-index: 500;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #ccc;
+    transform: translateY(-100vh);
+
+    &.responsive-header {
+      transform: translateY(0);
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: flex-start;
+
+      .logo {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .header-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+      }
+
+      .header-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+
+        .admin {
+          font-style: normal;
+          font-weight: 900;
+          font-size: 24px;
+          line-height: 150%;
+          color: $red;
+          cursor: pointer;
+
+          &:hover {
+            border: none;
+          }
+        }
+
+        .logout,
+        .login {
+          margin: 0;
+        }
+      }
+
+      .close-menu {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+
+      .burger-menu {
+        display: none;
       }
     }
   }

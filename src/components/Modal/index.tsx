@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef } from "react"
 import ButtonCustom from "../ButtonCustom"
 import Map from "../Map"
 import styles from "./Modal.module.scss"
+import useWindowWidth from "../../hooks/useWindowWidth"
 
 interface ModalProps {
   cityEng: string
@@ -26,6 +27,8 @@ const Modal = ({
   cityUkr,
   setIsOpenModal,
 }: ModalProps) => {
+  const windowWidth = useWindowWidth()
+  console.log("windowWidth", windowWidth)
   const contentRef = useRef<HTMLDivElement>(null)
 
   // Function to close the modal if click is outside modal content
@@ -56,7 +59,8 @@ const Modal = ({
     }
   }, [isOpenModal, handleClickOutside])
 
-  const customStyles = { height: 400, width: 600 }
+  const customStyles = { height: 400, width: windowWidth <= 690 ? 400 : 600 }
+  console.log("Custom Styles:", customStyles)
 
   return (
     <div className={styles.modal}>

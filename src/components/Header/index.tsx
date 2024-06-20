@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { auth } from "../../firebase/config"
 import styles from "./Header.module.scss"
 
@@ -16,6 +16,8 @@ import { AdminOnlyLink } from "../AdminOnlyRoute"
 import ButtonCustom from "../ButtonCustom"
 import { resetForm } from "../../redux/slices/adminFormSlice"
 import { resetFilters } from "../../redux/slices/filterSlice"
+import menuIcon from "../../assets/images/menu-icon.svg"
+import menuClose from "../../assets/images/close-icon.svg"
 
 const Header = () => {
   const { t, i18n } = useTranslation()
@@ -23,6 +25,7 @@ const Header = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
+  const navRef = useRef<HTMLDivElement>(null)
 
   // Change language
   const handleChangelLanguage = (lang: string) => {
@@ -38,16 +41,24 @@ const Header = () => {
     })
   }, [dispatch])
 
+  // Toggle header's class name
+  const showHeader = () => {
+    if (navRef.current) {
+      navRef.current.classList.toggle(`${styles["responsive-header"]}`)
+    }
+  }
+
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <div className="container">
         {/* LEFT PART OF THE HEADER */}
-        <div className={styles["header-inner"]}>
+        <div className={styles["header-inner"]} ref={navRef}>
           <div className={styles["header-left"]}>
             <h3
               className={styles.logo}
               onClick={() => {
                 navigate("/")
+                showHeader()
                 dispatch(resetForm())
               }}
             >
@@ -80,7 +91,10 @@ const Header = () => {
             <Link
               to="/dashboard"
               className={styles["header-dashboard"]}
-              onClick={() => dispatch(resetForm())}
+              onClick={() => {
+                showHeader()
+                dispatch(resetForm())
+              }}
             >
               {t("header.dashboard")}
             </Link>
@@ -96,27 +110,60 @@ const Header = () => {
                         ? styles.hidden
                         : styles.admin
                     }
-                    onClick={() => navigate("/admin")}
+                    onClick={() => {
+                      showHeader()
+                      navigate("/admin")
+                    }}
                     children={t("header.admin")}
                   />
                 </AdminOnlyLink>
                 <ButtonCustom
                   className={styles.login}
-                  onClick={() => dispatch(logoutUser())}
+                  onClick={() => {
+                    showHeader()
+                    dispatch(logoutUser())
+                  }}
                   children={t("header.logout")}
                 />
               </>
             ) : (
               <ButtonCustom
                 className={styles.login}
-                onClick={() => dispatch(loginWithGoogle())}
+                onClick={() => {
+                  showHeader()
+                  dispatch(loginWithGoogle())
+                }}
                 children={t("header.login")}
               />
             )}
           </div>
+          <ButtonCustom
+            className={styles["close-menu"]}
+            type="button"
+            onClick={showHeader}
+            children={<img src={menuClose} alt="Menu close" />}
+          />
         </div>
       </div>
-    </div>
+      <div className={styles["header-mobile"]}>
+        <h3
+          className={styles["logo-mobile"]}
+          onClick={() => {
+            navigate("/")
+            // showHeader()
+            dispatch(resetForm())
+          }}
+        >
+          {t("header.logo")}
+        </h3>
+        <ButtonCustom
+          className={styles["burger-menu"]}
+          type="button"
+          onClick={showHeader}
+          children={<img src={menuIcon} alt="Menu" />}
+        />
+      </div>
+    </header>
   )
 }
 

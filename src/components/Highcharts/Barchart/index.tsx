@@ -60,7 +60,7 @@ const BarChartCustom = () => {
     chart: {
       type: "column",
       borderRadius: 10,
-      width: 505,
+      // width: 505,
       height: 350,
     },
     title: {
