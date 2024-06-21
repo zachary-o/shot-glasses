@@ -28,11 +28,11 @@ const Header = () => {
   const navRef = useRef<HTMLDivElement>(null)
 
   // Change language
-  const handleChangelLanguage = (lang: string) => {
+  const handleChangeLanguage = (lang: string) => {
     i18n.changeLanguage(lang)
   }
 
-  // Monitor currently signed in user
+  // Monitor currently signed-in user
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -68,7 +68,7 @@ const Header = () => {
               <button
                 className={i18n?.language === "en" ? styles.active : ""}
                 onClick={() => {
-                  handleChangelLanguage("en")
+                  handleChangeLanguage("en")
                   dispatch(resetForm())
                   dispatch(resetFilters())
                 }}
@@ -78,7 +78,7 @@ const Header = () => {
               <button
                 className={i18n?.language === "uk" ? styles.active : ""}
                 onClick={() => {
-                  handleChangelLanguage("uk")
+                  handleChangeLanguage("uk")
                   dispatch(resetForm())
                   dispatch(resetFilters())
                 }}
@@ -150,7 +150,7 @@ const Header = () => {
           className={styles["logo-mobile"]}
           onClick={() => {
             navigate("/")
-            // showHeader()
+            // showHeader();
             dispatch(resetForm())
           }}
         >

@@ -25,18 +25,12 @@ const Dashboard = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="container">
-        <h4 className={styles["dashboard-title"]}>{t("dashboard.title")}</h4>
-        <Map
-          isMulti={false}
-          zoom={2}
-          items={items}
-          customStyles={customStyles}
-        />
-        <div className={styles["highcharts-container"]}>
-          <PieChartCustom />
-          <BarChartCustom />
-        </div>
+
+      <h4 className={styles["dashboard-title"]}>{t("dashboard.title")}</h4>
+      <Map isMulti={false} zoom={2} items={items} customStyles={customStyles} />
+      <div className={styles["highcharts-container"]}>
+        <PieChartCustom />
+        <BarChartCustom />
       </div>
     </>
   )

@@ -60,82 +60,77 @@ const Home = () => {
   return (
     <>
       {loading && <Loader />}
-      <div className="container">
-        <div className={styles["home-inner"]}>
-          <h1 className={styles.title}>{t("homePage.title")}</h1>
-          <div className={styles.content}>
-            <Filter />
-            <div className={styles["cards-container"]}>
-              <div className={styles["search-container"]}>
-                <Search
-                  className={styles["search-input"]}
-                  placeholder={t("homePage.placeholder")}
-                  ref={searchRef}
-                  onClick={(event) => {
-                    event.stopPropagation()
+      <div className={styles["home-inner"]}>
+        <h1 className={styles.title}>{t("homePage.title")}</h1>
+        <div className={styles.content}>
+          <Filter />
+          <div className={styles["cards-container"]}>
+            <div className={styles["search-container"]}>
+              <Search
+                className={styles["search-input"]}
+                placeholder={t("homePage.placeholder")}
+                ref={searchRef}
+                onClick={(event) => {
+                  event.stopPropagation()
+                }}
+                spellCheck={false}
+                value={searchValue}
+                onChange={setSearchValue}
+              />
+              {searchValue ? null : (
+                <img
+                  className={styles.search}
+                  src={search}
+                  alt="Search"
+                  onClick={(e) => {
+                    setIsActiveSearch(true)
+                    searchRef.current?.focus()
+                    e.stopPropagation()
                   }}
-                  spellCheck={false}
-                  value={searchValue}
-                  onChange={setSearchValue}
                 />
-                {searchValue ? null : (
-                  <img
-                    className={styles.search}
-                    src={search}
-                    alt="Search"
-                    onClick={(e) => {
-                      setIsActiveSearch(true)
-                      searchRef.current?.focus()
-                      e.stopPropagation()
-                    }}
-                  />
-                )}
-              </div>
-              {loading ? (
-                <div className={styles.cards}>
-                  {[...Array(8)].map((_, index) => (
-                    <Skeleton key={index} />
-                  ))}
-                </div>
-              ) : filteredItems.length === 0 ? (
-                <div className={styles["no-items"]}>
-                  <img
-                    className={styles["no-items-image"]}
-                    src={sadImg}
-                    alt="No results"
-                  />
-                  <h2 className={styles["no-items-header"]}>
-                    {t("homePage.noItems")}
-                  </h2>
-                </div>
-              ) : (
-                <div className={styles.cards}>
-                  {filteredItems.slice(0, displayedItems).map((item) => (
-                    <Card
-                      key={item.id}
-                      cityEng={item.cityEng}
-                      cityUkr={item.cityUkr}
-                      latitude={item.latitude}
-                      longitude={item.longitude}
-                      countryEng={item.countryEng}
-                      countryUkr={item.countryUkr}
-                      imageUrl={item.imageUrl}
-                    />
-                  ))}
-                </div>
               )}
             </div>
+            {loading ? (
+              <div className={styles.cards}>
+                {[...Array(8)].map((_, index) => (
+                  <Skeleton key={index} />
+                ))}
+              </div>
+            ) : filteredItems.length === 0 ? (
+              <div className={styles["no-items"]}>
+                <img
+                  className={styles["no-items-image"]}
+                  src={sadImg}
+                  alt="No results"
+                />
+                <h2 className={styles["no-items-header"]}>
+                  {t("homePage.noItems")}
+                </h2>
+              </div>
+            ) : (
+              <div className={styles.cards}>
+                {filteredItems.slice(0, displayedItems).map((item) => (
+                  <Card
+                    key={item.id}
+                    cityEng={item.cityEng}
+                    cityUkr={item.cityUkr}
+                    latitude={item.latitude}
+                    longitude={item.longitude}
+                    countryEng={item.countryEng}
+                    countryUkr={item.countryUkr}
+                    imageUrl={item.imageUrl}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          {filteredItems.length > 0 && (
-            <button
-              className={styles["show-more-btn"]}
-              onClick={fetchMoreItems}
-            >
-              <img src={refresh} alt="Show more" />
-              {t("homePage.showMore")}
-            </button>
-          )}
         </div>
+        {filteredItems.length > 0 && (
+          <button className={styles["show-more-btn"]} onClick={fetchMoreItems}>
+            <img src={refresh} alt="Show more" />
+            {t("homePage.showMore")}
+          </button>
+        )}
       </div>
     </>
   )

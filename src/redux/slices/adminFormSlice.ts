@@ -40,7 +40,7 @@ interface FormState {
   selectedCountry: SingleValue<CountryOption> | MultiValue<CountryOption>
   uploadProgress: number
   isLoading: boolean
-  previewUrl: string
+  previewUrl?: string
 }
 
 const initialState: FormState = {
