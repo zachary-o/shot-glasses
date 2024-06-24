@@ -8,18 +8,20 @@ import Map from "../../components/Map"
 import { RootState } from "../../redux/store"
 import styles from "./Dashboard.module.scss"
 import { useFetchItems } from "../../hooks/useFetchItems"
+import useWindowWidth from "../../hooks/useWindowWidth"
 
 const Dashboard = () => {
+  const windowWidth = useWindowWidth()
   const { t } = useTranslation()
   useFetchItems()
   const { loading, items } = useSelector((state: RootState) => state.items)
 
   const customStyles = {
     width: "100%",
-    height: "540px",
-    borderRadius: "10px",
+    height: windowWidth <= 425 ? 300 : 540,
+    borderRadius: 10,
     backgroundColor: "none",
-    marginBottom: "40px",
+    marginBottom: 40,
   }
 
   return (

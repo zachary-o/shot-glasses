@@ -11,37 +11,7 @@ import { storage } from "../../firebase/config"
 import { setPreview, setPreviewUrl } from "../../redux/slices/adminFormSlice"
 import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./UploadCustom.module.scss"
-
-const baseStyle: CSSProperties = {
-  flex: 1,
-  maxWidth: "522px",
-  height: "455px",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "20px",
-  border: "2px dashed #1C1B1F",
-  borderRadius: 20,
-  background: "none",
-  color: "#141414",
-  outline: "none",
-  transition: "border .24s ease-in-out",
-}
-
-const focusedStyle: CSSProperties = {
-  border: "2px dashed #2196f3",
-}
-
-const acceptStyle: CSSProperties = {
-  border: "2px dashed #1712EC",
-  background: "#E6E6FF",
-}
-
-const rejectStyle: CSSProperties = {
-  border: "2px dashed #ff1744",
-  background: "lighten($color: #ff1744, $amount: 20%)",
-}
+import useWindowWidth from "../../hooks/useWindowWidth"
 
 interface UploadCustomProps {
   onImageUpload: (file: File[]) => void
@@ -49,10 +19,42 @@ interface UploadCustomProps {
 
 const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
   const { t } = useTranslation()
+  const windowWidth = useWindowWidth()
   const dispatch = useAppDispatch()
   const { preview, previewUrl, uploadProgress } = useSelector(
     (state: RootState) => state.admin
   )
+
+  const baseStyle: CSSProperties = {
+    flex: 1,
+    width: windowWidth <= 820 ? "90%" : "522px",
+    height: "455px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px",
+    border: "2px dashed #1C1B1F",
+    borderRadius: 20,
+    background: "none",
+    color: "#141414",
+    outline: "none",
+    transition: "border .24s ease-in-out",
+  }
+
+  const focusedStyle: CSSProperties = {
+    border: "2px dashed #2196f3",
+  }
+
+  const acceptStyle: CSSProperties = {
+    border: "2px dashed #1712EC",
+    background: "#E6E6FF",
+  }
+
+  const rejectStyle: CSSProperties = {
+    border: "2px dashed #ff1744",
+    background: "lighten($color: #ff1744, $amount: 20%)",
+  }
 
   const onDrop = useCallback(
     (acceptedFiles: Array<File>) => {
@@ -102,7 +104,7 @@ const UploadCustom = ({ onImageUpload }: UploadCustomProps) => {
       ...(isDragAccept ? acceptStyle : {}),
       ...(isDragReject ? rejectStyle : {}),
     }),
-    [isFocused, isDragAccept, isDragReject]
+    [isFocused, isDragAccept, isDragReject, windowWidth]
   )
 
   return (
