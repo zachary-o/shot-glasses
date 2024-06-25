@@ -10,12 +10,14 @@ import Filter from "../../components/Filter"
 import Loader from "../../components/Loader"
 import Search from "../../components/Search"
 
+import ButtonCustom from "../../components/ButtonCustom"
 import {
   filterBySearch,
   setDisplayedItems,
 } from "../../redux/slices/filterSlice"
 import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./Home.module.scss"
+import filterIcon from "../../assets/images/filter-icon.svg"
 
 const Home = () => {
   const { t } = useTranslation()
@@ -24,8 +26,7 @@ const Home = () => {
     (state: RootState) => state.filter
   )
   const [searchValue, setSearchValue] = useState("")
-  const [isActiveSearch, setIsActiveSearch] = useState(false)
-  const searchRef = useRef<HTMLInputElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
   // Function to fetch more items
@@ -33,29 +34,16 @@ const Home = () => {
     dispatch(setDisplayedItems(displayedItems + 8))
   }
 
-  // Toggles search input when clicking outside or on it
-  useEffect(() => {
-    const handleSearchClick = (event: MouseEvent) => {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target as Node)
-      ) {
-        setIsActiveSearch(false)
-        setSearchValue("")
-      }
-    }
-
-    document.body.addEventListener("click", handleSearchClick)
-
-    return () => {
-      document.body.removeEventListener("click", handleSearchClick)
-    }
-  }, [isActiveSearch])
-
   // Search
   useEffect(() => {
     dispatch(filterBySearch({ items, searchValue }))
   }, [dispatch, searchValue, items])
+
+  const showPanel = () => {
+    if (panelRef.current) {
+      panelRef.current.classList.toggle(`${styles["filters-panel"]}`)
+    }
+  }
 
   return (
     <>
@@ -63,13 +51,24 @@ const Home = () => {
       <div className={styles["home-inner"]}>
         <h1 className={styles.title}>{t("homePage.title")}</h1>
         <div className={styles.content}>
-          <Filter />
+          <div className={styles["filters-container"]}>
+            <Filter />
+          </div>
           <div className={styles["cards-container"]}>
             <div className={styles["search-container"]}>
+              <ButtonCustom
+                className={styles["filters-button"]}
+                type="button"
+                onClick={showPanel}
+                children={
+                  <div className={styles["filters-button-text"]}>
+                    <span>Filters</span> <img src={filterIcon} alt="Filters" />
+                  </div>
+                }
+              />
               <Search
                 className={styles["search-input"]}
                 placeholder={t("homePage.placeholder")}
-                ref={searchRef}
                 onClick={(event) => {
                   event.stopPropagation()
                 }}
@@ -77,18 +76,15 @@ const Home = () => {
                 value={searchValue}
                 onChange={setSearchValue}
               />
-              {searchValue ? null : (
-                <img
-                  className={styles.search}
-                  src={search}
-                  alt="Search"
-                  onClick={(e) => {
-                    setIsActiveSearch(true)
-                    searchRef.current?.focus()
-                    e.stopPropagation()
-                  }}
-                />
-              )}
+
+              <img
+                className={styles.search}
+                src={search}
+                alt="Search"
+                onClick={(e) => {
+                  e.stopPropagation()
+                }}
+              />
             </div>
             {loading ? (
               <div className={styles.cards}>
@@ -124,6 +120,9 @@ const Home = () => {
               </div>
             )}
           </div>
+          {/* <div className={styles["filters-panel"]} ref={panelRef}>
+            <Filter />
+          </div> */}
         </div>
         {filteredItems.length > 0 && (
           <button className={styles["show-more-btn"]} onClick={fetchMoreItems}>
