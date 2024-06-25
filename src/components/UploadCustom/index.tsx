@@ -8,10 +8,10 @@ import uploadImgDragging from "../../assets/images/upload-img-dragging.png"
 import uploadImgError from "../../assets/images/upload-img-error.png"
 import uploadImg from "../../assets/images/upload-img.png"
 import { storage } from "../../firebase/config"
+import useWindowWidth from "../../hooks/useWindowWidth"
 import { setPreview, setPreviewUrl } from "../../redux/slices/adminFormSlice"
 import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./UploadCustom.module.scss"
-import useWindowWidth from "../../hooks/useWindowWidth"
 
 interface UploadCustomProps {
   onImageUpload: (file: File[]) => void

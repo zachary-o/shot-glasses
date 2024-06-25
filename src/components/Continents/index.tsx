@@ -50,7 +50,6 @@ const Continents = ({ isMulti }: ContinentsProps) => {
   }, [])
 
   const handleCheckboxChange = (continent: Continent) => {
-    console.log(selectedContinent, continent)
     const { nameEng, nameUkr } = continent
     if (!isMulti) {
       if (
@@ -97,8 +96,6 @@ const Continents = ({ isMulti }: ContinentsProps) => {
       i18n.off("languageChanged", handleLanguageChange)
     }
   }, [dispatch, i18n])
-
-  console.log("continents", continents)
 
   return (
     <div className={styles["continents-container"]}>
