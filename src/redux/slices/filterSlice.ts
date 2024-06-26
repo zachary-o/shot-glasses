@@ -9,6 +9,7 @@ interface FilterState {
   displayedItems: number
   filterContinents: Continent[]
   filterCountries: CountryOption[]
+  isEmpty: boolean
 }
 
 interface SearchPayload {
@@ -32,6 +33,7 @@ const initialState: FilterState = {
   displayedItems: 8,
   filterContinents: [],
   filterCountries: [],
+  isEmpty: false,
 }
 
 const filterItems = (
@@ -82,19 +84,13 @@ const filterSlice = createSlice({
           )
         }
       })
-      // state.filteredItems = tempItems
-      // const { items, searchValue } = action.payload;
-      // const regex = new RegExp(searchValue.toLowerCase(), "i");
-      // const tempItems = items.filter((item: Item) => {
-      //   return [
-      //     item.cityEng,
-      //     item.cityUkr,
-      //     item.countryEng,
-      //     item.countryUkr,
-      //   ].some((field) => regex.test(field.toLowerCase()));
-      // });
-
       state.filteredItems = tempItems
+
+      if (tempItems.length === 0) {
+        state.isEmpty = true
+      } else {
+        state.isEmpty = false
+      }
     },
     filterByContinents: (
       state,

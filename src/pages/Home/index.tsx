@@ -18,6 +18,7 @@ import {
 import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./Home.module.scss"
 import filterIcon from "../../assets/images/filter-icon.svg"
+import menuClose from "../../assets/images/close-icon.svg"
 
 const Home = () => {
   const { t } = useTranslation()
@@ -50,22 +51,31 @@ const Home = () => {
       {loading && <Loader />}
       <div className={styles["home-inner"]}>
         <h1 className={styles.title}>{t("homePage.title")}</h1>
-        <div className={styles.content}>
+        <div
+          className={
+            filteredItems.length === 0
+              ? styles["content-empty"]
+              : styles.content
+          }
+        >
           <div className={styles["filters-container"]}>
             <Filter />
           </div>
           <div className={styles["cards-container"]}>
             <div className={styles["search-container"]}>
-              <ButtonCustom
-                className={styles["filters-button"]}
-                type="button"
-                onClick={showPanel}
-                children={
-                  <div className={styles["filters-button-text"]}>
-                    <span>Filters</span> <img src={filterIcon} alt="Filters" />
-                  </div>
-                }
-              />
+              {filteredItems.length !== 0 && (
+                <ButtonCustom
+                  className={styles["filters-button"]}
+                  type="button"
+                  onClick={showPanel}
+                  children={
+                    <div className={styles["filters-button-text"]}>
+                      <span>Filters</span>{" "}
+                      <img src={filterIcon} alt="Filters" />
+                    </div>
+                  }
+                />
+              )}
               <Search
                 className={styles["search-input"]}
                 placeholder={t("homePage.placeholder")}
@@ -120,9 +130,6 @@ const Home = () => {
               </div>
             )}
           </div>
-          {/* <div className={styles["filters-panel"]} ref={panelRef}>
-            <Filter />
-          </div> */}
         </div>
         {filteredItems.length > 0 && (
           <button className={styles["show-more-btn"]} onClick={fetchMoreItems}>
@@ -130,6 +137,15 @@ const Home = () => {
             {t("homePage.showMore")}
           </button>
         )}
+      </div>
+      <div className={styles["filters-panel-container"]} ref={panelRef}>
+        <Filter />
+        <ButtonCustom
+          className={styles["close-menu"]}
+          type="button"
+          onClick={showPanel}
+          children={<img src={menuClose} alt="Menu close" />}
+        />
       </div>
     </>
   )

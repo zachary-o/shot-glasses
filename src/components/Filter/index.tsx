@@ -14,6 +14,10 @@ const Filter = () => {
   )
   const { totalItems } = useFetchItems(displayedItems)
 
+  if (filteredItems.length === 0) {
+    return null
+  }
+
   return (
     <div className={styles["filter-container"]}>
       <p className={styles.total}>

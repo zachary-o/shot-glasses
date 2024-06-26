@@ -50,101 +50,100 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <div className="container">
-        {/* LEFT PART OF THE HEADER */}
-        <div className={styles["header-inner"]} ref={navRef}>
-          <div className={styles["header-left"]}>
-            <h3
-              className={styles.logo}
+      {/* LEFT PART OF THE HEADER */}
+      <div className={styles["header-inner"]} ref={navRef}>
+        <div className={styles["header-left"]}>
+          <h3
+            className={styles.logo}
+            onClick={() => {
+              navigate("/")
+              showHeader()
+              dispatch(resetForm())
+            }}
+          >
+            {t("header.logo")}
+          </h3>
+          <div className={styles.languages}>
+            <button
+              className={i18n?.language === "en" ? styles.active : ""}
               onClick={() => {
-                navigate("/")
-                showHeader()
+                handleChangeLanguage("en")
                 dispatch(resetForm())
+                dispatch(resetFilters())
               }}
             >
-              {t("header.logo")}
-            </h3>
-            <div className={styles.languages}>
-              <button
-                className={i18n?.language === "en" ? styles.active : ""}
-                onClick={() => {
-                  handleChangeLanguage("en")
-                  dispatch(resetForm())
-                  dispatch(resetFilters())
-                }}
-              >
-                EN
-              </button>
-              <button
-                className={i18n?.language === "uk" ? styles.active : ""}
-                onClick={() => {
-                  handleChangeLanguage("uk")
-                  dispatch(resetForm())
-                  dispatch(resetFilters())
-                }}
-              >
-                УКР
-              </button>
-            </div>
+              EN
+            </button>
+            <button
+              className={i18n?.language === "uk" ? styles.active : ""}
+              onClick={() => {
+                handleChangeLanguage("uk")
+                dispatch(resetForm())
+                dispatch(resetFilters())
+              }}
+            >
+              УКР
+            </button>
           </div>
-          {location.pathname !== "/dashboard" && (
-            <Link
-              to="/dashboard"
-              className={styles["header-dashboard"]}
-              onClick={() => {
-                showHeader()
-                dispatch(resetForm())
-              }}
-            >
-              {t("header.dashboard")}
-            </Link>
-          )}
-          {/* RIGHT PART OF THE HEADER */}
-          <div className={styles["header-right"]}>
-            {isLoggedIn ? (
-              <>
-                <AdminOnlyLink>
-                  <ButtonCustom
-                    className={
-                      location.pathname === "/admin"
-                        ? styles.hidden
-                        : styles.admin
-                    }
-                    onClick={() => {
-                      showHeader()
-                      navigate("/admin")
-                    }}
-                    children={t("header.admin")}
-                  />
-                </AdminOnlyLink>
+        </div>
+        {location.pathname !== "/dashboard" && (
+          <Link
+            to="/dashboard"
+            className={styles["header-dashboard"]}
+            onClick={() => {
+              showHeader()
+              dispatch(resetForm())
+            }}
+          >
+            {t("header.dashboard")}
+          </Link>
+        )}
+        {/* RIGHT PART OF THE HEADER */}
+        <div className={styles["header-right"]}>
+          {isLoggedIn ? (
+            <>
+              <AdminOnlyLink>
                 <ButtonCustom
-                  className={styles.login}
+                  className={
+                    location.pathname === "/admin"
+                      ? styles.hidden
+                      : styles.admin
+                  }
                   onClick={() => {
                     showHeader()
-                    dispatch(logoutUser())
+                    navigate("/admin")
                   }}
-                  children={t("header.logout")}
+                  children={t("header.admin")}
                 />
-              </>
-            ) : (
+              </AdminOnlyLink>
               <ButtonCustom
                 className={styles.login}
                 onClick={() => {
                   showHeader()
-                  dispatch(loginWithGoogle())
+                  dispatch(logoutUser())
                 }}
-                children={t("header.login")}
+                children={t("header.logout")}
               />
-            )}
-          </div>
-          <ButtonCustom
-            className={styles["close-menu"]}
-            type="button"
-            onClick={showHeader}
-            children={<img src={menuClose} alt="Menu close" />}
-          />
+            </>
+          ) : (
+            <ButtonCustom
+              className={styles.login}
+              onClick={() => {
+                showHeader()
+                dispatch(loginWithGoogle())
+              }}
+              children={t("header.login")}
+            />
+          )}
         </div>
+        <ButtonCustom
+          className={styles["close-menu"]}
+          type="button"
+          onClick={showHeader}
+          children={<img src={menuClose} alt="Menu close" />}
+        />
       </div>
+
       <div className={styles["header-mobile"]}>
         <h3
           className={styles["logo-mobile"]}
@@ -156,12 +155,36 @@ const Header = () => {
         >
           {t("header.logo")}
         </h3>
-        <ButtonCustom
-          className={styles["burger-menu"]}
-          type="button"
-          onClick={showHeader}
-          children={<img src={menuIcon} alt="Menu" />}
-        />
+        <div className={styles["header-mobile-right"]}>
+          <div className={styles["header-mobile-languages"]}>
+            <button
+              className={i18n?.language === "en" ? styles.active : ""}
+              onClick={() => {
+                handleChangeLanguage("en")
+                dispatch(resetForm())
+                dispatch(resetFilters())
+              }}
+            >
+              EN
+            </button>
+            <button
+              className={i18n?.language === "uk" ? styles.active : ""}
+              onClick={() => {
+                handleChangeLanguage("uk")
+                dispatch(resetForm())
+                dispatch(resetFilters())
+              }}
+            >
+              УКР
+            </button>
+          </div>
+          <ButtonCustom
+            className={styles["burger-menu"]}
+            type="button"
+            onClick={showHeader}
+            children={<img src={menuIcon} alt="Menu" />}
+          />
+        </div>
       </div>
     </header>
   )

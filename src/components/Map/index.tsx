@@ -1,29 +1,30 @@
-import L, { Icon, MarkerCluster } from "leaflet";
-import { useTranslation } from "react-i18next";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
-import pin from "../../assets/images/pin.png";
-import { Item } from "../../redux/slices/itemsSlice";
-import styles from "./Map.module.scss";
+import L, { Icon, MarkerCluster } from "leaflet"
+import { useTranslation } from "react-i18next"
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet"
+import MarkerClusterGroup from "react-leaflet-cluster"
+import pin from "../../assets/images/pin.png"
+import { Item } from "../../redux/slices/itemsSlice"
+import styles from "./Map.module.scss"
+import "./normalize.css"
 
 interface CustomStyles {
-  width: number | string;
-  height?: number | string;
-  maxHeight?: number | string;
-  borderRadius?: number | string;
-  backgroundColor?: string;
-  marginBottom?: number | string;
+  width: number | string
+  height?: number | string
+  maxHeight?: number | string
+  borderRadius?: number | string
+  backgroundColor?: string
+  marginBottom?: number | string
 }
 
 interface MapProps {
-  latitude?: string;
-  longitude?: string;
-  cityEng?: string;
-  cityUkr?: string;
-  isMulti: boolean;
-  zoom: number;
-  items?: Item[];
-  customStyles: CustomStyles;
+  latitude?: string
+  longitude?: string
+  cityEng?: string
+  cityUkr?: string
+  isMulti: boolean
+  zoom: number
+  items?: Item[]
+  customStyles: CustomStyles
 }
 
 const Map = ({
@@ -35,28 +36,28 @@ const Map = ({
   zoom,
   items,
 }: MapProps) => {
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation()
 
   const icon = new Icon({
     iconUrl: pin,
     iconSize: [20, 20],
     iconAnchor: [12, 20],
-  });
+  })
 
   const createCustomClusterIcon = (cluster: MarkerCluster): L.DivIcon => {
     return L.divIcon({
       html: `<span>${cluster.getChildCount()}</span>`,
       className: `${styles["custom-marker-cluster"]}`,
       iconSize: L.point(40, 40),
-    });
-  };
+    })
+  }
 
   const bounds: L.LatLngBoundsExpression = [
     [-85, -180],
     [85, 180],
-  ];
+  ]
 
-  const city = i18n.language === "uk" ? cityUkr : cityEng;
+  const city = i18n.language === "uk" ? cityUkr : cityEng
 
   return (
     <>
@@ -96,7 +97,7 @@ const Map = ({
         )}
       </MapContainer>
     </>
-  );
-};
+  )
+}
 
-export default Map;
+export default Map
