@@ -122,8 +122,8 @@ const filterSlice = createSlice({
     setDisplayedItems: (state, action: PayloadAction<number>) => {
       state.displayedItems = action.payload
     },
-    resetFilters: () => {
-      return initialState
+    resetFilters: (state, action: PayloadAction<Item[]>) => {
+      state.filteredItems = action.payload
     },
   },
 })

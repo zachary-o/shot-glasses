@@ -17,12 +17,14 @@ export interface Item {
 
 interface ItemsState {
   items: Item[]
+  totalItems: number
   loading: boolean
   error: string | null
 }
 
 const initialState: ItemsState = {
   items: [],
+  totalItems: 0,
   loading: false,
   error: null,
 }
@@ -34,6 +36,10 @@ const itemsSlice = createSlice({
     setItems: (state, action: PayloadAction<Item[]>) => {
       state.items = action.payload
     },
+    setTotalItems: (state, action: PayloadAction<number>) => {
+      console.log("action.payload", action.payload)
+      state.totalItems = action.payload
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload
     },
@@ -43,6 +49,7 @@ const itemsSlice = createSlice({
   },
 })
 
-export const { setItems, setLoading, setError } = itemsSlice.actions
+export const { setItems, setTotalItems, setLoading, setError } =
+  itemsSlice.actions
 
 export default itemsSlice.reducer

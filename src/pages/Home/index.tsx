@@ -9,7 +9,6 @@ import Skeleton from "../../components/Card/Skeleton"
 import Filter from "../../components/Filter"
 import Loader from "../../components/Loader"
 import Search from "../../components/Search"
-
 import ButtonCustom from "../../components/ButtonCustom"
 import {
   filterBySearch,
@@ -19,16 +18,22 @@ import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./Home.module.scss"
 import filterIcon from "../../assets/images/filter-icon.svg"
 import menuClose from "../../assets/images/close-icon.svg"
+import { useFetchItems } from "../../hooks/useFetchItems"
 
 const Home = () => {
+  useFetchItems()
   const { t } = useTranslation()
-  const { loading, items } = useSelector((state: RootState) => state.items)
+  const { loading, items, totalItems } = useSelector(
+    (state: RootState) => state.items
+  )
   const { filteredItems, displayedItems } = useSelector(
     (state: RootState) => state.filter
   )
   const [searchValue, setSearchValue] = useState("")
   const panelRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
+
+  console.log(totalItems, displayedItems, filteredItems.length)
 
   // Function to fetch more items
   const fetchMoreItems = () => {
@@ -40,7 +45,7 @@ const Home = () => {
     dispatch(filterBySearch({ items, searchValue }))
   }, [dispatch, searchValue, items])
 
-  const showPanel = () => {
+  const toggleFilterPanel = () => {
     if (panelRef.current) {
       panelRef.current.classList.toggle(`${styles["filters-panel"]}`)
     }
@@ -67,7 +72,7 @@ const Home = () => {
                 <ButtonCustom
                   className={styles["filters-button"]}
                   type="button"
-                  onClick={showPanel}
+                  onClick={toggleFilterPanel}
                   children={
                     <div className={styles["filters-button-text"]}>
                       <span>Filters</span>{" "}
@@ -131,23 +136,30 @@ const Home = () => {
             )}
           </div>
         </div>
-        {filteredItems.length > 0 && (
-          <button className={styles["show-more-btn"]} onClick={fetchMoreItems}>
-            <img src={refresh} alt="Show more" />
-            {t("homePage.showMore")}
-          </button>
-        )}
+        {/* Check if not loading and whether there are more items to show */}
+        {!loading &&
+          displayedItems <= filteredItems.length &&
+          displayedItems <= totalItems && (
+            <button
+              className={styles["show-more-btn"]}
+              onClick={fetchMoreItems}
+            >
+              <img src={refresh} alt="Show more" />
+              {t("homePage.showMore")}
+            </button>
+          )}
       </div>
       <div className={styles["filters-panel-container"]} ref={panelRef}>
         <Filter />
         <ButtonCustom
           className={styles["close-menu"]}
           type="button"
-          onClick={showPanel}
+          onClick={toggleFilterPanel}
           children={<img src={menuClose} alt="Menu close" />}
         />
       </div>
     </>
   )
 }
+
 export default Home

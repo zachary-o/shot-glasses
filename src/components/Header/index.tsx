@@ -22,6 +22,7 @@ import menuClose from "../../assets/images/close-icon.svg"
 const Header = () => {
   const { t, i18n } = useTranslation()
   const { isLoggedIn } = useSelector((state: RootState) => state.auth)
+  const { items } = useSelector((state: RootState) => state.items)
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
@@ -69,7 +70,7 @@ const Header = () => {
               onClick={() => {
                 handleChangeLanguage("en")
                 dispatch(resetForm())
-                dispatch(resetFilters())
+                dispatch(resetFilters(items))
               }}
             >
               EN
@@ -79,7 +80,7 @@ const Header = () => {
               onClick={() => {
                 handleChangeLanguage("uk")
                 dispatch(resetForm())
-                dispatch(resetFilters())
+                dispatch(resetFilters(items))
               }}
             >
               УКР
@@ -162,7 +163,7 @@ const Header = () => {
               onClick={() => {
                 handleChangeLanguage("en")
                 dispatch(resetForm())
-                dispatch(resetFilters())
+                dispatch(resetFilters(items))
               }}
             >
               EN
@@ -172,7 +173,7 @@ const Header = () => {
               onClick={() => {
                 handleChangeLanguage("uk")
                 dispatch(resetForm())
-                dispatch(resetFilters())
+                dispatch(resetFilters(items))
               }}
             >
               УКР

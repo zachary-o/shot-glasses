@@ -35,18 +35,23 @@ const Continents = ({ isMulti }: ContinentsProps) => {
 
   // Create a list of all continents
   const continentsList = useMemo(() => {
-    const uniqueContinentsSet = new Set(
-      geoList.map((item) =>
-        JSON.stringify({
-          nameEng: item.continentEng,
-          nameUkr: item.continentUkr,
-        })
+    let uniqueContinentsSet
+    if (!isMulti) {
+      uniqueContinentsSet = new Set(
+        geoList.map((item) =>
+          JSON.stringify({
+            nameEng: item.continentEng,
+            nameUkr: item.continentUkr,
+          })
+        )
       )
-    )
 
-    return Array.from(uniqueContinentsSet)!.map((continentString) =>
-      JSON.parse(continentString)
-    )
+      return Array.from(uniqueContinentsSet)!.map((continentString) =>
+        JSON.parse(continentString)
+      )
+    } else if (isMulti) {
+      uniqueContinentsSet
+    }
   }, [])
 
   const handleCheckboxChange = (continent: Continent) => {
@@ -99,7 +104,7 @@ const Continents = ({ isMulti }: ContinentsProps) => {
 
   return (
     <div className={styles["continents-container"]}>
-      {continentsList.map((continent) => {
+      {continentsList?.map((continent) => {
         const translatedLabel = t(
           `continent.${continent.nameEng.replace(/\s/g, "")}`
         )

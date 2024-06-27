@@ -12,7 +12,10 @@ const Filter = () => {
   const { displayedItems, filteredItems } = useSelector(
     (state: RootState) => state.filter
   )
-  const { totalItems } = useFetchItems(displayedItems)
+  const { totalItems } = useSelector((state: RootState) => state.items)
+  useFetchItems(displayedItems)
+
+  console.log("filteredItems", filteredItems)
 
   if (filteredItems.length === 0) {
     return null

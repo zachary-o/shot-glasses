@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
 import {
   collection,
   getCountFromServer,
@@ -8,19 +6,21 @@ import {
   orderBy,
   query,
 } from "firebase/firestore"
+import i18n from "i18next"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import { toast } from "react-toastify"
+import { db } from "../firebase/config"
 import {
   Item,
   setError,
   setItems,
   setLoading,
+  setTotalItems,
 } from "../redux/slices/itemsSlice"
-import i18n from "i18next"
-import { toast } from "react-toastify"
-import { db } from "../firebase/config"
 
 export const useFetchItems = (displayedItems?: number) => {
   const dispatch = useDispatch()
-  const [totalItems, setTotalItems] = useState(0)
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -30,7 +30,8 @@ export const useFetchItems = (displayedItems?: number) => {
 
         const totalCountSnapshot = await getCountFromServer(itemsRef)
         const totalCount = totalCountSnapshot.data().count
-        setTotalItems(totalCount)
+        console.log("totalCount", totalCount)
+        dispatch(setTotalItems(totalCount))
 
         let q
         if (displayedItems) {
@@ -57,6 +58,5 @@ export const useFetchItems = (displayedItems?: number) => {
     }
 
     fetchItems()
-  }, [dispatch, displayedItems, totalItems])
-  return { totalItems }
+  }, [dispatch, displayedItems])
 }
