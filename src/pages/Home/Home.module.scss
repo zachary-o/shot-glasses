@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 40px;
+  // margin-bottom: 40px;
 
   .title {
     max-width: 869px;
@@ -26,7 +26,10 @@
     }
   }
 
-  .content {
+  // Combined styles for both content states
+  .content,
+  .content-empty {
+    /* Shared styles for both content states */
     width: 100%;
     display: flex;
     align-items: flex-start;
@@ -127,33 +130,45 @@
           right: 185px;
         }
       }
+    }
+  }
 
-      .cards {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
+  .content {
+    @media (max-width: 950px) {
+      .cards-container .search-container .filters-button {
+        display: block;
+      }
+    }
+
+    .cards {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      row-gap: 20px;
+      column-gap: 30px;
+      position: relative;
+      justify-items: center;
+
+      @media (max-width: 1250px) {
+        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        row-gap: 20px;
-        column-gap: 30px;
-        position: relative;
-        justify-items: center;
-
-        @media (max-width: 1250px) {
-          grid-template-columns: repeat(3, 1fr);
-          grid-template-rows: repeat(2, 1fr);
-          column-gap: 20px;
-        }
-
-        @media (max-width: 950px) {
-          grid-template-columns: repeat(2, 1fr);
-          grid-template-rows: repeat(2, 1fr);
-        }
-
-        @media (max-width: 720px) {
-          grid-template-columns: repeat(1, 1fr);
-        }
+        column-gap: 20px;
       }
 
+      @media (max-width: 950px) {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+      }
+
+      @media (max-width: 720px) {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  }
+
+  .content-empty {
+    .cards-container {
       .no-items {
         display: flex;
         flex-direction: column;
@@ -171,34 +186,6 @@
         .no-items-header {
           font-size: 24px;
         }
-      }
-    }
-  }
-
-  .content-empty {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 22px;
-    margin-bottom: 40px;
-
-    .no-items {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 200px;
-      text-align: center;
-      margin: 0 auto;
-
-      .no-items-image {
-        width: 150px;
-        margin-bottom: 20px;
-      }
-
-      .no-items-header {
-        font-size: 24px;
       }
     }
   }
@@ -229,51 +216,53 @@
     }
   }
 }
+
 .filters-panel-container {
   display: none;
-}
-@media only screen and (max-width: 950px) {
-  .filters-panel-container {
-    position: fixed;
-    z-index: 490;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background-color: darken($color: $background, $amount: 10%);
-    transform: translateX(-100vw);
 
-    &.filters-panel {
-      padding-top: 20px;
-      transform: translateX(0);
+  @media only screen and (max-width: 950px) {
+    .filters-panel-container {
+      position: fixed;
+      z-index: 490;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 40%;
       display: flex;
       flex-direction: column;
-      margin: 0 auto;
       align-items: center;
-      justify-content: flex-start;
-    }
+      justify-content: center;
+      gap: 10px;
+      background-color: darken($color: $background, $amount: 10%);
+      transform: translateX(-100vw);
 
-    .close-menu {
-      display: block;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      border: none;
-      background: none;
-      cursor: pointer;
-
-      path {
-        fill: $red;
+      &.filters-panel {
+        padding-top: 20px;
+        transform: translateX(0);
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        align-items: center;
+        justify-content: flex-start;
       }
 
-      img {
-        width: 30px;
-        height: 30px;
+      .close-menu {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        path {
+          fill: $red;
+        }
+
+        img {
+          width: 30px;
+          height: 30px;
+        }
       }
     }
   }
