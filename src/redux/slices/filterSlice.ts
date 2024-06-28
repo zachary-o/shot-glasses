@@ -70,8 +70,7 @@ const filterSlice = createSlice({
       const { items, searchValue } = action.payload
       const searchLower = searchValue.toLowerCase()
       const itemsToSearch =
-        state.filteredItems.length < items.length &&
-        state.filteredItems.length > 0
+        state.prevSelectedCountries.length > 0 && state.filteredItems.length > 0
           ? state.filteredItems
           : items
 

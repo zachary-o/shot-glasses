@@ -64,7 +64,6 @@ const Continents = ({ isMulti }: ContinentsProps) => {
       )
     }
   }, [])
-  console.log("items", items)
 
   const handleCheckboxChange = (continent: Continent) => {
     const { nameEng, nameUkr } = continent

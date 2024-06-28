@@ -37,7 +37,6 @@ const itemsSlice = createSlice({
       state.items = action.payload
     },
     setTotalItems: (state, action: PayloadAction<number>) => {
-      console.log("action.payload", action.payload)
       state.totalItems = action.payload
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
