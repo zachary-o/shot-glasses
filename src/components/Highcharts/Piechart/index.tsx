@@ -2,9 +2,7 @@ import PieChart from "highcharts-react-official"
 import Highcharts from "highcharts/highstock"
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
 import { Item } from "../../../redux/slices/itemsSlice"
-import { RootState } from "../../../redux/store"
 import styles from "./PieChart.module.scss"
 
 interface PieChartDataItem {
@@ -13,14 +11,17 @@ interface PieChartDataItem {
   count: number
 }
 
-const PieChartCustom = () => {
+interface PieChartCustomProps {
+  items?: Item[]
+}
+
+const PieChartCustom = ({ items }: PieChartCustomProps) => {
   const { t, i18n } = useTranslation()
-  const { items } = useSelector((state: RootState) => state.items)
   const [pieChartData, setPieChartData] = useState<PieChartDataItem[] | []>([])
 
   useEffect(() => {
     const calculatePieChartData = () => {
-      const result = items.reduce<Record<string, PieChartDataItem>>(
+      const result = items?.reduce<Record<string, PieChartDataItem>>(
         (acc, obj: Item) => {
           if (!acc[obj.continentEng]) {
             acc[obj.continentEng] = {
@@ -37,7 +38,7 @@ const PieChartCustom = () => {
         {}
       )
 
-      setPieChartData(Object.values(result))
+      setPieChartData(Object.values(result!))
     }
     calculatePieChartData()
   }, [items])

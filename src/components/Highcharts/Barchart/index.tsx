@@ -1,11 +1,9 @@
 import BarChart from "highcharts-react-official"
 import Highcharts from "highcharts/highstock"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import styles from "./BarChart.module.scss"
-import { Item } from "../../../redux/slices/itemsSlice"
-import { RootState } from "../../../redux/store"
 import { useTranslation } from "react-i18next"
+import { Item } from "../../../redux/slices/itemsSlice"
+import styles from "./BarChart.module.scss"
 
 interface BarChartDataItem {
   nameEng: string
@@ -13,9 +11,12 @@ interface BarChartDataItem {
   count: number
 }
 
-const BarChartCustom = () => {
+interface BarChartCustomProps {
+  items?: Item[]
+}
+
+const BarChartCustom = ({ items }: BarChartCustomProps) => {
   const { t, i18n } = useTranslation()
-  const { items } = useSelector((state: RootState) => state.items)
   const [barChartData, setBarChartData] = useState<BarChartDataItem[] | []>([])
   const colors = [
     "#7cb5ec",
@@ -31,7 +32,7 @@ const BarChartCustom = () => {
   ]
   useEffect(() => {
     const calculateBarChartData = () => {
-      const unsortedResult = items.reduce<Record<string, BarChartDataItem>>(
+      const unsortedResult = items?.reduce<Record<string, BarChartDataItem>>(
         (acc, obj: Item) => {
           if (!acc[obj.countryEng]) {
             acc[obj.countryEng] = {
@@ -48,7 +49,7 @@ const BarChartCustom = () => {
         {}
       )
 
-      const result: BarChartDataItem[] = Object.values(unsortedResult)
+      const result: BarChartDataItem[] = Object.values(unsortedResult!)
         .sort((a: BarChartDataItem, b: BarChartDataItem) => b.count - a.count)
         .slice(0, 10)
       setBarChartData(result)
@@ -113,7 +114,7 @@ const BarChartCustom = () => {
             align: "center",
             format: "{point.name}",
             style: {
-              fontSize: "13px",
+              fontSize: "11px",
               textOutline: "0px",
             },
             inside: true,
