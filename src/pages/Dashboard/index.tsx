@@ -14,7 +14,9 @@ const Dashboard = () => {
   const windowWidth = useWindowWidth()
   const { t } = useTranslation()
   useFetchItems()
-  const { loading, items } = useSelector((state: RootState) => state.items)
+  const { loading, items, totalItems } = useSelector(
+    (state: RootState) => state.items
+  )
 
   const customStyles = {
     width: "100%",
@@ -29,6 +31,9 @@ const Dashboard = () => {
       {loading && <Loader />}
 
       <h4 className={styles["dashboard-title"]}>{t("dashboard.title")}</h4>
+      <p className={styles.total}>
+        {t("homePage.total")}: {totalItems}
+      </p>
       <Map isMulti={false} zoom={2} items={items} customStyles={customStyles} />
       <div className={styles["highcharts-container"]}>
         <PieChartCustom items={items} />

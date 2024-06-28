@@ -50,9 +50,21 @@ const Continents = ({ isMulti }: ContinentsProps) => {
         JSON.parse(continentString)
       )
     } else if (isMulti) {
-      uniqueContinentsSet
+      uniqueContinentsSet = new Set(
+        items.map((item) =>
+          JSON.stringify({
+            nameEng: item.continentEng,
+            nameUkr: item.continentUkr,
+          })
+        )
+      )
+
+      return Array.from(uniqueContinentsSet)!.map((continentString) =>
+        JSON.parse(continentString)
+      )
     }
   }, [])
+  console.log("items", items)
 
   const handleCheckboxChange = (continent: Continent) => {
     const { nameEng, nameUkr } = continent

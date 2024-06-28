@@ -5,17 +5,10 @@ import Continents from "../Continents"
 import FilterTitle from "../FilterTitle"
 import SearchSelect from "../SearchSelect"
 import styles from "./Filter.module.scss"
-import { useFetchItems } from "../../hooks/useFetchItems"
 
 const Filter = () => {
   const { t } = useTranslation()
-  const { displayedItems, filteredItems } = useSelector(
-    (state: RootState) => state.filter
-  )
-  const { totalItems } = useSelector((state: RootState) => state.items)
-  useFetchItems(displayedItems)
-
-  console.log("filteredItems", filteredItems)
+  const { filteredItems } = useSelector((state: RootState) => state.filter)
 
   if (filteredItems.length === 0) {
     return null
@@ -23,10 +16,6 @@ const Filter = () => {
 
   return (
     <div className={styles["filter-container"]}>
-      <p className={styles.total}>
-        {t("homePage.total")}:{" "}
-        {filteredItems ? filteredItems.length : totalItems}
-      </p>
       <div>
         <FilterTitle title={t("filter.continentsHeader")} />
         <Continents isMulti={true} />

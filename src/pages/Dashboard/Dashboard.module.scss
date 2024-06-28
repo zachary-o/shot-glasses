@@ -1,10 +1,21 @@
+@import "../../scss/variables";
+
 .dashboard-title {
   font-style: normal;
   font-weight: 700;
   font-size: 42px;
   line-height: 98%;
-  color: #000000;
-  margin-bottom: 40px;
+  color: $black;
+  margin-bottom: 20px;
+}
+
+.total {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 150%;
+  color: $black;
+  margin-bottom: 20px;
 }
 
 .highcharts-container {

@@ -33,8 +33,6 @@ const Home = () => {
   const panelRef = useRef<HTMLDivElement>(null)
   const dispatch = useAppDispatch()
 
-  console.log(totalItems, displayedItems, filteredItems.length)
-
   // Function to fetch more items
   const fetchMoreItems = () => {
     dispatch(setDisplayedItems(displayedItems + 8))

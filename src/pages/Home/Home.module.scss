@@ -7,7 +7,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  // margin-bottom: 40px;
 
   .title {
     max-width: 869px;
@@ -114,8 +113,6 @@
           padding-left: 30px;
           border: 1px solid $red;
           border-radius: 10px;
-          transition: opacity 0.15s ease-in-out;
-          opacity: 1;
           caret-color: $red;
           color: darken($color: $red, $amount: 10%);
         }
@@ -220,50 +217,50 @@
 
 .filters-panel-container {
   display: none;
+}
 
-  @media only screen and (max-width: 950px) {
-    .filters-panel-container {
-      position: fixed;
-      z-index: 490;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 40%;
+@media only screen and (max-width: 950px) {
+  .filters-panel-container {
+    position: fixed;
+    z-index: 490;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: darken($color: $background, $amount: 10%);
+    transform: translateX(-100vw);
+
+    &.filters-panel {
+      padding-top: 20px;
+      transform: translateX(0);
       display: flex;
       flex-direction: column;
+      margin: 0 auto;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background-color: darken($color: $background, $amount: 10%);
-      transform: translateX(-100vw);
+      justify-content: flex-start;
+    }
 
-      &.filters-panel {
-        padding-top: 20px;
-        transform: translateX(0);
-        display: flex;
-        flex-direction: column;
-        margin: 0 auto;
-        align-items: center;
-        justify-content: flex-start;
+    .close-menu {
+      display: block;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      border: none;
+      background: none;
+      cursor: pointer;
+
+      path {
+        fill: $red;
       }
 
-      .close-menu {
-        display: block;
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        border: none;
-        background: none;
-        cursor: pointer;
-
-        path {
-          fill: $red;
-        }
-
-        img {
-          width: 30px;
-          height: 30px;
-        }
+      img {
+        width: 30px;
+        height: 30px;
       }
     }
   }

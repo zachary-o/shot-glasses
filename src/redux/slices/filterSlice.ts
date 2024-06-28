@@ -9,7 +9,6 @@ interface FilterState {
   displayedItems: number
   filterContinents: Continent[]
   filterCountries: CountryOption[]
-  isEmpty: boolean
 }
 
 interface SearchPayload {
@@ -33,7 +32,6 @@ const initialState: FilterState = {
   displayedItems: 8,
   filterContinents: [],
   filterCountries: [],
-  isEmpty: false,
 }
 
 const filterItems = (
@@ -71,7 +69,13 @@ const filterSlice = createSlice({
     filterBySearch: (state, action: PayloadAction<SearchPayload>) => {
       const { items, searchValue } = action.payload
       const searchLower = searchValue.toLowerCase()
-      const tempItems = items.filter((item: Item) => {
+      const itemsToSearch =
+        state.filteredItems.length < items.length &&
+        state.filteredItems.length > 0
+          ? state.filteredItems
+          : items
+
+      const tempItems = itemsToSearch.filter((item: Item) => {
         if (i18n.language === "uk") {
           return (
             item.countryUkr.toLowerCase().includes(searchLower) ||
@@ -85,12 +89,6 @@ const filterSlice = createSlice({
         }
       })
       state.filteredItems = tempItems
-
-      if (tempItems.length === 0) {
-        state.isEmpty = true
-      } else {
-        state.isEmpty = false
-      }
     },
     filterByContinents: (
       state,

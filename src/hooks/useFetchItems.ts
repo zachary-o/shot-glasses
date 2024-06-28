@@ -30,7 +30,6 @@ export const useFetchItems = (displayedItems?: number) => {
 
         const totalCountSnapshot = await getCountFromServer(itemsRef)
         const totalCount = totalCountSnapshot.data().count
-        console.log("totalCount", totalCount)
         dispatch(setTotalItems(totalCount))
 
         let q
