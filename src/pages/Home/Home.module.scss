@@ -40,6 +40,11 @@
       justify-content: center;
     }
 
+    .filters-container {
+      position: sticky;
+      top: 0;
+    }
+
     @media (max-width: 950px) {
       .filters-container {
         display: none;

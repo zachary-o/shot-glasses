@@ -19,9 +19,11 @@ const Filter = () => {
   return (
     <div className={styles["filter-container"]}>
       {loading ? (
-        <FilterSkeleton />
+        <div className={styles["filter-container"]}>
+          <FilterSkeleton />
+        </div>
       ) : (
-        <>
+        <div className={styles["filter-container"]}>
           <div>
             <FilterTitle title={t("filter.continentsHeader")} />
             <Continents isMulti={true} />
@@ -30,7 +32,7 @@ const Filter = () => {
             <FilterTitle title={t("filter.countriesHeader")} />
             <SearchSelect isMulti={true} />
           </div>
-        </>
+        </div>
       )}
     </div>
   )

@@ -1,24 +1,24 @@
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
+import menuClose from "../../assets/images/close-icon.svg"
+import filterIcon from "../../assets/images/filter-icon.svg"
 import refresh from "../../assets/images/refresh.png"
 import search from "../../assets/images/search-red.svg"
 import sadImg from "../../assets/images/shot-glass-sad.png"
+import ButtonCustom from "../../components/ButtonCustom"
 import Card from "../../components/Card"
 import Skeleton from "../../components/Card/Skeleton"
 import Filter from "../../components/Filter"
 import Loader from "../../components/Loader"
 import Search from "../../components/Search"
-import ButtonCustom from "../../components/ButtonCustom"
+import { useFetchItems } from "../../hooks/useFetchItems"
 import {
   filterBySearch,
   setDisplayedItems,
 } from "../../redux/slices/filterSlice"
 import { RootState, useAppDispatch } from "../../redux/store"
 import styles from "./Home.module.scss"
-import filterIcon from "../../assets/images/filter-icon.svg"
-import menuClose from "../../assets/images/close-icon.svg"
-import { useFetchItems } from "../../hooks/useFetchItems"
 
 const Home = () => {
   useFetchItems()
