@@ -9,12 +9,7 @@ import FilterSkeleton from "./FilterSkeleton"
 
 const Filter = () => {
   const { t } = useTranslation()
-  const { filteredItems } = useSelector((state: RootState) => state.filter)
   const { loading } = useSelector((state: RootState) => state.items)
-
-  if (filteredItems.length === 0 && !loading) {
-    return null
-  }
 
   return (
     <div className={styles["filter-container"]}>

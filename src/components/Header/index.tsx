@@ -18,6 +18,7 @@ import { resetForm } from "../../redux/slices/adminFormSlice"
 import { resetFilters } from "../../redux/slices/filterSlice"
 import menuIcon from "../../assets/images/menu-icon.svg"
 import menuClose from "../../assets/images/close-icon.svg"
+import useWindowWidth from "../../hooks/useWindowWidth"
 
 const Header = () => {
   const { t, i18n } = useTranslation()
@@ -27,6 +28,8 @@ const Header = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const navRef = useRef<HTMLDivElement>(null)
+  const windowWidth = useWindowWidth()
+  console.log("windowWidth", windowWidth)
 
   // Change language
   const handleChangeLanguage = (lang: string) => {
@@ -48,6 +51,8 @@ const Header = () => {
       navRef.current.classList.toggle(`${styles["responsive-header"]}`)
     }
   }
+
+  useEffect(() => {})
 
   return (
     <header className={styles.header}>
