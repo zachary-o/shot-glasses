@@ -132,6 +132,7 @@ const Admin = () => {
                 className={styles["custom-datepicker"]}
                 dateFormat="dd/MM/yyyy"
                 placeholderText={t("admin.purchaseDate")}
+                maxDate={new Date()}
               />
             </div>
             <div>
