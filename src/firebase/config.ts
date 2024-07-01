@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore"
 import { getStorage } from "firebase/storage"
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyDFh-AdTYt4nUB2f3Q2cB8YEZMCamRdrnQ",
-  authDomain: "shot-glasses-a890d.firebaseapp.com",
-  projectId: "shot-glasses-a890d",
-  storageBucket: "shot-glasses-a890d.appspot.com",
-  messagingSenderId: "639698486385",
-  appId: "1:639698486385:web:6da6943481aa7f88ec47d0",
+  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
 }
 
 const app = initializeApp(firebaseConfig)

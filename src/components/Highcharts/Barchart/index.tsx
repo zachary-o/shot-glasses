@@ -112,7 +112,16 @@ const BarChartCustom = ({ items }: BarChartCustomProps) => {
             rotation: -90,
             color: "#FFFFFF",
             align: "center",
-            format: "{point.name}",
+            formatter: function () {
+              const maxLength = 3
+              const displayName = this.key as string
+
+              if (this.y === 1 && displayName.length > maxLength) {
+                return displayName.substring(0, maxLength) + "..."
+              }
+
+              return displayName
+            },
             style: {
               fontSize: "11px",
               textOutline: "0px",

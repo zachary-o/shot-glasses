@@ -134,7 +134,7 @@ const Home = () => {
             )}
           </div>
         </div>
-        {/* Check if not loading and whether there are more items to show */}
+
         {!loading &&
           displayedItems <= filteredItems.length &&
           displayedItems <= totalItems && (

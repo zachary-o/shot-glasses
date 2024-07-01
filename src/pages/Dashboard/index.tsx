@@ -5,10 +5,10 @@ import BarChartCustom from "../../components/Highcharts/BarChart"
 import PieChartCustom from "../../components/Highcharts/PieChart"
 import Loader from "../../components/Loader"
 import Map from "../../components/Map"
-import { RootState } from "../../redux/store"
-import styles from "./Dashboard.module.scss"
 import { useFetchItems } from "../../hooks/useFetchItems"
 import useWindowWidth from "../../hooks/useWindowWidth"
+import { RootState } from "../../redux/store"
+import styles from "./Dashboard.module.scss"
 
 const Dashboard = () => {
   const windowWidth = useWindowWidth()

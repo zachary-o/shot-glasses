@@ -5,20 +5,19 @@ import styles from "./Header.module.scss"
 import { onAuthStateChanged } from "firebase/auth"
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import menuClose from "../../assets/images/close-icon.svg"
+import menuIcon from "../../assets/images/menu-icon.svg"
+import { resetForm } from "../../redux/slices/adminFormSlice"
 import {
   loginWithGoogle,
   logoutUser,
   setActiveUser,
 } from "../../redux/slices/authSlice"
+import { resetFilters } from "../../redux/slices/filterSlice"
 import { RootState, useAppDispatch } from "../../redux/store"
 import { AdminOnlyLink } from "../AdminOnlyRoute"
 import ButtonCustom from "../ButtonCustom"
-import { resetForm } from "../../redux/slices/adminFormSlice"
-import { resetFilters } from "../../redux/slices/filterSlice"
-import menuIcon from "../../assets/images/menu-icon.svg"
-import menuClose from "../../assets/images/close-icon.svg"
-import useWindowWidth from "../../hooks/useWindowWidth"
 
 const Header = () => {
   const { t, i18n } = useTranslation()
@@ -28,8 +27,6 @@ const Header = () => {
   const location = useLocation()
   const dispatch = useAppDispatch()
   const navRef = useRef<HTMLDivElement>(null)
-  const windowWidth = useWindowWidth()
-  console.log("windowWidth", windowWidth)
 
   // Change language
   const handleChangeLanguage = (lang: string) => {
@@ -155,7 +152,6 @@ const Header = () => {
           className={styles["logo-mobile"]}
           onClick={() => {
             navigate("/")
-            // showHeader();
             dispatch(resetForm())
           }}
         >

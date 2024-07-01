@@ -1,9 +1,9 @@
 import "leaflet/dist/leaflet.css"
 import { useCallback, useEffect, useRef } from "react"
+import useWindowWidth from "../../hooks/useWindowWidth"
 import ButtonCustom from "../ButtonCustom"
 import Map from "../Map"
 import styles from "./Modal.module.scss"
-import useWindowWidth from "../../hooks/useWindowWidth"
 
 interface ModalProps {
   cityEng: string
