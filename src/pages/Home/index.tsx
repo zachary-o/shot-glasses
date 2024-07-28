@@ -1,53 +1,53 @@
-import { useEffect, useRef, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
-import menuClose from "../../assets/images/close-icon.svg"
-import filterIcon from "../../assets/images/filter-icon.svg"
-import refresh from "../../assets/images/refresh.png"
-import search from "../../assets/images/search-red.svg"
-import sadImg from "../../assets/images/shot-glass-sad.png"
-import ButtonCustom from "../../components/ButtonCustom"
-import Card from "../../components/Card"
-import Skeleton from "../../components/Card/Skeleton"
-import Filter from "../../components/Filter"
-import Loader from "../../components/Loader"
-import Search from "../../components/Search"
-import { useFetchItems } from "../../hooks/useFetchItems"
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import menuClose from "../../assets/images/close-icon.svg";
+import filterIcon from "../../assets/images/filter-icon.svg";
+import refresh from "../../assets/images/refresh.png";
+import search from "../../assets/images/search-red.svg";
+import sadImg from "../../assets/images/shot-glass-sad.png";
+import ButtonCustom from "../../components/ButtonCustom";
+import Card from "../../components/Card";
+import Skeleton from "../../components/Card/Skeleton";
+import Filter from "../../components/Filter";
+import Loader from "../../components/Loader";
+import Search from "../../components/Search";
+import { useFetchItems } from "../../hooks/useFetchItems";
 import {
   filterBySearch,
   setDisplayedItems,
-} from "../../redux/slices/filterSlice"
-import { RootState, useAppDispatch } from "../../redux/store"
-import styles from "./Home.module.scss"
+} from "../../redux/slices/filterSlice";
+import { RootState, useAppDispatch } from "../../redux/store";
+import styles from "./Home.module.scss";
 
 const Home = () => {
-  useFetchItems()
-  const { t } = useTranslation()
+  useFetchItems();
+  const { t } = useTranslation();
   const { loading, items, totalItems } = useSelector(
     (state: RootState) => state.items
-  )
+  );
   const { filteredItems, displayedItems } = useSelector(
     (state: RootState) => state.filter
-  )
-  const [searchValue, setSearchValue] = useState("")
-  const panelRef = useRef<HTMLDivElement>(null)
-  const dispatch = useAppDispatch()
+  );
+  const [searchValue, setSearchValue] = useState("");
+  const panelRef = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   // Function to fetch more items
   const fetchMoreItems = () => {
-    dispatch(setDisplayedItems(displayedItems + 8))
-  }
+    dispatch(setDisplayedItems(displayedItems + 8));
+  };
 
   // Search
   useEffect(() => {
-    dispatch(filterBySearch({ items, searchValue }))
-  }, [dispatch, searchValue, items])
+    dispatch(filterBySearch({ items, searchValue }));
+  }, [dispatch, searchValue, items]);
 
   const toggleFilterPanel = () => {
     if (panelRef.current) {
-      panelRef.current.classList.toggle(`${styles["filters-panel"]}`)
+      panelRef.current.classList.toggle(`${styles["filters-panel"]}`);
     }
-  }
+  };
 
   return (
     <>
@@ -79,25 +79,27 @@ const Home = () => {
                   }
                 />
               )}
-              <Search
-                className={styles["search-input"]}
-                placeholder={t("homePage.placeholder")}
-                onClick={(event) => {
-                  event.stopPropagation()
-                }}
-                spellCheck={false}
-                value={searchValue}
-                onChange={setSearchValue}
-              />
+              <div className={styles["search-input-container"]}>
+                <Search
+                  className={styles["search-input"]}
+                  placeholder={t("homePage.placeholder")}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                  spellCheck={false}
+                  value={searchValue}
+                  onChange={setSearchValue}
+                />
 
-              <img
-                className={styles.search}
-                src={search}
-                alt="Search"
-                onClick={(e) => {
-                  e.stopPropagation()
-                }}
-              />
+                <img
+                  className={styles.search}
+                  src={search}
+                  alt="Search"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                />
+              </div>
             </div>
             {loading ? (
               <div className={styles.cards}>
@@ -157,7 +159,7 @@ const Home = () => {
         />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
