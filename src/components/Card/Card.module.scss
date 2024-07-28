@@ -89,4 +89,24 @@
       text-decoration: underline;
     }
   }
+
+  @media (max-width: 800px) {
+    &:hover {
+      border: 1px solid #d2d0d0;
+      background-color: unset;
+    }
+
+    .city-container .city:hover {
+      text-decoration: none;
+    }
+
+    .more-info:hover,
+    .more-info-close:hover {
+      background-color: #c7c7c7;
+    }
+
+    .tooltip:hover {
+      text-decoration: none;
+    }
+  }
 }
