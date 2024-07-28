@@ -1,5 +1,5 @@
-import { StylesConfig } from "react-select"
-import { CountryOption } from "../../redux/slices/adminFormSlice"
+import { StylesConfig } from "react-select";
+import { CountryOption } from "../../redux/slices/adminFormSlice";
 
 export const getCustomStyles = (
   isMulti: boolean
@@ -7,8 +7,8 @@ export const getCustomStyles = (
   control: (provided, state) => ({
     ...provided,
     minWidth: "128px",
-    width: "max-content",
-    maxWidth: "190px",
+    width: "100%", // Set this to a fixed width or use a percentage
+    maxWidth: "190px", // Adjust the maxWidth as needed
     minHeight: "27px",
     maxHeight: isMulti ? "120px" : "27px",
     margin: 0,
@@ -26,7 +26,6 @@ export const getCustomStyles = (
       boxShadow: "none",
     }),
   }),
-  // Other style definitions...
   menu: (provided) => ({
     ...provided,
     width: "100%",
@@ -108,4 +107,4 @@ export const getCustomStyles = (
     ...provided,
     display: state.isFocused ? "none" : "",
   }),
-})
+});

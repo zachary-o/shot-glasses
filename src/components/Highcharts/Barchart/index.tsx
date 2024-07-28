@@ -113,14 +113,15 @@ const BarChartCustom = ({ items }: BarChartCustomProps) => {
             color: "#FFFFFF",
             align: "center",
             formatter: function () {
-              const maxLength = 3
-              const displayName = this.key as string
+              const maxLength = 3;
+              // @ts-expect-error: Unreachable code error
+              const displayName = this.key as string;
 
               if (this.y === 1 && displayName.length > maxLength) {
-                return displayName.substring(0, maxLength) + "..."
+                return displayName.substring(0, maxLength) + "...";
               }
 
-              return displayName
+              return displayName;
             },
             style: {
               fontSize: "11px",
