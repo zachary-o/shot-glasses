@@ -1,23 +1,23 @@
-import PieChart from "highcharts-react-official"
-import Highcharts from "highcharts/highstock"
-import { useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { Item } from "../../../redux/slices/itemsSlice"
-import styles from "./PieChart.module.scss"
+import PieChart from "highcharts-react-official";
+import Highcharts from "highcharts/highstock";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Item } from "../../../redux/slices/itemsSlice";
+import styles from "./PieChart.module.scss";
 
 interface PieChartDataItem {
-  nameEng: string
-  nameUkr: string
-  count: number
+  nameEng: string;
+  nameUkr: string;
+  count: number;
 }
 
 interface PieChartCustomProps {
-  items?: Item[]
+  items?: Item[];
 }
 
-const PieChartCustom = ({ items }: PieChartCustomProps) => {
-  const { t, i18n } = useTranslation()
-  const [pieChartData, setPieChartData] = useState<PieChartDataItem[] | []>([])
+export const PieChartCustom = ({ items }: PieChartCustomProps) => {
+  const { t, i18n } = useTranslation();
+  const [pieChartData, setPieChartData] = useState<PieChartDataItem[] | []>([]);
 
   useEffect(() => {
     const calculatePieChartData = () => {
@@ -28,20 +28,20 @@ const PieChartCustom = ({ items }: PieChartCustomProps) => {
               nameEng: obj.continentEng,
               nameUkr: obj.continentUkr,
               count: 1,
-            }
+            };
           } else {
-            acc[obj.continentEng].count += 1
+            acc[obj.continentEng].count += 1;
           }
 
-          return acc
+          return acc;
         },
         {}
-      )
+      );
 
-      setPieChartData(Object.values(result!))
-    }
-    calculatePieChartData()
-  }, [items])
+      setPieChartData(Object.values(result!));
+    };
+    calculatePieChartData();
+  }, [items]);
 
   const piechartOptions = {
     chart: {
@@ -82,7 +82,7 @@ const PieChartCustom = ({ items }: PieChartCustomProps) => {
           return {
             name: i18n.language === "uk" ? item.nameUkr : item.nameEng,
             y: item.count,
-          }
+          };
         }),
       },
     ],
@@ -101,13 +101,11 @@ const PieChartCustom = ({ items }: PieChartCustomProps) => {
       headerFormat: "",
       pointFormat: "{point.name}: <b>{point.y}</b>",
     },
-  }
+  };
 
   return (
     <div className={styles["piechart-container"]}>
       <PieChart highcharts={Highcharts} options={piechartOptions} />
     </div>
-  )
-}
-
-export default PieChartCustom
+  );
+};

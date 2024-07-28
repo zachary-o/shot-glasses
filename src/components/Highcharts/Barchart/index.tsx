@@ -15,7 +15,7 @@ interface BarChartCustomProps {
   items?: Item[];
 }
 
-const BarChartCustom = ({ items }: BarChartCustomProps) => {
+export const BarChartCustom = ({ items }: BarChartCustomProps) => {
   const { t, i18n } = useTranslation();
   const [barChartData, setBarChartData] = useState<BarChartDataItem[] | []>([]);
   const colors = [
@@ -175,4 +175,3 @@ const BarChartCustom = ({ items }: BarChartCustomProps) => {
   );
 };
 
-export default BarChartCustom;
