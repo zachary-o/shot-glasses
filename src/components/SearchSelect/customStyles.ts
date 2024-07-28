@@ -7,8 +7,8 @@ export const getCustomStyles = (
   control: (provided, state) => ({
     ...provided,
     minWidth: "128px",
-    width: "100%", // Set this to a fixed width or use a percentage
-    maxWidth: "190px", // Adjust the maxWidth as needed
+    width: "100%", 
+    maxWidth: "190px", 
     minHeight: "27px",
     maxHeight: isMulti ? "120px" : "27px",
     margin: 0,
