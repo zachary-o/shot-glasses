@@ -58,6 +58,7 @@ export const logoutUser = createAsyncThunk(
       const logoutErrorMessage = i18n.t("toast.logoutErr", {
         message: error.message,
       })
+      console.log("error.message", error.message);
       toast.error(logoutErrorMessage)
       return rejectWithValue(error.message)
     }
