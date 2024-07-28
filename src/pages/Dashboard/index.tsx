@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { BarChartCustom, PieChartCustom } from "../../components/Highcharts";
 import Loader from "../../components/Loader";
 import Map from "../../components/Map";
 import { useFetchItems } from "../../hooks/useFetchItems";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import { RootState } from "../../redux/store";
 import styles from "./Dashboard.module.scss";
+import { BarChartCustom } from "../../components/Highcharts/Barchart";
+import { PieChartCustom } from "../../components/Highcharts/Piechart";
 
 const Dashboard = () => {
   const windowWidth = useWindowWidth();

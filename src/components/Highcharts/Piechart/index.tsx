@@ -3,7 +3,7 @@ import Highcharts from "highcharts/highstock";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Item } from "../../../redux/slices/itemsSlice";
-import styles from "./PieChart.module.scss";
+import styles from "./Piechart.module.scss";
 
 interface PieChartDataItem {
   nameEng: string;
