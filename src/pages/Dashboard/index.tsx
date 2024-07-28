@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
-
 import BarChartCustom from "../../components/Highcharts/BarChart"
 import PieChartCustom from "../../components/Highcharts/PieChart"
 import Loader from "../../components/Loader"

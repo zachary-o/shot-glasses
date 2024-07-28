@@ -1,23 +1,23 @@
-import BarChart from "highcharts-react-official"
-import Highcharts from "highcharts/highstock"
-import { useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { Item } from "../../../redux/slices/itemsSlice"
-import styles from "./BarChart.module.scss"
+import BarChart from "highcharts-react-official";
+import Highcharts from "highcharts/highstock";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Item } from "../../../redux/slices/itemsSlice";
+import styles from "./BarChart.module.scss";
 
 interface BarChartDataItem {
-  nameEng: string
-  nameUkr: string
-  count: number
+  nameEng: string;
+  nameUkr: string;
+  count: number;
 }
 
 interface BarChartCustomProps {
-  items?: Item[]
+  items?: Item[];
 }
 
 const BarChartCustom = ({ items }: BarChartCustomProps) => {
-  const { t, i18n } = useTranslation()
-  const [barChartData, setBarChartData] = useState<BarChartDataItem[] | []>([])
+  const { t, i18n } = useTranslation();
+  const [barChartData, setBarChartData] = useState<BarChartDataItem[] | []>([]);
   const colors = [
     "#7cb5ec",
     "#434348",
@@ -29,7 +29,7 @@ const BarChartCustom = ({ items }: BarChartCustomProps) => {
     "#2b908f",
     "#f45b5b",
     "#91e8e1",
-  ]
+  ];
   useEffect(() => {
     const calculateBarChartData = () => {
       const unsortedResult = items?.reduce<Record<string, BarChartDataItem>>(
@@ -39,23 +39,23 @@ const BarChartCustom = ({ items }: BarChartCustomProps) => {
               nameEng: obj.countryEng,
               nameUkr: obj.countryUkr,
               count: 1,
-            }
+            };
           } else {
-            acc[obj.countryEng].count += 1
+            acc[obj.countryEng].count += 1;
           }
 
-          return acc
+          return acc;
         },
         {}
-      )
+      );
 
       const result: BarChartDataItem[] = Object.values(unsortedResult!)
         .sort((a: BarChartDataItem, b: BarChartDataItem) => b.count - a.count)
-        .slice(0, 10)
-      setBarChartData(result)
-    }
-    calculateBarChartData()
-  }, [items])
+        .slice(0, 10);
+      setBarChartData(result);
+    };
+    calculateBarChartData();
+  }, [items]);
 
   const barchartOptions = {
     chart: {
@@ -157,7 +157,7 @@ const BarChartCustom = ({ items }: BarChartCustomProps) => {
             name: i18n.language === "uk" ? item.nameUkr : item.nameEng,
             y: item.count,
             color: colors[index % colors.length],
-          }
+          };
         }),
       },
     ],
@@ -166,13 +166,13 @@ const BarChartCustom = ({ items }: BarChartCustomProps) => {
       headerFormat: "",
       pointFormat: "{point.name}: <b>{point.y}</b>",
     },
-  }
+  };
 
   return (
     <div className={styles["barchart-container"]}>
       <BarChart highcharts={Highcharts} options={barchartOptions} />
     </div>
-  )
-}
+  );
+};
 
-export default BarChartCustom
+export default BarChartCustom;
